@@ -5,7 +5,7 @@ export const parseCssProp = props => {
   const { css: cssProp, className, ...restProps } = props;
 
   let fs = null;
-  const exportFile = `styled-system/exported/${process.env.CSSGEN_FILE}.css.js`;
+  const exportFile = `./node_modules/radipan/styled-system/exported/${process.env.CSSGEN_FILE}.css.js`;
   if (
     process.env.NODE_ENV !== 'production' &&
     process.env.CSSGEN === 'pregen' &&

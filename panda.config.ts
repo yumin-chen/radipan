@@ -5,7 +5,7 @@ export default defineConfig({
   preflight: true,
 
   // Where to look for your css declarations
-  include: ['./styled-system/exported/**/*.css.{js,jsx,ts,tsx}'],
+  include: ['./node_modules/radipan/styled-system/exported/**/*.css.{js,jsx,ts,tsx}'],
 
   // Files to exclude
   exclude: [],
