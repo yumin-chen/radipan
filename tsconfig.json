@@ -1,0 +1,22 @@
+{
+  "include": [
+    "src"
+  ],
+  "compileOnSave": true,
+  "compilerOptions": {
+    "outDir": "./dist",
+    "composite": true,
+    "allowJs": true,
+    "target": "esnext",
+    "removeComments": true,
+    "importHelpers": true,
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@styled-system/*": ["./styled-system/*"],
+    }
+  }
+}

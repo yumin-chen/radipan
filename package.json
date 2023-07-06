@@ -1,0 +1,37 @@
+{
+  "name": "radipan",
+  "version": "0.0.1-alpha",
+  "description": "React-compatible static CSS extraction based on `css` prop.",
+  "author": "Yumin Chen <yumin@chen.so>",
+  "type": "module",
+  "keywords": [
+    "css",
+    "static",
+    "extraction"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yumin-chen/radix-css.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yumin-chen/radix-css/issues"
+  },
+  "homepage": "https://github.com/yumin-chen/radix-css#readme",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "typescript": "latest"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "latest"
+  },
+  "peerDependencies": {
+    "react": "latest"
+  }
+}
