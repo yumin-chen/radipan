@@ -1,11 +1,12 @@
 import { createElement as h } from 'react';
 import { css, cva } from '../../styled-system/css/index.mjs';
 
+const EXPORT_FOLDER = "node_modules/radipan/styled-system/exported";
+
 export const parseCssProp = props => {
   const { css: cssProp, className, ...restProps } = props;
-
   let fs = null;
-  const exportFile = `./node_modules/radipan/styled-system/exported/${process.env.CSSGEN_FILE}.css.js`;
+  const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
   if (
     process.env.NODE_ENV !== 'production' &&
     process.env.CSSGEN === 'pregen' &&
@@ -14,7 +15,7 @@ export const parseCssProp = props => {
     fs = require('fs');
     const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
-    const exportFileDir = `styled-system/exported/${fileDir}`;
+    const exportFileDir = `${EXPORT_FOLDER}/${fileDir}`;
     if (!fs.existsSync(exportFileDir)) {
       fs.mkdirSync(exportFileDir, { recursive: true });
     }
