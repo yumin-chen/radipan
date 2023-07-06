@@ -1,5 +1,5 @@
 import { createElement as h } from 'react';
-import { css, cva } from '../../styled-system/css/index.mjs';
+import { css, cva } from '../styled-system/css/index.mjs';
 
 const EXPORT_FOLDER = "node_modules/radipan/styled-system/exported";
 

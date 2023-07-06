@@ -1,1 +1,1 @@
-export * from 'dist/src/raw-html-tag'
+export * from './dist/raw-html-tag'

@@ -1,5 +1,5 @@
 import { createElement as h } from 'react';
-import { css, cva } from '@styled-system/css';
+import { css, cva } from '../styled-system/css/index.mjs';
 
 export const parseCssProp = props => {
   const { css: cssProp, className, ...restProps } = props;
