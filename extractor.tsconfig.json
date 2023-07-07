@@ -22,7 +22,7 @@
     ],
     "paths": {
       "@styled-system/*": ["../../node_modules/radipan/styled-system/*"],
-      "@radipan": ["../../node_modules/radipan/dist/raw-html-tag-css-extractor"],
+      "radipan": ["../../node_modules/radipan/dist/raw-html-tag-css-extractor"],
       "react": ["../../node_modules/radipan/dist/react-mock"],
       "@/*": ["../../src/*"]
     }
