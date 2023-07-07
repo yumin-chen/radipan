@@ -1,6 +1,6 @@
 {
   "name": "radipan",
-  "version": "0.0.1-alpha.14",
+  "version": "0.0.1-alpha.16",
   "description": "React-compatible static CSS extraction based on `css` prop.",
   "author": "Yumin Chen <yumin@chen.so>",
   "type": "module",
@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "rollup -c && tsc"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,11 @@
     "typescript": "latest"
   },
   "devDependencies": {
-    "@pandacss/dev": "latest"
+    "@pandacss/dev": "latest",
+    "esbuild": "latest",
+    "rollup": "latest",
+    "rollup-plugin-dts": "latest",
+    "rollup-plugin-esbuild": "latest"
   },
   "peerDependencies": {
     "react": "latest"
