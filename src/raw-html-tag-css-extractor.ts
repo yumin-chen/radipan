@@ -1,17 +1,34 @@
-import { createElement as h } from 'react';
-import { css, cva, cx } from '../styled-system/css/index.mjs';
+import { FunctionComponent, ReactElement, ReactNode, createElement as h } from 'react';
+import { css, cva, cx } from '../styled-system/css/index';
+import { RecipeDefinition, RecipeVariantRecord } from '../styled-system/types/recipe';
+import { SystemStyleObject } from '../styled-system/types';
 
 const EXPORT_FOLDER = "node_modules/radipan/styled-system/exported";
 
-export const parseCssProp = props => {
-  const { css: cssProp, className, ...restProps } = props;
+interface RecipeProps {
+  className?: string,
+  css?: RecipeDefinition<RecipeVariantRecord>,
+}
+interface CssProps extends RecipeProps {
+  css?: SystemStyleObject | RecipeDefinition<RecipeVariantRecord>,
+}
+
+const getVariantProps = (props: RecipeProps) => {
+  const { css: cssProp, ...restProps } = props;
+  return Object.keys(cssProp?.variants || {}).reduce(
+    (prev, variantName) => ({
+      ...prev,
+      [variantName]: restProps?.[variantName as keyof typeof restProps],
+    }),
+    {}
+  );
+}
+
+export const parseCssProp = (props: CssProps) => {
+  const { css: cssProp } = props;
   let fs = null;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    process.env.CSSGEN === 'pregen' &&
-    !!process.env.CSSGEN_FILE
-  ) {
+  if (process.env.CSSGEN === 'pregen' && !!process.env.CSSGEN_FILE) {
     fs = require('fs');
     const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
@@ -26,37 +43,41 @@ export const parseCssProp = props => {
       );
     }
   }
-
   // Recipes
-  if (typeof cssProp?.variants === 'object') {
-    const variantProps = Object.keys(cssProp.variants).reduce(
-      (prev, variantName) => ({
-        ...prev,
-        [variantName]: restProps[variantName],
-      }),
-      {}
-    );
+  const isRecipe = Object.hasOwn(cssProp || {}, 'variants');
+  if (isRecipe) {
+    const variantProps = getVariantProps(props);
     !!fs &&
       fs.appendFileSync(
         exportFile,
         `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
       );
-    return cva(cssProp)(variantProps);
+    return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
     !!fs && fs.appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
-    return css(cssProp);
+    return css(cssProp as SystemStyleObject);
   }
 };
 
-const createComponent = component => {
-  return (props, children) => {
+interface Creatable extends FunctionComponent {
+  create: (props?: Object | null, children?: ReactNode | ReactNode[] | null) => ReactElement;
+}
+
+const createComponent = (component: any) => {
+  return (props: any, children: any) => {
+
+    // Exhaustively instantiate components for CSS extraction
+    if (typeof component === 'function') {
+      component({ ...props, children });
+    }
+
     if (typeof props?.css === 'object') {
       const { css: cssProp, className, ...restProps } = props;
       const cssClasses = parseCssProp(props);
-      typeof cssProp?.variants === 'object' &&
-        Object.keys(cssProp.variants).forEach(
-          variantName => delete restProps[variantName]
-        );
+      Object.keys(cssProp?.variants || []).forEach(
+        variantName => delete restProps[variantName]
+      );
+
       return h(
         component,
         {
@@ -73,15 +94,15 @@ const createComponent = component => {
     return children === undefined
       ? h(component, props)
       : h(component, props, children);
-  };
+  }
 };
 
-export const withCreate = component => {
+export const withCreate = (component: any): Creatable => {
   if (typeof component === 'string') {
-    return { create: createComponent(component) };
+    return { create: createComponent(component) } as unknown as Creatable;
   }
-  component.create = createComponent(component);
-  return component;
+  (component as Creatable).create = createComponent(component);
+  return component as Creatable;
 };
 
 export const anchor = withCreate('a');
@@ -139,5 +160,6 @@ const tags = {
   meta,
   link,
 };
+
 
 export default tags;

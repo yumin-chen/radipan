@@ -23,7 +23,7 @@ export default [
     },
   },
   {
-    input: `src/raw-html-tag-css-extractor.js`,
+    input: `src/raw-html-tag-css-extractor.ts`,
     plugins: [esbuild()],
     output: [
       {
@@ -35,7 +35,7 @@ export default [
     ]
   },
   {
-    input: `src/raw-html-tag-css-extractor.js`,
+    input: `src/raw-html-tag-css-extractor.ts`,
     plugins: [dts()],
     output: {
       file: `dist/raw-html-tag-css-extractor.d.ts`,

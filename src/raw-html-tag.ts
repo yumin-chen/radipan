@@ -1,32 +1,53 @@
-import { FunctionComponent, ReactElement, ReactNode, createElement as h } from 'react';
-import { css, cva, cx } from '../styled-system/css/index.mjs';
+import { ReactElement, ReactNode, createElement as h } from 'react';
+import { css, cva, cx } from '../styled-system/css/index';
+import { RecipeDefinition, RecipeVariantRecord } from '../styled-system/types/recipe';
+import { SystemStyleObject } from '../styled-system/types';
 
-export const parseCssProp = (props: any) => {
-  const { css: cssProp, className, ...restProps } = props;
+interface RecipeProps {
+  className?: string,
+  css?: RecipeDefinition<RecipeVariantRecord>,
+}
+interface CssProps extends RecipeProps {
+  css?: SystemStyleObject | RecipeDefinition<RecipeVariantRecord>,
+}
+
+const getVariantProps = (props: RecipeProps) => {
+  const { css: cssProp, ...restProps } = props;
+  return Object.keys(cssProp?.variants || {}).reduce(
+    (prev, variantName) => ({
+      ...prev,
+      [variantName]: restProps?.[variantName as keyof typeof restProps],
+    }),
+    {}
+  );
+}
+
+export const parseCssProp = (props: CssProps) => {
+  const { css: cssProp } = props;
   // Recipes
-  if (typeof cssProp?.variants === 'object') {
-    const variantProps = Object.keys(cssProp.variants).reduce(
-      (prev, variantName) => ({
-        ...prev,
-        [variantName]: restProps[variantName],
-      }),
-      {}
-    );
-    return cva(cssProp)(variantProps);
+  const isRecipe = Object.hasOwn(cssProp || {}, 'variants');
+  if (isRecipe) {
+    const variantProps = getVariantProps(props);
+    return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
-    return css(cssProp);
+    return css(cssProp as SystemStyleObject);
   }
 };
+
+interface Creatable extends ReactElement {
+  create: (props?: Object | null, children?: ReactNode | ReactNode[] | null) => ReactElement;
+}
 
 const createComponent = (component: any) => {
   return (props: any, children: any) => {
     if (typeof props?.css === 'object') {
       const { css: cssProp, className, ...restProps } = props;
       const cssClasses = parseCssProp(props);
-      typeof cssProp?.variants === 'object' &&
-        Object.keys(cssProp.variants).forEach(
-          variantName => delete restProps[variantName]
-        );
+      // const variantProps = typeof cssProp?.variants === 'object' && getVariantProps(props) || null;
+      Object.keys(cssProp?.variants || []).forEach(
+        variantName => delete restProps[variantName]
+      );
+
       return h(
         component,
         {
@@ -43,16 +64,12 @@ const createComponent = (component: any) => {
     return children === undefined
       ? h(component, props)
       : h(component, props, children);
-  };
+  }
 };
-
-interface Creatable extends FunctionComponent {
-  create: (props?: Object | null, children?: ReactNode | ReactNode[] | null) => ReactElement;
-}
 
 export const withCreate = (component: any): Creatable => {
   if (typeof component === 'string') {
-    return { create: createComponent(component) } as Creatable;
+    return { create: createComponent(component) } as unknown as Creatable;
   }
   (component as Creatable).create = createComponent(component);
   return component as Creatable;

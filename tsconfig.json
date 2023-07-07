@@ -12,10 +12,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "paths": {
-      "@styled-system/*": ["./styled-system/*"],
-    }
+    "paths": {}
   },
-  "include": ["src/*", "styled-system"],
-  "exclude": ["node_modules"],
+  "include": ["src/*"],
+  "exclude": ["node_modules", "styled-system"],
 }
