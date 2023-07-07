@@ -1,5 +1,5 @@
 import { createElement as h } from 'react';
-import { css, cva } from '../styled-system/css/index.mjs';
+import { css, cva, cx } from '../styled-system/css/index.mjs';
 
 export const parseCssProp = props => {
   const { css: cssProp, className, ...restProps } = props;
@@ -34,7 +34,7 @@ const createComponent = component => {
           // Merge class names with generated styles
           className: !className
             ? cssClasses
-            : StyledSystem.cx(cssClasses, className),
+            : cx(cssClasses, className),
         },
         children
       );
