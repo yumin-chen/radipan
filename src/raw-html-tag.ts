@@ -1,7 +1,7 @@
-import { createElement as h } from 'react';
+import { FunctionComponent, ReactElement, ReactNode, createElement as h } from 'react';
 import { css, cva, cx } from '../styled-system/css/index.mjs';
 
-export const parseCssProp = props => {
+export const parseCssProp = (props: any) => {
   const { css: cssProp, className, ...restProps } = props;
   // Recipes
   if (typeof cssProp?.variants === 'object') {
@@ -18,8 +18,8 @@ export const parseCssProp = props => {
   }
 };
 
-const createComponent = component => {
-  return (props, children) => {
+const createComponent = (component: any) => {
+  return (props: any, children: any) => {
     if (typeof props?.css === 'object') {
       const { css: cssProp, className, ...restProps } = props;
       const cssClasses = parseCssProp(props);
@@ -46,12 +46,16 @@ const createComponent = component => {
   };
 };
 
-export const withCreate = component => {
+interface Creatable extends FunctionComponent {
+  create: (props?: Object | null, children?: ReactNode | ReactNode[] | null) => ReactElement;
+}
+
+export const withCreate = (component: any): Creatable => {
   if (typeof component === 'string') {
-    return { create: createComponent(component) };
+    return { create: createComponent(component) } as Creatable;
   }
-  component.create = createComponent(component);
-  return component;
+  (component as Creatable).create = createComponent(component);
+  return component as Creatable;
 };
 
 export const anchor = withCreate('a');
@@ -109,5 +113,6 @@ const tags = {
   meta,
   link,
 };
+
 
 export default tags;

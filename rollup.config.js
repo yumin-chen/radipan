@@ -3,7 +3,7 @@ import esbuild from 'rollup-plugin-esbuild'
 
 export default [
   {
-    input: `src/raw-html-tag.js`,
+    input: `src/raw-html-tag.ts`,
     plugins: [esbuild()],
     output: [
       {
@@ -15,7 +15,7 @@ export default [
     ]
   },
   {
-    input: `src/raw-html-tag.js`,
+    input: `src/raw-html-tag.ts`,
     plugins: [dts()],
     output: {
       file: `dist/raw-html-tag.d.ts`,
