@@ -8,8 +8,8 @@ Add below scripts into your node `package.json`:
 
 ```json
   "scripts": {
-    "cssgen": "CSSGEN=pregen npx tsx --tsconfig node_modules/radipan/extractor.tsconfig.json css-extractor.ts",
-    "cssgen-watch": "CSSGEN=pregen npx tsx watch --ignore *.css.js --tsconfig node_modules/radipan/extractor.tsconfig.json css-extractor.ts",
+    "cssgen": "CSSGEN=pregen npx tsx --tsconfig node_modules/radipan/extractor.tsconfig.json css-extractor.ts & npm run cssgen",
+    "cssgen-watch": "CSSGEN=pregen npx tsx watch --tsconfig node_modules/radipan/extractor.tsconfig.json css-extractor.ts & npm run cssgen-build --watch",
     "cssgen-build": "panda cssgen -c ./node_modules/radipan/panda.config.ts",
     "prepare": "panda codegen -c ./node_modules/radipan/panda.config.ts & npm run cssgen",
     "dev": "npm run cssgen-watch & next dev",
