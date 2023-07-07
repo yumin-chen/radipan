@@ -1,9 +1,12 @@
 {
   "name": "radipan",
-  "version": "0.0.1-alpha.17",
+  "version": "0.0.1-alpha",
   "description": "React-compatible static CSS extraction based on `css` prop.",
   "author": "Yumin Chen <yumin@chen.so>",
   "type": "module",
+  "main": "index.js",
+  "module": "dist/raw-html-tag.js",
+  "types": "dist/raw-html-tag.d.ts",
   "keywords": [
     "css",
     "static",
@@ -15,12 +18,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yumin-chen/radix-css.git"
+    "url": "git+https://github.com/yumin-chen/radipan.git"
   },
   "bugs": {
-    "url": "https://github.com/yumin-chen/radix-css/issues"
+    "url": "https://github.com/yumin-chen/radipan/issues"
   },
-  "homepage": "https://github.com/yumin-chen/radix-css#readme",
+  "homepage": "https://github.com/yumin-chen/radipan#readme",
   "license": "MIT",
   "files": [
     "index.js",
