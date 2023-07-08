@@ -43,12 +43,14 @@ export const parseCssProp = (props: CssProps) => {
     const exportFileDir = `${EXPORT_FOLDER}/${fileDir}`;
     if (!fs.existsSync(exportFileDir)) {
       fs.mkdirSync(exportFileDir, { recursive: true });
+      console.debug('Created folder:', exportFileDir);
     }
     if (!fs.existsSync(exportFile)) {
       fs.writeFileSync(
         exportFile,
         '"use strict";\nimport {css, cva, cx} from "../css"\n\n'
       );
+      console.debug('Created file:', exportFile);
     }
   }
   // Recipes
@@ -60,9 +62,11 @@ export const parseCssProp = (props: CssProps) => {
         exportFile,
         `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
       );
+    console.debug('Generated a `cva` function in ', exportFile);
     return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
     !!fs && fs.appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
+    console.debug('Generated a `css` function in ', exportFile);
     return css(cssProp as SystemStyleObject);
   }
 };
@@ -76,16 +80,22 @@ interface Creatable extends FunctionComponent {
 
 const createComponent = (component: any) => {
   return (props: any, children: any) => {
-    // Exhaustively instantiate components for CSS extraction
-    if (typeof component === 'function') {
-      component({ ...props, children });
-    }
+    console.debug(
+      'Analysing component: ',
+      component?.name || component?.displayName
+    );
 
     if (typeof props?.css === 'object') {
       const { css: cssProp, className, ...restProps } = props;
       const cssClasses = parseCssProp(props);
       Object.keys(cssProp?.variants || []).forEach(
         variantName => delete restProps[variantName]
+      );
+
+      console.debug(
+        'Found css prop in comopnent: ',
+        component?.name || component?.displayName,
+        props.css
       );
 
       return h(
@@ -97,6 +107,17 @@ const createComponent = (component: any) => {
         },
         children
       );
+    } else {
+      console.debug(
+        'No css prop found in comopnent: ',
+        component?.name || component?.displayName,
+        props
+      );
+    }
+
+    // Exhaustively instantiate components for CSS extraction
+    if (typeof component === 'function') {
+      component({ ...props, children });
     }
 
     return children === undefined
