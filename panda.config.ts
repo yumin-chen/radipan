@@ -1,4 +1,4 @@
-import { defineConfig } from './src/panda-config';
+import { defineConfig } from './src/config';
 
 export default defineConfig({
   include: [],

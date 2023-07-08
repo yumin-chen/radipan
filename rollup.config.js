@@ -3,12 +3,12 @@ import esbuild from 'rollup-plugin-esbuild';
 
 export default [
   {
-    input: 'src/panda-config.ts',
+    input: 'src/config.ts',
     external: ['@pandacss/dev'],
     plugins: [esbuild()],
     output: [
       {
-        file: 'dist/panda-config.js',
+        file: 'dist/config.js',
         format: 'esm',
         sourcemap: true,
         exports: 'named',
@@ -16,11 +16,11 @@ export default [
     ],
   },
   {
-    input: 'src/panda-config.ts',
+    input: 'src/config.ts',
     external: ['@pandacss/dev'],
     plugins: [dts()],
     output: {
-      file: 'dist/panda-config.d.ts',
+      file: 'dist/config.d.ts',
       format: 'es',
     },
   },

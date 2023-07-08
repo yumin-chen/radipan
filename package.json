@@ -29,8 +29,9 @@
   "files": [
     "index.js",
     "index.ts",
+    "config.js",
+    "config.ts",
     "dist",
-    "styled-system",
     "extractor.tsconfig.json"
   ],
   "dependencies": {

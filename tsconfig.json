@@ -2,18 +2,21 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
+    "module": "esnext",
+    "moduleResolution": "node",
     "composite": true,
     "allowJs": true,
     "target": "esnext",
     "removeComments": true,
     "importHelpers": true,
-    "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "paths": {}
+    "paths": {
+      "styled-system/*": ["./node_modules/styled-system/*"],
+    }
   },
   "include": ["src/*"],
-  "exclude": ["node_modules", "styled-system"]
+  "exclude": ["node_modules"]
 }
