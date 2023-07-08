@@ -1,9 +1,9 @@
 import { FunctionComponent, ReactElement, ReactNode, createElement as h } from 'react';
-import { css, cva, cx } from '../styled-system/css/index';
-import { RecipeDefinition, RecipeVariantRecord } from '../styled-system/types/recipe';
-import { SystemStyleObject } from '../styled-system/types';
+import { css, cva, cx } from 'styled-system/css/index';
+import { RecipeDefinition, RecipeVariantRecord } from 'styled-system/types/recipe';
+import { SystemStyleObject } from 'styled-system/types';
 
-const EXPORT_FOLDER = "node_modules/radipan/styled-system/exported";
+const EXPORT_FOLDER = "node_modules/styled-system/exported";
 
 interface RecipeProps {
   className?: string,

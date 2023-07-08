@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode, createElement as h } from 'react';
-import { css, cva, cx } from '../styled-system/css/index';
-import { RecipeDefinition, RecipeVariantRecord } from '../styled-system/types/recipe';
-import { SystemStyleObject } from '../styled-system/types';
+import { css, cva, cx } from 'styled-system/css/index';
+import { RecipeDefinition, RecipeVariantRecord } from 'styled-system/types/recipe';
+import { SystemStyleObject } from 'styled-system/types';
 
 interface RecipeProps {
   className?: string,
