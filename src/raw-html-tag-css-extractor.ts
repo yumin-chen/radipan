@@ -4,7 +4,7 @@ import {
   ReactNode,
   createElement as h,
 } from 'react';
-import { css, cva, cx } from 'styled-system/css/index';
+import { css, cva, cx } from 'styled-system/css';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
