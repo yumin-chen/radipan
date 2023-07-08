@@ -1,7 +1,21 @@
 import { defineConfig as definePandaConfig } from '@pandacss/dev';
 
 export const defineConfig = (config: any = {}) => {
-  const { include: includePath, outdir, ...options } = config;
+  const {
+    appEntry,
+    include: includePath,
+    exclude,
+    outdir,
+    ...options
+  } = config;
+
+  if (!!appEntry) {
+    const fs = require('fs');
+    fs.writeFileSync(
+      'node_modules/radipan/radipan.config.json',
+      JSON.stringify({ appEntry })
+    );
+  }
 
   return definePandaConfig({
     // Where to look for your css declarations
@@ -20,6 +34,6 @@ export const defineConfig = (config: any = {}) => {
 
     ...options,
   });
-}
+};
 
 export default defineConfig;

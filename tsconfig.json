@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "styled-system/*": ["./node_modules/styled-system/*"],
+      "styled-system/*": ["./node_modules/styled-system/*"]
     }
   },
   "include": ["src/*"],
