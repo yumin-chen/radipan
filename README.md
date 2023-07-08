@@ -17,4 +17,3 @@ Add below scripts into your node `package.json`:
     ...
   }
 ```
-

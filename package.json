@@ -1,6 +1,6 @@
 {
   "name": "radipan",
-  "version": "0.0.1-beta.29",
+  "version": "0.0.1-beta.30",
   "description": "React-compatible static CSS extraction based on `css` prop.",
   "author": "Yumin Chen <yumin@chen.so>",
   "type": "module",
@@ -13,6 +13,7 @@
     "extraction"
   ],
   "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c && tsc"
   },
@@ -39,6 +40,7 @@
     "@pandacss/dev": "latest",
     "@types/react": "latest",
     "esbuild": "latest",
+    "prettier": "latest",
     "rollup": "latest",
     "rollup-plugin-dts": "latest",
     "rollup-plugin-esbuild": "latest"

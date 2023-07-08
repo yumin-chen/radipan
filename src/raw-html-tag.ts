@@ -1,14 +1,17 @@
 import { ReactElement, ReactNode, createElement as h } from 'react';
 import { css, cva, cx } from 'styled-system/css/index';
-import { RecipeDefinition, RecipeVariantRecord } from 'styled-system/types/recipe';
+import {
+  RecipeDefinition,
+  RecipeVariantRecord,
+} from 'styled-system/types/recipe';
 import { SystemStyleObject } from 'styled-system/types';
 
 interface RecipeProps {
-  className?: string,
-  css?: RecipeDefinition<RecipeVariantRecord>,
+  className?: string;
+  css?: RecipeDefinition<RecipeVariantRecord>;
 }
 interface CssProps extends RecipeProps {
-  css?: SystemStyleObject | RecipeDefinition<RecipeVariantRecord>,
+  css?: SystemStyleObject | RecipeDefinition<RecipeVariantRecord>;
 }
 
 const getVariantProps = (props: RecipeProps) => {
@@ -20,7 +23,7 @@ const getVariantProps = (props: RecipeProps) => {
     }),
     {}
   );
-}
+};
 
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
@@ -35,7 +38,10 @@ export const parseCssProp = (props: CssProps) => {
 };
 
 interface Creatable extends ReactElement {
-  create: (props?: Object | null, children?: ReactNode | ReactNode[] | null) => ReactElement;
+  create: (
+    props?: Object | null,
+    children?: ReactNode | ReactNode[] | null
+  ) => ReactElement;
 }
 
 const createComponent = (component: any) => {
@@ -53,9 +59,7 @@ const createComponent = (component: any) => {
         {
           ...restProps,
           // Merge class names with generated styles
-          className: !className
-            ? cssClasses
-            : cx(cssClasses, className),
+          className: !className ? cssClasses : cx(cssClasses, className),
         },
         children
       );
@@ -64,7 +68,7 @@ const createComponent = (component: any) => {
     return children === undefined
       ? h(component, props)
       : h(component, props, children);
-  }
+  };
 };
 
 export const withCreate = (component: any): Creatable => {
@@ -130,6 +134,5 @@ const tags = {
   meta,
   link,
 };
-
 
 export default tags;
