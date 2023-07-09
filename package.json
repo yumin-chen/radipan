@@ -35,7 +35,8 @@
     "design-system.js",
     "design-system.ts",
     "dist",
-    "extractor.tsconfig.json"
+    "extractor.tsconfig.json",
+    "styles.css"
   ],
   "dependencies": {
     "phy-react": "latest",
