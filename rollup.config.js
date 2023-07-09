@@ -14,9 +14,11 @@ const esbuildOptions = {
   jsxFactory: 'React.createElement',
   jsxFragment: 'React.Fragment',
   // Like @rollup/plugin-replace
-  // define: {
-  //   __VERSION__: '"x.y.z"',
-  // },
+  define: {
+    // Remove debug logging
+    DEBUG: 'false',
+    // __VERSION__: '"x.y.z"',
+  },
   tsconfig: 'tsconfig.json', // default
   // Add extra loaders
   loaders: {
