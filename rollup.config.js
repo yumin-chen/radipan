@@ -53,7 +53,7 @@ export default [
     output: [
       {
         file: 'dist/raw-html-tag-css-extractor.js',
-        format: 'cjs',
+        format: 'esm',
         sourcemap: true,
         exports: 'named',
       },

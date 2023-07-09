@@ -10,6 +10,7 @@ import {
   RecipeVariantRecord,
 } from 'styled-system/types/recipe';
 import { SystemStyleObject } from 'styled-system/types';
+import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 
 const EXPORT_FOLDER = 'node_modules/styled-system/exported';
 
@@ -34,19 +35,17 @@ const getVariantProps = (props: RecipeProps) => {
 
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
-  let fs = null;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
   if (process.env.CSSGEN === 'pregen' && !!process.env.CSSGEN_FILE) {
-    fs = require('fs');
     const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
     const exportFileDir = `${EXPORT_FOLDER}/${fileDir}`;
-    if (!fs.existsSync(exportFileDir)) {
-      fs.mkdirSync(exportFileDir, { recursive: true });
+    if (!existsSync(exportFileDir)) {
+      mkdirSync(exportFileDir, { recursive: true });
       console.debug('Created folder:', exportFileDir);
     }
-    if (!fs.existsSync(exportFile)) {
-      fs.writeFileSync(
+    if (!existsSync(exportFile)) {
+      writeFileSync(
         exportFile,
         '"use strict";\nimport {css, cva, cx} from "../css"\n\n'
       );
@@ -57,15 +56,14 @@ export const parseCssProp = (props: CssProps) => {
   const isRecipe = Object.hasOwn(cssProp || {}, 'variants');
   if (isRecipe) {
     const variantProps = getVariantProps(props);
-    !!fs &&
-      fs.appendFileSync(
-        exportFile,
-        `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
-      );
+    appendFileSync(
+      exportFile,
+      `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
+    );
     console.debug('Generated a `cva` function in ', exportFile);
     return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
-    !!fs && fs.appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
+    appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
     console.debug('Generated a `css` function in ', exportFile);
     return css(cssProp as SystemStyleObject);
   }
