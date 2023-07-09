@@ -36,6 +36,7 @@ const getVariantProps = (props: RecipeProps) => {
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
+  console.debug("Writing to file:", exportFile);
   if (process.env.CSSGEN === 'pregen' && !!process.env.CSSGEN_FILE) {
     const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
@@ -78,23 +79,17 @@ interface Creatable extends FunctionComponent {
 
 const createComponent = (component: any) => {
   return (props: any, children: any) => {
-    console.debug(
-      'Analysing component: ',
-      component?.name || component?.displayName
-    );
+    console.debug('Analysing component: ', component);
 
     if (typeof props?.css === 'object') {
       const { css: cssProp, className, ...restProps } = props;
+
+      console.debug('Found css prop in comopnent: ', component, props.css);
       const cssClasses = parseCssProp(props);
       Object.keys(cssProp?.variants || []).forEach(
         variantName => delete restProps[variantName]
       );
 
-      console.debug(
-        'Found css prop in comopnent: ',
-        component?.name || component?.displayName,
-        props.css
-      );
 
       return h(
         component,
