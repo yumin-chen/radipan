@@ -16,6 +16,21 @@ export const defineConfig = (config: any = {}) => {
       'node_modules/radipan/radipan.config.json',
       JSON.stringify({ appEntry, framework, outdir })
     );
+
+    if (!!outdir) {
+      fs.writeFileSync(
+        'node_modules/radipan/design-system.js',
+        `export * from '../${outdir}/css/index.mjs';\n`
+      );
+      fs.writeFileSync(
+        'node_modules/radipan/design-system.ts',
+        `export * from '../${outdir}/css/index';\n`
+      );
+      fs.writeFileSync(
+        'node_modules/radipan/styles.css',
+        `@import '../${outdir}/styles.css';\n`
+      );
+    }
   }
 
   return definePandaConfig({
