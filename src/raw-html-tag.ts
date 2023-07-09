@@ -1,4 +1,6 @@
-import { ReactElement, ReactNode, createElement as h } from 'react';
+import { h } from 'phy';
+import { VNode } from 'preact';
+import { FunctionComponent, ReactNode } from 'react';
 import { css, cva, cx } from 'styled-system/css';
 import {
   RecipeDefinition,
@@ -37,11 +39,11 @@ export const parseCssProp = (props: CssProps) => {
   }
 };
 
-interface Creatable extends ReactElement {
+interface Creatable extends FunctionComponent {
   create: (
     props?: Object | null,
     children?: ReactNode | ReactNode[] | null
-  ) => ReactElement;
+  ) => VNode;
 }
 
 const createComponent = (component: any) => {

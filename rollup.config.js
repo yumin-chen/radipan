@@ -1,5 +1,6 @@
 import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
+import nodeResolve from '@rollup/plugin-node-resolve';
 
 export default [
   {
@@ -27,7 +28,7 @@ export default [
   {
     input: 'src/raw-html-tag.ts',
     external: [/styled-system/],
-    plugins: [esbuild()],
+    plugins: [esbuild(), nodeResolve()],
     output: [
       {
         file: 'dist/raw-html-tag.js',
@@ -40,7 +41,7 @@ export default [
   {
     input: 'src/raw-html-tag.ts',
     external: [/styled-system/],
-    plugins: [dts()],
+    plugins: [dts(), nodeResolve()],
     output: {
       file: 'dist/raw-html-tag.d.ts',
       format: 'es',
@@ -48,8 +49,8 @@ export default [
   },
   {
     input: 'src/raw-html-tag-css-extractor.ts',
-    external: [/styled-system/],
-    plugins: [esbuild()],
+    external: [/styled-system/, 'fs'],
+    plugins: [esbuild(), nodeResolve()],
     output: [
       {
         file: 'dist/raw-html-tag-css-extractor.js',
@@ -61,8 +62,8 @@ export default [
   },
   {
     input: 'src/raw-html-tag-css-extractor.ts',
-    external: [/styled-system/],
-    plugins: [dts()],
+    external: [/styled-system/, 'fs'],
+    plugins: [dts(), nodeResolve()],
     output: {
       file: 'dist/raw-html-tag-css-extractor.d.ts',
       format: 'es',
