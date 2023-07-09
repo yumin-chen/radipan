@@ -6,7 +6,7 @@ fs.existsSync('node_modules/styled-system/exported') &&
 
 process.env.CSSGEN_FILE = appEntry;
 console.log(`Processing app: ${appEntry}`);
-import(`../../${appEntry}`)
+import(`../../../../${appEntry}`)
   .then(module => {
     const exported = module.default;
     if (typeof exported !== 'function') {

@@ -1,1 +1,1 @@
-export * from './dist/raw-html-tag';
+export * from './dist/radipan';

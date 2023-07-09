@@ -5,8 +5,8 @@
   "author": "Yumin Chen <yumin@chen.so>",
   "type": "module",
   "main": "index.js",
-  "module": "dist/raw-html-tag.js",
-  "types": "dist/raw-html-tag.d.ts",
+  "module": "dist/radipan.js",
+  "types": "dist/radipan.d.ts",
   "keywords": [
     "css",
     "static",
@@ -32,7 +32,6 @@
     "index.ts",
     "config.js",
     "config.ts",
-    "css-extractor.ts",
     "dist",
     "extractor.tsconfig.json"
   ],

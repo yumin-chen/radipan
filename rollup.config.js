@@ -37,7 +37,7 @@ export default [
       {
         file: 'dist/config.js',
         format: 'esm',
-        sourcemap: true,
+        sourcemap: false,
         exports: 'named',
       },
     ],
@@ -52,47 +52,51 @@ export default [
     },
   },
   {
-    input: 'src/raw-html-tag.ts',
+    input: 'src/radipan.ts',
     external: [/styled-system/, 'react'],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
       {
-        file: 'dist/raw-html-tag.js',
+        file: 'dist/radipan.js',
         format: 'esm',
-        sourcemap: true,
+        sourcemap: false,
         exports: 'named',
       },
     ],
   },
   {
-    input: 'src/raw-html-tag.ts',
+    input: 'src/radipan.ts',
     external: [/styled-system/, 'react'],
     plugins: [dts(), nodeResolve(), commonjs()],
     output: {
-      file: 'dist/raw-html-tag.d.ts',
+      file: 'dist/radipan.d.ts',
       format: 'es',
     },
   },
   {
-    input: 'src/raw-html-tag-css-extractor.ts',
+    input: 'src/css-extractor/radipan.ts',
     external: [/styled-system/, 'react', 'fs'],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
       {
-        file: 'dist/raw-html-tag-css-extractor.js',
+        file: 'dist/css-extractor/radipan.js',
         format: 'esm',
-        sourcemap: true,
+        sourcemap: false,
         exports: 'named',
       },
     ],
   },
   {
-    input: 'src/raw-html-tag-css-extractor.ts',
-    external: [/styled-system/, 'react', 'fs'],
-    plugins: [dts(), nodeResolve(), commonjs()],
-    output: {
-      file: 'dist/raw-html-tag-css-extractor.d.ts',
-      format: 'es',
-    },
+    input: 'src/css-extractor/css-extractor.ts',
+    external: ['fs', 'radipan/radipan.config.json'],
+    plugins: [esbuild(esbuildOptions)],
+    output: [
+      {
+        file: 'dist/css-extractor/css-extractor.js',
+        format: 'esm',
+        sourcemap: false,
+        exports: 'named',
+      },
+    ],
   },
 ];
