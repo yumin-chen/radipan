@@ -1,14 +1,15 @@
 import { h } from 'phy-react';
 import { FunctionComponent, ReactNode } from 'react';
-import { css, cva, cx } from 'styled-system/css';
+import { css, cva, cx } from '@radipan-design-system/css';
+import { outdir } from 'radipan/radipan.config.json';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
-} from 'styled-system/types/recipe';
-import { SystemStyleObject } from 'styled-system/types';
+} from '@radipan-design-system/types/recipe';
+import { SystemStyleObject } from '@radipan-design-system/types';
 import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 
-const EXPORT_FOLDER = 'node_modules/styled-system/exported';
+const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
 
 interface RecipeProps {
   className?: string;

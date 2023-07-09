@@ -21,7 +21,7 @@
       }
     ],
     "paths": {
-      "styled-system/*": ["../../node_modules/styled-system/*"],
+      "@radipan-design-system/*": ["../../node_modules/@radipan-design-system/*"],
       "radipan": ["../../node_modules/radipan/dist/css-extractor/radipan"],
       "react": ["../../node_modules/radipan/dist/react-mock"],
       "@/*": ["../../src/*"]

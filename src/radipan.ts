@@ -1,11 +1,11 @@
 import { h } from 'phy-react';
-import { FunctionComponent, ComponentProps, ReactNode } from 'react';
-import { css, cva, cx } from 'styled-system/css';
+import { FunctionComponent, ReactNode } from 'react';
+import { css, cva, cx } from '@radipan-design-system/css';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
-} from 'styled-system/types/recipe';
-import { SystemStyleObject } from 'styled-system/types';
+} from '@radipan-design-system/types/recipe';
+import { SystemStyleObject } from '@radipan-design-system/types';
 
 interface RecipeProps {
   className?: string;

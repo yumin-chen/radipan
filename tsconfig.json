@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "styled-system/*": ["./node_modules/styled-system/*"]
+      "@radipan-design-system/*": ["./node_modules/@radipan-design-system/*"],
     }
   },
   "include": ["src/*"],

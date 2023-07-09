@@ -5,7 +5,7 @@ export const defineConfig = (config: any = {}) => {
     appEntry,
     include: includePath,
     exclude,
-    outdir,
+    outdir = '@radipan-design-system',
     jsxFramework: framework = 'react',
     ...options
   } = config;
@@ -14,7 +14,7 @@ export const defineConfig = (config: any = {}) => {
     const fs = require('fs');
     fs.writeFileSync(
       'node_modules/radipan/radipan.config.json',
-      JSON.stringify({ appEntry, framework })
+      JSON.stringify({ appEntry, framework, outdir })
     );
   }
 
@@ -26,7 +26,7 @@ export const defineConfig = (config: any = {}) => {
     exclude: [],
 
     // The output directory for your css system
-    outdir: 'styled-system',
+    outdir,
 
     // Options for the generated typescript definitions.
     // Type: 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
