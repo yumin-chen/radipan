@@ -75,12 +75,12 @@ interface Creatable extends FunctionComponent {
 
 const createComponent = (component: any) => {
   return (props: any, children: any) => {
-    console.debug('Analysing component: ', component);
+    console.debug('Analysing component: ', component?.name || component?.displayName || component);
 
     if (typeof props?.css === 'object') {
       const { css: cssProp, className, ...restProps } = props;
 
-      console.debug('Found css prop in comopnent: ', component, props.css);
+      console.debug('Found css prop used with comopnent: ', component, props.css);
       const cssClasses = parseCssProp(props);
       Object.keys(cssProp?.variants || []).forEach(
         variantName => delete restProps[variantName]
@@ -97,8 +97,8 @@ const createComponent = (component: any) => {
       );
     } else {
       console.debug(
-        'No css prop found in comopnent: ',
-        component?.name || component?.displayName,
+        'No css prop found used with comopnent: ',
+        component?.name || component?.displayName || component,
         props
       );
     }
