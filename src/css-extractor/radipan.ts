@@ -1,6 +1,6 @@
 import { h } from 'phy-react';
 import { FunctionComponent, ReactNode } from 'react';
-import { css, cva, cx } from '@radipan-design-system/css';
+import { css, cva, cx } from 'radipan/design-system';
 import { outdir } from 'radipan/radipan.config.json';
 import {
   RecipeDefinition,

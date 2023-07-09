@@ -1,6 +1,6 @@
 {
   "name": "radipan",
-  "version": "0.0.3",
+  "version": "0.0.3-outdir.4",
   "description": "React-compatible static CSS extraction based on `css` prop.",
   "author": "Yumin Chen <yumin@chen.so>",
   "type": "module",
@@ -16,7 +16,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "panda codegen",
-    "build": "npm run prepare && rollup -c && tsc"
+    "build": "npm run prepare && rollup -c"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,8 @@
     "index.ts",
     "config.js",
     "config.ts",
+    "design-system.js",
+    "design-system.ts",
     "dist",
     "extractor.tsconfig.json"
   ],
