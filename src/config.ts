@@ -28,7 +28,7 @@ export const defineConfig = (config: any = {}) => {
     // The output directory for your css system
     outdir: 'styled-system',
 
-    // Options for the generated typescript definitions. 
+    // Options for the generated typescript definitions.
     // Type: 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
     jsxFramework: framework,
 

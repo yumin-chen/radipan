@@ -1,8 +1,5 @@
 import { h } from 'phy-react';
-import {
-  FunctionComponent,
-  ReactNode,
-} from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { css, cva, cx } from 'styled-system/css';
 import {
   RecipeDefinition,
@@ -35,7 +32,7 @@ const getVariantProps = (props: RecipeProps) => {
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
-  console.debug("Writing to file:", exportFile);
+  console.debug('Writing to file:', exportFile);
   if (process.env.CSSGEN === 'pregen' && !!process.env.CSSGEN_FILE) {
     const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
@@ -88,7 +85,6 @@ const createComponent = (component: any) => {
       Object.keys(cssProp?.variants || []).forEach(
         variantName => delete restProps[variantName]
       );
-
 
       return h(
         component,
