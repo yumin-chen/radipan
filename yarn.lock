@@ -2009,9 +2009,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001464, caniuse-lite@^1.0.30001503:
-  version "1.0.30001513"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001513.tgz#382fe5fbfb0f7abbaf8c55ca3ac71a0307a752e9"
-  integrity sha512-pnjGJo7SOOjAGytZZ203Em95MRM8Cr6jhCXNF/FAXTpCTRTECnqQWLpiTRqrFtdYcth8hf4WECUpkezuYsMVww==
+  version "1.0.30001514"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001514.tgz#e2a7e184a23affc9367b7c8d734e7ec4628c1309"
+  integrity sha512-ENcIpYBmwAAOm/V2cXgM7rZUrKKaqisZl4ZAI520FIkqGXUxJjmaIssbRW5HVVR5tyV6ygTLIm15aU8LUmQSaQ==
 
 ccount@^2.0.0:
   version "2.0.1"
@@ -3763,9 +3763,9 @@ perfect-debounce@^1.0.0:
   integrity sha512-xCy9V055GLEqoFaHoC1SoLIaLmWctgCUaBaWxDZ7/Zx4CTyX7cJQLJOok/orfjZAh9kEYpjJa4d0KcJmCbctZA==
 
 phy-react@latest:
-  version "0.1.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/phy-react/-/phy-react-0.1.0-alpha.1.tgz#9c7213e442c6e2cbde44fd7b61ec0d516325f0ce"
-  integrity sha512-Ay8PWCF5e8kH7ZZ7Fc0TW3cGudr6RdFK4BnljVohRE+Rpq+9P0z+MlvBga9M97KvqZfN9rExT1dWD9WYlCNUyw==
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/phy-react/-/phy-react-0.1.1.tgz#d37e84ea5bac85ee29f556390d8d40b3e248a5dd"
+  integrity sha512-ecLHvROgqpzCDNtERoRIu3BY1qCQ1JpfWsd9FKKYOdvHDgocqeiZyd8Ye0h7rMtMD9W1oY4TDRwXbJtMWaFlkw==
   dependencies:
     react latest
 

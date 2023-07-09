@@ -28,7 +28,7 @@ export default [
   },
   {
     input: 'src/raw-html-tag.ts',
-    external: [/styled-system/],
+    external: [/styled-system/, 'react'],
     plugins: [esbuild(), nodeResolve(), commonjs()],
     output: [
       {
@@ -41,7 +41,7 @@ export default [
   },
   {
     input: 'src/raw-html-tag.ts',
-    external: [/styled-system/],
+    external: [/styled-system/, 'react'],
     plugins: [dts(), nodeResolve(), commonjs()],
     output: {
       file: 'dist/raw-html-tag.d.ts',
@@ -50,7 +50,7 @@ export default [
   },
   {
     input: 'src/raw-html-tag-css-extractor.ts',
-    external: [/styled-system/, 'fs'],
+    external: [/styled-system/, 'react', 'fs'],
     plugins: [esbuild(), nodeResolve(), commonjs()],
     output: [
       {
@@ -63,7 +63,7 @@ export default [
   },
   {
     input: 'src/raw-html-tag-css-extractor.ts',
-    external: [/styled-system/, 'fs'],
+    external: [/styled-system/, 'react', 'fs'],
     plugins: [dts(), nodeResolve(), commonjs()],
     output: {
       file: 'dist/raw-html-tag-css-extractor.d.ts',
