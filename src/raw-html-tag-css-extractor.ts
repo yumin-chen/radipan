@@ -1,5 +1,4 @@
-import { h } from 'phy';
-import { VNode } from 'preact';
+import { h } from 'phy-react';
 import {
   FunctionComponent,
   ReactNode,
@@ -74,7 +73,7 @@ interface Creatable extends FunctionComponent {
   create: (
     props?: Object | null,
     children?: ReactNode | ReactNode[] | null
-  ) => VNode;
+  ) => ReactNode;
 }
 
 const createComponent = (component: any) => {
