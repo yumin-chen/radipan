@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "../..",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -21,10 +21,10 @@
       }
     ],
     "paths": {
-      "@radipan-design-system/*": ["../../node_modules/@radipan-design-system/*"],
-      "radipan": ["../../node_modules/radipan/dist/css-extractor/radipan"],
-      "react": ["../../node_modules/radipan/dist/react-mock"],
-      "@/*": ["../../src/*"]
+      "@radipan-design-system/*": ["./node_modules/@radipan-design-system/*"],
+      "radipan": ["./node_modules/radipan/dist/css-extractor/radipan"],
+      "react": ["./node_modules/radipan/dist/react-mock"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
