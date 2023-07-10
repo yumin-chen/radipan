@@ -5,7 +5,7 @@ export const defineConfig = (config: any = {}) => {
     appEntry,
     include: includePath,
     exclude,
-    outdir = '@radipan-design-system',
+    outdir = '@design-system',
     jsxFramework: framework = 'react',
     ...options
   } = config;
