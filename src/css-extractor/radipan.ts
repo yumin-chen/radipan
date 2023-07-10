@@ -26,7 +26,7 @@ const getVariantProps = (props: RecipeProps) => {
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
-  console.debug('Writing to file:', exportFile);
+  DEBUG && console.debug('Writing to file:', exportFile);
   if (process.env.CSSGEN === 'pregen' && !!process.env.CSSGEN_FILE) {
     const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
