@@ -114,6 +114,20 @@ export default [
     ],
   },
   {
+    input: 'src/bin.ts',
+    external: ['child_process'],
+    plugins: [esbuild(esbuildOptions)],
+    output: [
+      {
+        banner: '#!/usr/bin/env node',
+        file: 'dist/bin.js',
+        format: 'esm',
+        sourcemap: false,
+        exports: 'named',
+      },
+    ],
+  },
+  {
     input: 'src/css-extractor/radipan.ts',
     external: [
       'react',
