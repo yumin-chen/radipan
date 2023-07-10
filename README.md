@@ -1,19 +1,23 @@
 # Radipan
 
-Inline `css` prop parser built using [PandaCSS](https://panda-css.com).
+Inline `css` prop parser built on top of [PandaCSS](https://panda-css.com). All-in-JS template engine for you to write everything in JavaScript. No more HTML. No more CSS. Only JavaScript!
 
-## How to use
+## Setup
 
-Add below scripts into your node `package.json`:
+Install radipan to your existing project:
+
+```sh
+  npm install radipan
+```
+
+Add below scripts into your `package.json`:
 
 ```json
   "scripts": {
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "cssgen": "npx radipan cssgen",
     "design": "npx radipan design",
     "prepare": "npx radipan prepare",
     "dev": "npx radipan prepare --watch & next dev",
     "build": "npx radipan cssgen & tsc && next build",
-    ...
   }
 ```
