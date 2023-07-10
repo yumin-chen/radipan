@@ -9,7 +9,7 @@ const esbuildOptions = {
   exclude: /node_modules/, // default
   sourceMap: true, // default
   minify: true,
-  target: 'es2017', // default, or 'es20XX', 'esnext'
+  target: 'es2020', // default, or 'es20XX', 'esnext'
   jsx: 'transform', // default, or 'preserve'
   jsxFactory: 'React.createElement',
   jsxFragment: 'React.Fragment',
@@ -29,6 +29,20 @@ const esbuildOptions = {
 };
 
 export default [
+  {
+    input: 'src/bin.ts',
+    external: ['child_process'],
+    plugins: [esbuild(esbuildOptions)],
+    output: [
+      {
+        banner: '#!/usr/bin/env node',
+        file: 'dist/bin.js',
+        format: 'esm',
+        sourcemap: false,
+        exports: 'named',
+      },
+    ],
+  },
   {
     input: 'src/config.ts',
     external: ['@pandacss/dev'],
@@ -107,20 +121,6 @@ export default [
     output: [
       {
         file: 'dist/css-extractor/html-tags.js',
-        format: 'esm',
-        sourcemap: false,
-        exports: 'named',
-      },
-    ],
-  },
-  {
-    input: 'src/bin.ts',
-    external: ['child_process'],
-    plugins: [esbuild(esbuildOptions)],
-    output: [
-      {
-        banner: '#!/usr/bin/env node',
-        file: 'dist/bin.js',
         format: 'esm',
         sourcemap: false,
         exports: 'named',
