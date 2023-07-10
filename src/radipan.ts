@@ -1,19 +1,12 @@
 import { h } from 'phy-react';
 import { FunctionComponent, ReactNode } from 'react';
 import { css, cva, cx } from 'radipan/design-system';
+import { RecipeProps, CssProps, Creatable } from './radipan.d';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
 } from '@radipan-design-system/types/recipe';
 import { SystemStyleObject } from '@radipan-design-system/types';
-
-interface RecipeProps {
-  className?: string;
-  css?: RecipeDefinition<RecipeVariantRecord>;
-}
-interface CssProps extends RecipeProps {
-  css?: SystemStyleObject | RecipeDefinition<RecipeVariantRecord>;
-}
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
@@ -37,13 +30,6 @@ export const parseCssProp = (props: CssProps) => {
     return css(cssProp as SystemStyleObject);
   }
 };
-
-interface Creatable extends FunctionComponent {
-  create: (
-    props?: object | null,
-    children?: ReactNode | ReactNode[] | null
-  ) => ReactNode;
-}
 
 const createComponent = (component: any) => {
   return (props: any, children: any) => {

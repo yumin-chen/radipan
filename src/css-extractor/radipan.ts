@@ -8,16 +8,9 @@ import {
 } from '@radipan-design-system/types/recipe';
 import { SystemStyleObject } from '@radipan-design-system/types';
 import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
+import { RecipeProps, CssProps, Creatable } from '../radipan.d';
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
-
-interface RecipeProps {
-  className?: string;
-  css?: RecipeDefinition<RecipeVariantRecord>;
-}
-interface CssProps extends RecipeProps {
-  css?: SystemStyleObject | RecipeDefinition<RecipeVariantRecord>;
-}
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
@@ -67,28 +60,23 @@ export const parseCssProp = (props: CssProps) => {
   }
 };
 
-interface Creatable extends FunctionComponent {
-  create: (
-    props?: Object | null,
-    children?: ReactNode | ReactNode[] | null
-  ) => ReactNode;
-}
-
 const createComponent = (component: any) => {
   return (props: any, children: any) => {
-    DEBUG && console.debug(
-      'Analysing component: ',
-      component?.name || component?.displayName || component
-    );
+    DEBUG &&
+      console.debug(
+        'Analysing component: ',
+        component?.name || component?.displayName || component
+      );
 
     if (typeof props?.css === 'object') {
       const { css: cssProp, className, ...restProps } = props;
 
-      DEBUG && console.debug(
-        'Found css prop used with comopnent: ',
-        component,
-        props.css
-      );
+      DEBUG &&
+        console.debug(
+          'Found css prop used with comopnent: ',
+          component,
+          props.css
+        );
       const cssClasses = parseCssProp(props);
       Object.keys(cssProp?.variants || []).forEach(
         variantName => delete restProps[variantName]
@@ -104,11 +92,12 @@ const createComponent = (component: any) => {
         children
       );
     } else {
-      DEBUG && console.debug(
-        'No css prop found used with comopnent: ',
-        component?.name || component?.displayName || component,
-        props
-      );
+      DEBUG &&
+        console.debug(
+          'No css prop found used with comopnent: ',
+          component?.name || component?.displayName || component,
+          props
+        );
     }
 
     // Exhaustively instantiate components for CSS extraction

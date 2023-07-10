@@ -55,7 +55,7 @@ export default [
   },
   {
     input: 'src/radipan.ts',
-    external: ['react', "radipan/design-system", ],
+    external: ['react', 'radipan/design-system'],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
       {
@@ -67,9 +67,9 @@ export default [
     ],
   },
   {
-    input: 'src/radipan.ts',
-    external: ['react', "radipan/design-system", ],
-    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
+    input: 'src/radipan.d.ts',
+    external: ['react'],
+    plugins: [dts()],
     output: {
       file: 'dist/radipan.d.ts',
       format: 'es',
@@ -77,7 +77,12 @@ export default [
   },
   {
     input: 'src/css-extractor/radipan.ts',
-    external: ['react', 'fs', 'radipan/radipan.config.json', "radipan/design-system", ],
+    external: [
+      'react',
+      'fs',
+      'radipan/radipan.config.json',
+      'radipan/design-system',
+    ],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
       {
