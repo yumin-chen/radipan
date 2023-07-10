@@ -32,6 +32,8 @@
     "index.ts",
     "config.js",
     "config.ts",
+    "tags.js",
+    "tags.ts",
     "design-system.js",
     "design-system.ts",
     "dist",
@@ -50,7 +52,7 @@
     "esbuild": "latest",
     "preact": "latest",
     "prettier": "latest",
-    "rollup": "latest",
+    "rollup": "^3.26.2",
     "rollup-plugin-dts": "latest",
     "rollup-plugin-esbuild": "latest"
   },

@@ -74,6 +74,46 @@ export default [
     },
   },
   {
+    input: 'src/html-tags.ts',
+    external: ['radipan'],
+    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
+    output: [
+      {
+        file: 'dist/html-tags.js',
+        format: 'esm',
+        sourcemap: false,
+        exports: 'named',
+      },
+    ],
+  },
+  {
+    input: 'src/html-tags.d.ts',
+    external: ['radipan'],
+    plugins: [dts()],
+    output: {
+      file: 'dist/html-tags.d.ts',
+      format: 'es',
+    },
+  },
+  {
+    input: 'src/css-extractor/html-tags.ts',
+    external: [
+      'react',
+      'fs',
+      'radipan/radipan.config.json',
+      'radipan/design-system',
+    ],
+    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
+    output: [
+      {
+        file: 'dist/css-extractor/html-tags.js',
+        format: 'esm',
+        sourcemap: false,
+        exports: 'named',
+      },
+    ],
+  },
+  {
     input: 'src/css-extractor/radipan.ts',
     external: [
       'react',
