@@ -15,8 +15,6 @@ const esbuildOptions = {
   jsxFragment: 'React.Fragment',
   // Like @rollup/plugin-replace
   define: {
-    // Remove debug logging
-    DEBUG: 'false',
     // __VERSION__: '"x.y.z"',
   },
   tsconfig: 'tsconfig.json', // default

@@ -26,21 +26,21 @@ const getVariantProps = (props: RecipeProps) => {
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
-  DEBUG && console.debug('Writing to file:', exportFile);
+  process.env.DEBUG && console.debug('Writing to file:', exportFile);
   if (process.env.CSSGEN === 'pregen' && !!process.env.CSSGEN_FILE) {
     const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
     const exportFileDir = `${EXPORT_FOLDER}/${fileDir}`;
     if (!existsSync(exportFileDir)) {
       mkdirSync(exportFileDir, { recursive: true });
-      DEBUG && console.debug('Created folder:', exportFileDir);
+      process.env.DEBUG && console.debug('Created folder:', exportFileDir);
     }
     if (!existsSync(exportFile)) {
       writeFileSync(
         exportFile,
         '"use strict";\nimport {css, cva, cx} from "../css"\n\n'
       );
-      DEBUG && console.debug('Created file:', exportFile);
+      process.env.DEBUG && console.debug('Created file:', exportFile);
     }
   }
   // Recipes
@@ -51,27 +51,27 @@ export const parseCssProp = (props: CssProps) => {
       exportFile,
       `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
     );
-    DEBUG && console.debug('Generated a `cva` function in ', exportFile);
+    process.env.DEBUG && console.debug('Generated a `cva` function in ', exportFile);
     return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
     appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
-    DEBUG && console.debug('Generated a `css` function in ', exportFile);
+    process.env.DEBUG && console.debug('Generated a `css` function in ', exportFile);
     return css(cssProp as SystemStyleObject);
   }
 };
 
 const createComponent = (component: any) => {
-  return (props: any, children: any) => {
-    DEBUG &&
-      console.debug(
-        'Analysing component: ',
-        component?.name || component?.displayName || component
-      );
+  process.env.DEBUG &&
+    console.debug(
+      'Analysing component: ',
+      component?.name || component?.displayName || component
+    );
 
+  return (props: any, children: any) => {
     if (typeof props?.css === 'object') {
       const { css: cssProp, className, ...restProps } = props;
 
-      DEBUG &&
+      process.env.DEBUG &&
         console.debug(
           'Found css prop used with comopnent: ',
           component,
@@ -92,7 +92,7 @@ const createComponent = (component: any) => {
         children
       );
     } else {
-      DEBUG &&
+      process.env.DEBUG &&
         console.debug(
           'No css prop found used with comopnent: ',
           component?.name || component?.displayName || component,
