@@ -36,6 +36,8 @@ export function jsx(
   props: Readonly<Record<string, any>> | undefined,
   ...children: JSX.Element[] | ReactNode[]
 ) {
+  // @ts-ignore
+  const kids = children.every(item => !item) ? undefined : children;
   if (typeof props?.css === 'object') {
     const { css: cssProp, className, ...restProps } = props;
     const otherProps = { ...restProps };
@@ -52,11 +54,11 @@ export function jsx(
         // Merge class names with generated styles
         className: !className ? cssClasses : cx(cssClasses, className),
       },
-      children
+      kids
     );
   }
 
-  return h(component, props, children);
+  return h(component, props, kids);
 }
 
 function createComponent(component: string | ComponentType) {
