@@ -67,6 +67,8 @@ export function jsx(
   props: Readonly<Record<string, any>> | undefined,
   ...children: JSX.Element[] | ReactNode[]
 ) {
+  // @ts-ignore
+  const kids = children.every(item => !item) ? undefined : children;
   if (typeof props?.css === 'object') {
     const { css: cssProp, className, ...restProps } = props;
     const otherProps = { ...restProps };
@@ -90,7 +92,7 @@ export function jsx(
         // Merge class names with generated styles
         className: !className ? cssClasses : cx(cssClasses, className),
       },
-      children
+      kids
     );
   } else {
     process.env.DEBUG &&
@@ -104,13 +106,13 @@ export function jsx(
   // Exhaustively instantiate components for CSS extraction
   if (typeof component === 'function') {
     // @ts-ignore
-    component({ ...props, children });
+    component({ ...props, children: kids });
   } else {
     process.env.DEBUG &&
       console.debug('Non-function component, skipping: ', component);
   }
 
-  return h(component, props, children);
+  return h(component, props, kids);
 }
 
 function createComponent(component: any) {
