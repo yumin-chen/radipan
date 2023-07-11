@@ -1,5 +1,5 @@
 import { h } from 'phy-react';
-import { FunctionComponent, ReactNode } from 'react';
+import { ComponentType, FunctionComponent, ReactNode } from 'react';
 import { css, cva, cx } from 'radipan/design-system';
 import { outdir } from 'radipan/radipan.config.json';
 import {
@@ -51,18 +51,25 @@ export const parseCssProp = (props: CssProps) => {
       exportFile,
       `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
     );
-    process.env.DEBUG && console.debug('Generated a `cva` function in ', exportFile);
+    process.env.DEBUG &&
+      console.debug('Generated a `cva` function in ', exportFile);
     return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
     appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
-    process.env.DEBUG && console.debug('Generated a `css` function in ', exportFile);
+    process.env.DEBUG &&
+      console.debug('Generated a `css` function in ', exportFile);
     return css(cssProp as SystemStyleObject);
   }
 };
 
-export const jsx = (component, props, children) => {
+export function jsx(
+  component: string | ComponentType,
+  props: Readonly<Record<string, any>> | undefined,
+  ...children: JSX.Element[] | ReactNode[]
+) {
   if (typeof props?.css === 'object') {
     const { css: cssProp, className, ...restProps } = props;
+    const otherProps = { ...restProps };
 
     process.env.DEBUG &&
       console.debug(
@@ -70,15 +77,16 @@ export const jsx = (component, props, children) => {
         component,
         props.css
       );
+
     const cssClasses = parseCssProp(props);
     Object.keys(cssProp?.variants || []).forEach(
-      variantName => delete restProps[variantName]
+      variantName => delete otherProps[variantName]
     );
 
     return h(
       component,
       {
-        ...restProps,
+        ...otherProps,
         // Merge class names with generated styles
         className: !className ? cssClasses : cx(cssClasses, className),
       },
@@ -95,25 +103,30 @@ export const jsx = (component, props, children) => {
 
   // Exhaustively instantiate components for CSS extraction
   if (typeof component === 'function') {
+    // @ts-ignore
     component({ ...props, children });
+  } else {
+    process.env.DEBUG &&
+      console.debug('Non-function component, skipping: ', component);
   }
 
   return children === undefined
     ? h(component, props)
     : h(component, props, children);
-};
+}
 
-const createComponent = (component: any) => {
+function createComponent(component: any) {
   process.env.DEBUG &&
     console.debug(
       'Analysing component: ',
       component?.name || component?.displayName || component
     );
 
-  return (props: any, children: any) => jsx(component, props, children);
-};
+  return (props: CssProps | undefined, children: ReactNode | ReactNode[]) =>
+    jsx(component, props, children);
+}
 
-export const withCreate = (component: any): Creatable => {
+export const withCreate = (component: string | ComponentType): Creatable => {
   if (typeof component === 'string') {
     return { create: createComponent(component) } as unknown as Creatable;
   }

@@ -1,11 +1,16 @@
-import { ComponentType, FunctionComponent, ReactNode } from 'react';
+import {
+  ComponentType,
+  FunctionComponent,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
 } from '@radipan-design-system/types/recipe';
 import { SystemStyleObject } from '@radipan-design-system/types';
 
-export interface RecipeProps {
+export interface RecipeProps extends Readonly<Record<string, any>> {
   className?: string;
   css?: RecipeDefinition<RecipeVariantRecord>;
 }
@@ -16,23 +21,25 @@ export interface CssProps extends RecipeProps {
 
 declare const parseCssProp: (props: CssProps) => string;
 
-export declare function jsx(component: (string | ComponentType)[]): JSX.Element;
+export declare function jsx(
+  component: (string | ComponentType)[]
+): ReactElement;
 export declare function jsx(
   comopnent: string | ComponentType,
-  ...children: ReactNode[] | JSX.Element[]
-): JSX.Element;
+  ...children: ReactNode[]
+): ReactElement;
 export declare function jsx(
   comopnent: string | ComponentType,
-  props: Readonly<Record<string, any>>,
-  ...children: ReactNode[] | JSX.Element[]
-): JSX.Element;
+  props: Readonly<Record<string, any>> | undefined,
+  ...children: ReactNode[]
+): ReactElement;
 
 export interface Creatable extends FunctionComponent {
   create: (
-    props?: CssProps | null,
-    children?: ReactNode | ReactNode[] | null
-  ) => ReactNode;
+    props?: CssProps,
+    children?: ReactNode | ReactNode[]
+  ) => ReactElement;
 }
 
-declare const withCreate: (component: any) => Creatable;
+declare const withCreate: (component: string | ComponentType) => Creatable;
 export default withCreate;

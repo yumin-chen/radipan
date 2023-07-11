@@ -79,7 +79,7 @@ export default [
     ],
   },
   {
-    input: 'src/radipan.d.ts',
+    input: 'src/radipan.ts',
     external: ['react'],
     plugins: [dts()],
     output: {
