@@ -119,7 +119,7 @@ Radipan adopts the widely adopted inline `css` prop syntax, which is compatible 
 
 ### • Why not just use PandaCSS directly?
 
-Besides the inline `css` prop syntax, Radipan's CSS extractor script also runs your code and builds your application's virtual DOM tree during build time. This additional context allows Radipan to provide additional features, such as _Recipe Trimming_. It also uses this context to infer any dynamic value within the `css` prop. For example, Radipan can handle any referenced values, including runtime reference (e.g. values from hooks), which PandaCSS cannot handle.
+Besides the inline `css` prop syntax, Radipan's CSS extractor script also runs your code and builds your application's virtual DOM tree during build time. This additional context allows Radipan to provide additional features, such as _Recipe Trimming_, and the ability to infer any dynamic value within the `css` prop. For example, Radipan can handle any referenced values, including runtime reference (e.g. values from hooks), which PandaCSS cannot handle.
 
 ### • Does Radipan support JSX?
 
