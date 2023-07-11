@@ -60,6 +60,49 @@ export const parseCssProp = (props: CssProps) => {
   }
 };
 
+export const jsx = (component, props, children) => {
+  if (typeof props?.css === 'object') {
+    const { css: cssProp, className, ...restProps } = props;
+
+    process.env.DEBUG &&
+      console.debug(
+        'Found css prop used with comopnent: ',
+        component,
+        props.css
+      );
+    const cssClasses = parseCssProp(props);
+    Object.keys(cssProp?.variants || []).forEach(
+      variantName => delete restProps[variantName]
+    );
+
+    return h(
+      component,
+      {
+        ...restProps,
+        // Merge class names with generated styles
+        className: !className ? cssClasses : cx(cssClasses, className),
+      },
+      children
+    );
+  } else {
+    process.env.DEBUG &&
+      console.debug(
+        'No css prop found used with comopnent: ',
+        component?.name || component?.displayName || component,
+        props
+      );
+  }
+
+  // Exhaustively instantiate components for CSS extraction
+  if (typeof component === 'function') {
+    component({ ...props, children });
+  }
+
+  return children === undefined
+    ? h(component, props)
+    : h(component, props, children);
+};
+
 const createComponent = (component: any) => {
   process.env.DEBUG &&
     console.debug(
@@ -67,48 +110,7 @@ const createComponent = (component: any) => {
       component?.name || component?.displayName || component
     );
 
-  return (props: any, children: any) => {
-    if (typeof props?.css === 'object') {
-      const { css: cssProp, className, ...restProps } = props;
-
-      process.env.DEBUG &&
-        console.debug(
-          'Found css prop used with comopnent: ',
-          component,
-          props.css
-        );
-      const cssClasses = parseCssProp(props);
-      Object.keys(cssProp?.variants || []).forEach(
-        variantName => delete restProps[variantName]
-      );
-
-      return h(
-        component,
-        {
-          ...restProps,
-          // Merge class names with generated styles
-          className: !className ? cssClasses : cx(cssClasses, className),
-        },
-        children
-      );
-    } else {
-      process.env.DEBUG &&
-        console.debug(
-          'No css prop found used with comopnent: ',
-          component?.name || component?.displayName || component,
-          props
-        );
-    }
-
-    // Exhaustively instantiate components for CSS extraction
-    if (typeof component === 'function') {
-      component({ ...props, children });
-    }
-
-    return children === undefined
-      ? h(component, props)
-      : h(component, props, children);
-  };
+  return (props: any, children: any) => jsx(component, props, children);
 };
 
 export const withCreate = (component: any): Creatable => {

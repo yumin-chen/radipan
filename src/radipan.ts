@@ -31,31 +31,33 @@ export const parseCssProp = (props: CssProps) => {
   }
 };
 
+export function jsx(component, props, ...children) {
+  if (typeof props?.css === 'object') {
+    const { css: cssProp, className, ...restProps } = props;
+    const cssClasses = parseCssProp(props);
+    // const variantProps = typeof cssProp?.variants === 'object' && getVariantProps(props) || null;
+    Object.keys(cssProp?.variants || []).forEach(
+      variantName => delete restProps[variantName]
+    );
+
+    return h(
+      component,
+      {
+        ...restProps,
+        // Merge class names with generated styles
+        className: !className ? cssClasses : cx(cssClasses, className),
+      },
+      children
+    );
+  }
+
+  return children === undefined
+    ? h(component, props)
+    : h(component, props, children);
+};
+
 const createComponent = (component: any) => {
-  return (props: any, children: any) => {
-    if (typeof props?.css === 'object') {
-      const { css: cssProp, className, ...restProps } = props;
-      const cssClasses = parseCssProp(props);
-      // const variantProps = typeof cssProp?.variants === 'object' && getVariantProps(props) || null;
-      Object.keys(cssProp?.variants || []).forEach(
-        variantName => delete restProps[variantName]
-      );
-
-      return h(
-        component,
-        {
-          ...restProps,
-          // Merge class names with generated styles
-          className: !className ? cssClasses : cx(cssClasses, className),
-        },
-        children
-      );
-    }
-
-    return children === undefined
-      ? h(component, props)
-      : h(component, props, children);
-  };
+  return (props: any, children: any) => jsx(component, props, children);
 };
 
 export const withCreate = (component: any): Creatable => {

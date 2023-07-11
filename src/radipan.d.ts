@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { ComponentType, FunctionComponent, ReactNode } from 'react';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
@@ -16,9 +16,20 @@ export interface CssProps extends RecipeProps {
 
 declare const parseCssProp: (props: CssProps) => string;
 
+export declare function jsx(component: (string | ComponentType)[]): JSX.Element;
+export declare function jsx(
+  comopnent: string | ComponentType,
+  ...children: ReactNode[] | JSX.Element[]
+): JSX.Element;
+export declare function jsx(
+  comopnent: string | ComponentType,
+  props: Readonly<Record<string, any>>,
+  ...children: ReactNode[] | JSX.Element[]
+): JSX.Element;
+
 export interface Creatable extends FunctionComponent {
   create: (
-    props?: Object | null,
+    props?: CssProps | null,
     children?: ReactNode | ReactNode[] | null
   ) => ReactNode;
 }
