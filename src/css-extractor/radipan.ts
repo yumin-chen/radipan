@@ -110,9 +110,7 @@ export function jsx(
       console.debug('Non-function component, skipping: ', component);
   }
 
-  return children === undefined
-    ? h(component, props)
-    : h(component, props, children);
+  return h(component, props, children);
 }
 
 function createComponent(component: any) {

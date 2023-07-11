@@ -56,9 +56,7 @@ export function jsx(
     );
   }
 
-  return children === undefined
-    ? h(component, props)
-    : h(component, props, children);
+  return h(component, props, children);
 }
 
 function createComponent(component: string | ComponentType) {
