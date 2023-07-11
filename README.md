@@ -100,7 +100,7 @@ This returns an object that has a `create` method. You can use this method to sp
 You can import HTML tags from `radipan/tags` for convenience:
 
 ```javascript
-import { div, form, input, span } from 'radipan';
+import { div, form, input, span } from 'radipan/tags';
 
 function App() {
   return form.create({css: { display: 'flex' }}, [
@@ -123,7 +123,7 @@ Besides the inline `css` prop syntax, Radipan's CSS extractor script also runs y
 
 ### • Does Radipan support JSX?
 
-Yes, Radipan supports JSX. You can use the exported `jsx` API as the JSX factory for your project. However, we recommend using Radipan without JSX as an all-in-JS solution to avoid XML/HTML syntax in your codebase.
+Yes, Radipan supports JSX. You can use the exported `jsx` API as the JSX factory for your project, similar to the `jsx` API from `@emotion/react`. However, we recommend using Radipan without JSX as an all-in-JS solution to avoid XML/HTML syntax in your codebase.
 
 ## Troubleshooting
 
