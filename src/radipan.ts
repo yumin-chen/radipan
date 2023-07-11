@@ -62,7 +62,7 @@ export function jsx(
 }
 
 function createComponent(component: string | ComponentType) {
-  return (props: CssProps | undefined, children: ReactNode | ReactNode[]) =>
+  return (props?: CssProps | undefined, children?: ReactNode | ReactNode[]) =>
     jsx(component, props, children);
 }
 
