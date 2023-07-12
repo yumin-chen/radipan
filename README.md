@@ -12,15 +12,11 @@ Radipan operates by running a script during the build process. This script scans
 
 ### • Why use Radipan?
 
-Radipan supports the widely adopted inline `css` prop syntax, making it compatible with other libraries like Emotion.js and Stitches.js. This means you can easily migrate to Radipan, enabling static extraction of CSS at build time, while requiring minimal changes to your existing codebase.
+Radipan supports the widely adopted inline `css` prop syntax that made popular by libraries like [Emotion.js](https://emotion.sh/docs/css-prop) and [Stitches.js](https://stitches.dev/docs/overriding-styles#the-css-prop). This means you can easily migrate to Radipan, enabling static extraction of CSS at build time, while requiring minimal changes to your existing codebase.
 
 ### • Why not just use PandaCSS directly?
 
-In addition to the inline `css` prop syntax, Radipan's CSS extractor script also executes your code and builds your application's virtual DOM tree during the build process. This additional context allows Radipan to provide additional features like _Recipe Shaking_ and better handle dynamic values within `css` prop, such as referenced values, including runtime references (e.g., values from hooks), which PandaCSS cannot handle very well.
-
-### • Does Radipan support JSX?
-
-Yes, Radipan fully supports JSX. You can use the exported `jsx` API as the JSX factory for your project, similar to the `jsx` API provided by `@emotion/react`. However, we recommend using Radipan without JSX as an all-in-JS solution to avoid XML/HTML syntax in your codebase.
+In addition to the inline `css` prop API, Radipan's CSS extractor script also executes your code and builds your application's virtual DOM tree during the build process. This additional context allows Radipan to provide additional features like _Recipe Shaking_ and better handle dynamic values within `css` prop, such as referenced values, including runtime references (e.g., values from hooks), which PandaCSS cannot handle very well.
 
 ## Setup
 
@@ -87,27 +83,56 @@ Create an entry CSS file or replace the existing one named `index.css` (or `glob
 
 When you run `npx radipan cssgen`, it scans all `css` props in your app and statically generates the corresponding CSS code at build time.
 
-## Examples
+### Configure to use with JSX in TypeScript
 
-Radipan works with various frameworks and tools, such as React, Preact, Vite, Next.js, etc.
+The easiest way to use Radipan with JSX in TypeScript is with the new JSX transform and the `jsxImportSource` TSConfig option (available since TS 4.1). For this approach, your TSConfig `compilerOptions` should contain:
 
-- [Radipan + Vite + React + TypeScript Starter (radipan-vite-react-ts)](https://github.com/yumin-chen/radipan-vite-react-ts)
+```
+"jsx": "react-jsx",
+"jsxImportSource": "radipan"
+```
 
-(More coming soon...)
-
-## Usage
-
-To create a component with Radipan, you can use the `radipan` function and pass in the element type as an argument. For example:
+You can now define styles using the object syntax and pass them to your components via the `css` prop.
 
 ```javascript
-import radipan from 'radipan';
-
 function App() {
-  return radipan('div').create({ css: { color: 'red' } }, 'whee!')); // Red whee!
+  return (
+    <main
+      css={{
+        width: '100%',
+        height: '100vh',
+        color: { base: 'black', _osDark: 'white' },
+        background: { base: 'white', _osDark: 'black' },
+      }}
+    >
+      <div css={{ fontSize: '2xl', fontWeight: 'bold' }}>Hello Radip🐼n!</div>
+    </main>
+  );
 }
 ```
 
-This returns an object that has a `create` method. You can use this method to specify the `props` and `children` of your component.
+#### With the old JSX transform
+
+If you're on an older version of React / TypeScript and unable to use the newer `react-jsx` transform, you will need to set the `jsxFactory` TSConfig option to `"radipan.jsx"`, or specify the JSX factory at the top of every file:
+
+```javascript
+/** @jsx jsx */
+import { jsx } from 'radipan';
+```
+
+## Usage
+
+To create a component with Radipan, you can use the `withCreate` function and pass in the element type as an argument. For example:
+
+```javascript
+import { withCreate } from 'radipan';
+
+function App() {
+  return withCreate('div').create({ css: { color: 'red' } }, 'whee!')); // Red whee!
+}
+```
+
+This returns an object that has a `create` method. Use this method to specify the `props` and `children` of your component.
 
 ### HTML Tags
 
@@ -125,6 +150,70 @@ function App() {
 }
 ```
 
+### Recipes
+
+Recipes are a way to define styles for different variants of a component. They offer better performance, developer experience, and composability.
+
+You can use recipes directly within the `css` prop. A recipe consists of four properties:
+
+- `base`: The base styles for the component
+- `variants`: The different visual styles for the component
+- `compoundVariants`: The different combinations of variants for the component
+- `defaultVariants`: The default variant values for the component
+
+A recipe must have at least `variants` to be recognized as a recipe. Use a nested object to specify the variant name and the corresponding style in variants. For example:
+
+```javascript
+import { withCreate } from 'radipan';
+
+const Badge = ({
+  as = 'span',
+  size = 'md', // 'size' is a recipe variant
+  variant = 'solid', // 'variant' is also a recipe variant
+  children = undefined,
+  ...props
+} = {}) => {
+  return withCreate(as).create(
+    { size, variant, ...props, css: badgeRecipe },
+    children
+  );
+};
+
+const badgeRecipe = {
+  base: {
+    borderRadius: 'xs',
+    textTransform: 'uppercase',
+  },
+  variants: {
+    size: {
+      sm: { fontSize: 'xs', padding: '0 2px' },
+      md: { fontSize: 'sm', padding: '0 var(--spacing-1x)' },
+      lg: { fontSize: 'md', padding: '1px var(--spacing-1x)' },
+    },
+    variant: {
+      solid: {
+        /* solid style CSS code */
+      },
+      subtle: {
+        /* subtle style CSS code */
+      },
+      outline: {
+        /* outline style CSS code */
+      },
+    },
+  },
+};
+
+export default withCreate(Badge);
+```
+
+## Examples
+
+Radipan works with various frameworks and tools, such as React, Preact, Vite, Next.js, etc.
+
+- [Radipan + Vite + React + TypeScript Starter (radipan-vite-react-ts)](https://github.com/yumin-chen/radipan-vite-react-ts)
+
+(More coming soon...)
 
 ## Troubleshooting
 
