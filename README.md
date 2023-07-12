@@ -1,12 +1,26 @@
 # Radipan
 
-Radipan is an _"all-in-JS"_ CSS-in-JS engine that allows you to write all your styles in JavaScript. All-in-JS. No HTML. No CSS. Just JavaScript!
+_The missing `css` prop API for [🐼 PandaCSS](https://panda-css.com)._
 
-Radipan uses [PandaCSS](https://panda-css.com) as the underlying static CSS extraction framework and provides an **inline** `css` prop for styling your components.
+Radipan is an all-in-JS CSS-in-JS engine. With Radipan, you can write all your styles in JavaScript without the need for HTML or CSS.
 
 ## How it works
 
-Radipan executes a script at built time that runs your code and constructs the virtual DOM tree of your application. It then scans the entry component and its child nodes to identify any inline `css` props. These props are subsequently parsed and transformed into intermediate PandaCSS code, which generates the static CSS code.
+Radipan operates by running a script during the build process. This script scans the entry component and its child nodes, searching for inline `css` props. It then transforms these props into intermediate PandaCSS code (`css`, `cva`, etc.), which ultimately generates static CSS code.
+
+## FAQ
+
+### • Why use Radipan?
+
+Radipan supports the widely adopted inline `css` prop syntax, making it compatible with other libraries like Emotion.js and Stitches.js. This means you can easily migrate to Radipan, enabling static extraction of CSS at build time, while requiring minimal changes to your existing codebase.
+
+### • Why not just use PandaCSS directly?
+
+In addition to the inline `css` prop syntax, Radipan's CSS extractor script also executes your code and builds your application's virtual DOM tree during the build process. This additional context allows Radipan to provide additional features like _Recipe Shaking_ and better handle dynamic values within `css` prop, such as referenced values, including runtime references (e.g., values from hooks), which PandaCSS cannot handle very well.
+
+### • Does Radipan support JSX?
+
+Yes, Radipan fully supports JSX. You can use the exported `jsx` API as the JSX factory for your project, similar to the `jsx` API provided by `@emotion/react`. However, we recommend using Radipan without JSX as an all-in-JS solution to avoid XML/HTML syntax in your codebase.
 
 ## Setup
 
@@ -30,7 +44,7 @@ import { defineConfig } from 'radipan/config';
 export default defineConfig({
   appEntry: 'src/App.ts', // Path to app entry point
   preflight: true, // Whether to use css reset
-  recipeTrimming: true, // Whether to trim unused recipe variants
+  recipeShaking: true, // Whether to trim unused recipe variants
   theme: {
     // Useful for theme customization
     extend: {},
@@ -42,7 +56,7 @@ export default defineConfig({
 The available Radipan options are as follows:
 
 - `appEntry`: Specify the path to the entry point component(s) of your application, considering the routing structure. For a single entry point, use a string value (e.g., `'src/App.ts'`). For multiple entry points, use an array (e.g., `['src/App.ts', 'src/page-1.ts', 'src/page-2.ts']`).
-- `recipeTrimming`: Enable this option to automatically remove unused recipe variants during build time. Disable it if you need to dynamically change a recipe variant.
+- `recipeShaking`: Enable this option to automatically remove unused recipe variants during build time. Disable it if you need to dynamically change a recipe variant.
 - `outdir`: Specify the output directory within `/node_modules` where Radipan will generate its output. Default is `@design-system`.
 
 ### Update package.json scripts
@@ -111,19 +125,6 @@ function App() {
 }
 ```
 
-## FAQ
-
-### • Why use Radipan?
-
-Radipan adopts the widely adopted inline `css` prop syntax, which is compatible with other libraries such as Emotion.js and Stitches.js. This means you can easily switch to Radipan and keep most of your existing APIs while enabling static extraction of CSS at build time.
-
-### • Why not just use PandaCSS directly?
-
-Besides the inline `css` prop syntax, Radipan's CSS extractor script also runs your code and builds your application's virtual DOM tree during build time. This additional context allows Radipan to provide additional features, such as _Recipe Trimming_, and the ability to infer any dynamic value within the `css` prop. For example, Radipan can handle any referenced values, including runtime reference (e.g. values from hooks), which PandaCSS cannot handle.
-
-### • Does Radipan support JSX?
-
-Yes, Radipan supports JSX. You can use the exported `jsx` API as the JSX factory for your project, similar to the `jsx` API from `@emotion/react`. However, we recommend using Radipan without JSX as an all-in-JS solution to avoid XML/HTML syntax in your codebase.
 
 ## Troubleshooting
 
