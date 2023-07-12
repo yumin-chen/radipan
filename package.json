@@ -37,6 +37,8 @@
     "tags.ts",
     "design-system.js",
     "design-system.ts",
+    "jsx-runtime.js",
+    "jsx-runtime.ts",
     "dist",
     "extractor.tsconfig.json",
     "styles.css"
