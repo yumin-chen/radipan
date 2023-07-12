@@ -5,8 +5,9 @@ import commonjs from '@rollup/plugin-commonjs';
 
 const esbuildOptions = {
   // All options are optional
-  include: /\.[jt]sx?$/, // default, inferred from `loaders` option
-  exclude: /node_modules/, // default
+  // include: /\.[jt]sx?$/, // default, inferred from `loaders` option
+  // include: /src\/*\.[jt]sx?$/,
+  exclude: /(node_modules|dist)/, // default
   sourceMap: true, // default
   minify: true,
   target: 'es2020', // default, or 'es20XX', 'esnext'
@@ -106,6 +107,28 @@ export default [
     plugins: [dts()],
     output: {
       file: 'dist/html-tags.d.ts',
+      format: 'es',
+    },
+  },
+  {
+    input: 'src/jsx-runtime.ts',
+    external: ['react'],
+    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
+    output: [
+      {
+        file: 'dist/jsx-runtime.js',
+        format: 'esm',
+        sourcemap: false,
+        exports: 'named',
+      },
+    ],
+  },
+  {
+    input: 'src/jsx-runtime.ts',
+    external: ['react'],
+    plugins: [dts()],
+    output: {
+      file: 'dist/jsx-runtime.d.ts',
       format: 'es',
     },
   },

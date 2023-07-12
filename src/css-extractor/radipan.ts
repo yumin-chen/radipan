@@ -62,7 +62,7 @@ export const parseCssProp = (props: CssProps) => {
   }
 };
 
-export function jsx(
+export function createElement(
   component: string | ComponentType,
   props: Readonly<Record<string, any>> | undefined,
   ...children: JSX.Element[] | ReactNode[]
@@ -123,7 +123,7 @@ function createComponent(component: any) {
     );
 
   return (props: CssProps | undefined, children: ReactNode | ReactNode[]) =>
-    jsx(component, props, children);
+    createElement(component, props, children);
 }
 
 export const withCreate = (component: string | ComponentType): Creatable => {

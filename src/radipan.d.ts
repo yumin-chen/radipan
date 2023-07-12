@@ -21,14 +21,14 @@ export interface CssProps extends RecipeProps {
 
 declare const parseCssProp: (props: CssProps) => string;
 
-export declare function jsx(
+export declare function createElement(
   component: (string | ComponentType)[]
 ): ReactElement;
-export declare function jsx(
+export declare function createElement(
   comopnent: string | ComponentType,
   ...children: ReactNode[]
 ): ReactElement;
-export declare function jsx(
+export declare function createElement(
   comopnent: string | ComponentType,
   props: Readonly<Record<string, any>> | undefined,
   ...children: ReactNode[]

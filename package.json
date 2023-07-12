@@ -39,6 +39,8 @@
     "design-system.ts",
     "jsx-runtime.js",
     "jsx-runtime.ts",
+    "jsx-dev-runtime.js",
+    "jsx-dev-runtime.ts",
     "dist",
     "extractor.tsconfig.json",
     "styles.css"
