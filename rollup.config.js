@@ -68,7 +68,7 @@ export default [
   },
   {
     input: 'src/radipan.ts',
-    external: ['react', 'radipan/design-system'],
+    external: ['react', 'radipan/design-system', 'radipan/radipan.config.json'],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
       {
@@ -112,7 +112,7 @@ export default [
   },
   {
     input: 'src/jsx-runtime.ts',
-    external: ['react'],
+    external: ['react', 'radipan/design-system', 'radipan/radipan.config.json'],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
       {
@@ -125,7 +125,7 @@ export default [
   },
   {
     input: 'src/jsx-runtime.ts',
-    external: ['react'],
+    external: ['react', 'radipan/design-system', 'radipan/radipan.config.json'],
     plugins: [dts()],
     output: {
       file: 'dist/jsx-runtime.d.ts',
