@@ -16,7 +16,7 @@
     "paths": {
       "radipan/design-system": ["./node_modules/@radipan-design-system"],
       "radipan/design-system/*": ["./node_modules/@radipan-design-system/*"],
-      "@radipan-design-system/*": ["./node_modules/@radipan-design-system/*"],
+      "@radipan-design-system/*": ["./node_modules/@radipan-design-system/*"]
     }
   },
   "include": ["src/*"],

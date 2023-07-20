@@ -1,7 +1,6 @@
-import { h } from 'phy-react';
 import { ComponentType, FunctionComponent, ReactNode } from 'react';
 import { css, cva, cx } from 'radipan/design-system';
-import { outdir } from 'radipan/radipan.config.json';
+import { framework, outdir } from 'radipan/radipan.config.json';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
@@ -11,6 +10,38 @@ import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 import { RecipeProps, CssProps, Creatable } from '../radipan.d';
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
+
+const getHyperScript = () => {
+  switch (framework) {
+    case 'react': {
+      try {
+        const react = require('react');
+        return react.createElement;
+      } catch (error) {
+        console.error("Failed to load `react`");
+      }
+    }
+    case 'preact': {
+      try {
+        const preact = require('preact');
+        return preact.h;
+      } catch (error) {
+        console.error("Failed to load `preact`");
+      }
+    }
+    case 'solid-js':
+    case 'solid': {
+      try {
+        const solid = require('solid-js/h');
+        return solid;
+      } catch (error) {
+        console.error("Failed to load `solid`");
+      }
+    }
+  }
+};
+
+const _h = getHyperScript();
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
@@ -85,7 +116,7 @@ export function createElement(
       variantName => delete otherProps[variantName]
     );
 
-    return h(
+    return _h(
       component,
       {
         ...otherProps,
@@ -112,7 +143,7 @@ export function createElement(
       console.debug('Non-function component, skipping: ', component);
   }
 
-  return h(component, props, kids);
+  return _h(component, props, kids);
 }
 
 function createComponent(component: any) {

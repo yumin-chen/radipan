@@ -12,7 +12,7 @@
     "static",
     "extraction"
   ],
-  "bin": "dist/bin.js" ,
+  "bin": "dist/bin.js",
   "scripts": {
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -46,7 +46,6 @@
     "styles.css"
   ],
   "dependencies": {
-    "phy-react": "latest",
     "typescript": "latest"
   },
   "devDependencies": {
