@@ -29,7 +29,7 @@ To set up Radipan in your project, follow these steps:
 Use your preferred package manager to install Radipan:
 
 ```bash
-npm install --save-dev radipan@latest create-next-app@latest
+npm install --save-dev radipan@latest
 ```
 
 ### Configure Radipan
