@@ -1,6 +1,7 @@
 import { ComponentType, FunctionComponent, ReactNode } from 'react';
 import { css, cva, cx } from 'radipan/design-system';
-import { framework, outdir } from 'radipan/radipan.config.json';
+import { outdir } from 'radipan/radipan.config.json';
+import { h as _h } from '../get-hyperscript';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
@@ -10,38 +11,6 @@ import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 import { RecipeProps, CssProps, Creatable } from '../radipan.d';
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
-
-const getHyperScript = () => {
-  switch (framework) {
-    case 'react': {
-      try {
-        const react = require('react');
-        return react.createElement;
-      } catch (error) {
-        console.error("Failed to load `react`");
-      }
-    }
-    case 'preact': {
-      try {
-        const preact = require('preact');
-        return preact.h;
-      } catch (error) {
-        console.error("Failed to load `preact`");
-      }
-    }
-    case 'solid-js':
-    case 'solid': {
-      try {
-        const solid = require('solid-js/h');
-        return solid;
-      } catch (error) {
-        console.error("Failed to load `solid`");
-      }
-    }
-  }
-};
-
-const _h = getHyperScript();
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
