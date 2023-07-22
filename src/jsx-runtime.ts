@@ -9,7 +9,8 @@ export function jsx(
   _source: unknown,
   _self: unknown
 ): ReactElement {
-  return createElement(type, { ...props, key });
+  const { children } = props;
+  return createElement(type, { ...props, key }, children);
 }
 
 export { jsx as jsxs, jsx as jsxDEV, Fragment };
