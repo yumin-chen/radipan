@@ -126,7 +126,18 @@ import { jsx } from 'radipan';
 
 ## Usage
 
-To create a component with Radipan, you can use the `withCreate` function and pass in the element type as an argument. For example:
+Radipan comes with HyperScript-compatible API, which you can import and use like `h(tag, attrs, [text?, Elements?,...])`:
+
+```javascript
+import { h } from 'radipan';
+
+function App() {
+  return h('div', { css: { color: 'red' } }, 'whee!')); // Red whee!
+}
+
+```
+
+You can also use Radipan's own `withCreate` function, which comes with a more verbose `create` method:
 
 ```javascript
 import { withCreate } from 'radipan';
@@ -135,8 +146,6 @@ function App() {
   return withCreate('div').create({ css: { color: 'red' } }, 'whee!')); // Red whee!
 }
 ```
-
-This returns an object that has a `create` method. Use this method to specify the `props` and `children` of your component.
 
 ### HTML Tags
 
@@ -216,6 +225,7 @@ export default withCreate(Badge);
 Radipan works with various frameworks and tools, such as React, Preact, Vite, Next.js, etc.
 
 - [Radipan + Vite + React + TypeScript Starter (radipan-vite-react-ts)](https://github.com/yumin-chen/radipan-vite-react-ts)
+- [Radipan + Vite + Solid + TypeScript Starter (radipan-vite-solid-ts)](https://github.com/yumin-chen/radipan-vite-solid-ts)
 
 (More coming soon...)
 
