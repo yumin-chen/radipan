@@ -6,7 +6,7 @@ Radipan is an all-in-JS CSS-in-JS engine. With Radipan, you can write all your s
 
 ## How it works
 
-Radipan operates by running a script during the build process. This script scans the entry component and its child nodes, searching for inline `css` props. It then transforms these props into intermediate PandaCSS code (`css`, `cva`, etc.), which ultimately generates static CSS code.
+Radipan runs your code during build time and scan the entry component and its child nodes for inline `css` props and transforms these props into intermediate PandaCSS code (`css`, `cva`, etc.), which generates static CSS code.
 
 ## FAQ
 
@@ -14,9 +14,13 @@ Radipan operates by running a script during the build process. This script scans
 
 Radipan supports the widely adopted inline `css` prop syntax that made popular by libraries like [Emotion.js](https://emotion.sh/docs/css-prop) and [Stitches.js](https://stitches.dev/docs/overriding-styles#the-css-prop). This means you can easily migrate to Radipan, enabling static extraction of CSS at build time, while requiring minimal changes to your existing codebase.
 
-### • Why not just use PandaCSS directly?
+## Features
 
-In addition to the inline `css` prop API, Radipan's CSS extractor script also executes your code and builds your application's virtual DOM tree during the build process. This additional context allows Radipan to provide additional features like _Recipe Shaking_ and better handle dynamic values within `css` prop, such as referenced values, including runtime references (e.g., values from hooks), which PandaCSS cannot handle very well.
+- [HyperScript](https://github.com/hyperhype/hyperscript)-compatible API
+  - `h(tag, attrs, [text?, Elements?,...])`
+- JSX-compatible API
+- Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates `.lite.ts` files  (coming soon...)
+- Recipe Shaking Optimization (coming soon...)
 
 ## Setup
 
