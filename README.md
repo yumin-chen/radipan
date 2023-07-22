@@ -8,11 +8,9 @@ Radipan is an all-in-JS CSS-in-JS engine. With Radipan, you can write all your s
 
 Radipan runs your code during build time and scan the entry component and its child nodes for inline `css` props and transforms these props into intermediate PandaCSS code (`css`, `cva`, etc.), which generates static CSS code.
 
-## FAQ
+### • Why?
 
-### • Why use Radipan?
-
-Radipan supports the widely adopted inline `css` prop syntax that made popular by libraries like [Emotion.js](https://emotion.sh/docs/css-prop) and [Stitches.js](https://stitches.dev/docs/overriding-styles#the-css-prop). This means you can easily migrate to Radipan, enabling static extraction of CSS at build time, while requiring minimal changes to your existing codebase.
+Radipan supports the widely adopted inline `css` prop syntax that made popular by libraries like [Emotion.js](https://emotion.sh/docs/css-prop), [Stitches.js](https://stitches.dev/docs/overriding-styles#the-css-prop) and [Mitosis](https://mitosis.builder.io/), etc...
 
 ## Features
 
@@ -31,7 +29,7 @@ To set up Radipan in your project, follow these steps:
 Use your preferred package manager to install Radipan:
 
 ```bash
-npm install radipan
+npm install --save-dev radipan@latest create-next-app@latest
 ```
 
 ### Configure Radipan
@@ -43,6 +41,7 @@ import { defineConfig } from 'radipan/config';
 
 export default defineConfig({
   appEntry: 'src/App.ts', // Path to app entry point
+  jsxFramework: 'react', // 'react' | 'solid' | 'preact' | 'vue' | 'qwik' 
   preflight: true, // Whether to use css reset
   recipeShaking: true, // Whether to trim unused recipe variants
   theme: {
@@ -56,6 +55,7 @@ export default defineConfig({
 The available Radipan options are as follows:
 
 - `appEntry`: Specify the path to the entry point component(s) of your application, considering the routing structure. For a single entry point, use a string value (e.g., `'src/App.ts'`). For multiple entry points, use an array (e.g., `['src/App.ts', 'src/page-1.ts', 'src/page-2.ts']`).
+- `jsxFramework`: Specify the UI framework being used in your project.
 - `recipeShaking`: Enable this option to automatically remove unused recipe variants during build time. Disable it if you need to dynamically change a recipe variant.
 - `outdir`: Specify the output directory within `/node_modules` where Radipan will generate its output. Default is `@design-system`.
 
@@ -87,16 +87,20 @@ Create an entry CSS file or replace the existing one named `index.css` (or `glob
 
 When you run `npx radipan cssgen`, it scans all `css` props in your app and statically generates the corresponding CSS code at build time.
 
-### Configure to use with JSX in TypeScript
+### JSX Configuration for TypeScript
 
-The easiest way to use Radipan with JSX in TypeScript is with the new JSX transform and the `jsxImportSource` TSConfig option (available since TS 4.1). For this approach, your TSConfig `compilerOptions` should contain:
+To use Radipan with JSX in TypeScript, you need to configure the TSConfig `compilerOptions` with the following settings:
 
 ```
-"jsx": "react-jsx",
+"jsx": "preserve",
 "jsxImportSource": "radipan"
 ```
 
-You can now define styles using the object syntax and pass them to your components via the `css` prop.
+This requires the new JSX transform and the `jsxImportSource` option, which are available in TS 4.1 or later.
+
+If you are using a UI framework other than React, you also need to change the `jsxFramework` setting in your `radipan.config.ts` file to match your framework. For example, if you are using Solid, you should set `jsxFramework: 'solid'`. This ensures that your JSX code is transpiled correctly for your framework.
+
+With this configuration, you can now use the object syntax to define styles and pass them to your components using the `css` prop!
 
 ```javascript
 function App() {
@@ -117,11 +121,11 @@ function App() {
 
 #### With the old JSX transform
 
-If you're on an older version of React / TypeScript and unable to use the newer `react-jsx` transform, you will need to set the `jsxFactory` TSConfig option to `"radipan.jsx"`, or specify the JSX factory at the top of every file:
+If you're on an older version of React / TypeScript and unable to use the newer `react-jsx` transform, you will need to set the `jsxFactory` TSConfig option to `"radipan.h"`, or specify the JSX factory at the top of every file:
 
 ```javascript
-/** @jsx jsx */
-import { jsx } from 'radipan';
+/** @jsx h */
+import { h } from 'radipan';
 ```
 
 ## Usage
