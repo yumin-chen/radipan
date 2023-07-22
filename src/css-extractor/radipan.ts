@@ -165,4 +165,4 @@ export const withCreate = (component: string | ComponentType): Creatable => {
   return component as Creatable;
 };
 
-export default withCreate;
+export { withCreate as default, createElement as h };

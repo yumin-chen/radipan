@@ -41,5 +41,7 @@ export interface Creatable extends FunctionComponent {
   ) => ReactElement;
 }
 
-export declare const withCreate: (component: string | ComponentType) => Creatable;
-export default withCreate;
+export declare const withCreate: (
+  component: string | ComponentType
+) => Creatable;
+export { withCreate as default, createElement as h };
