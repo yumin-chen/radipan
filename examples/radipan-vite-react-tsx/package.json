@@ -1,0 +1,35 @@
+{
+  "name": "radipan-vite-react-tsx",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
+    "cssgen": "npx radipan cssgen",
+    "design": "npx radipan design",
+    "prepare": "npx radipan prepare",
+    "dev": "npx radipan prepare --watch & vite",
+    "build": "npx radipan cssgen & tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "@vitejs/plugin-react": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "eslint-plugin-react-refresh": "latest",
+    "prettier": "latest",
+    "radipan": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}
