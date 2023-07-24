@@ -23,7 +23,13 @@ export function jsxDEV(
   _self: unknown
 ): ReactElement {
   const { children } = props;
-  return extractorCreateElement(type, { ...props, key }, children);
+  const process = (typeof global !== 'undefined' && global?.process) || {
+    env: {},
+  };
+  if (process.env?.CSSGEN === 'pregen') {
+    return extractorCreateElement(type, { ...props, key }, children);
+  }
+  return createElement(type, { ...props, key }, children);
 }
 
 export { jsx as jsxs, Fragment };

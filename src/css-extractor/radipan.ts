@@ -11,6 +11,10 @@ import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 import { RecipeProps, CssProps, Creatable } from '../radipan.d';
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
+const process = (typeof global !== 'undefined' && global?.process) || {
+  env: {},
+};
+const DEBUG = process?.env?.DEBUG;
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
@@ -26,21 +30,21 @@ const getVariantProps = (props: RecipeProps) => {
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
-  process.env.DEBUG && console.debug('Writing to file:', exportFile);
+  DEBUG && console.debug('Writing to file:', exportFile);
   if (process.env.CSSGEN === 'pregen' && !!process.env.CSSGEN_FILE) {
     const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
     const exportFileDir = `${EXPORT_FOLDER}/${fileDir}`;
     if (!existsSync(exportFileDir)) {
       mkdirSync(exportFileDir, { recursive: true });
-      process.env.DEBUG && console.debug('Created folder:', exportFileDir);
+      DEBUG && console.debug('Created folder:', exportFileDir);
     }
     if (!existsSync(exportFile)) {
       writeFileSync(
         exportFile,
         '"use strict";\nimport {css, cva, cx} from "../css"\n\n'
       );
-      process.env.DEBUG && console.debug('Created file:', exportFile);
+      DEBUG && console.debug('Created file:', exportFile);
     }
   }
   // Recipes
@@ -51,13 +55,11 @@ export const parseCssProp = (props: CssProps) => {
       exportFile,
       `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
     );
-    process.env.DEBUG &&
-      console.debug('Generated a `cva` function in ', exportFile);
+    DEBUG && console.debug('Generated a `cva` function in ', exportFile);
     return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
     appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
-    process.env.DEBUG &&
-      console.debug('Generated a `css` function in ', exportFile);
+    DEBUG && console.debug('Generated a `css` function in ', exportFile);
     return css(cssProp as SystemStyleObject);
   }
 };
@@ -73,7 +75,7 @@ export function createElement(
     const { css: cssProp, className, ...restProps } = props;
     const otherProps = { ...restProps };
 
-    process.env.DEBUG &&
+    DEBUG &&
       console.debug(
         'Found css prop used with comopnent: ',
         component,
@@ -95,7 +97,7 @@ export function createElement(
       kids
     );
   } else {
-    process.env.DEBUG &&
+    DEBUG &&
       console.debug(
         'No css prop found used with comopnent: ',
         component?.name || component?.displayName || component,
@@ -108,15 +110,14 @@ export function createElement(
     // @ts-ignore
     component({ ...props, children: kids });
   } else {
-    process.env.DEBUG &&
-      console.debug('Non-function component, skipping: ', component);
+    DEBUG && console.debug('Non-function component, skipping: ', component);
   }
 
   return _h(component, props, kids);
 }
 
 function createComponent(component: any) {
-  process.env.DEBUG &&
+  DEBUG &&
     console.debug(
       'Analysing component: ',
       component?.name || component?.displayName || component
