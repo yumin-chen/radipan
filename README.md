@@ -89,7 +89,9 @@ When you run `npx radipan cssgen`, it scans all `css` props in your app and stat
 
 ### JSX Configuration for TypeScript
 
-To use Radipan with JSX in TypeScript, you need to configure the TSConfig `compilerOptions` with the following settings:
+Follow the below steps to use Radipan with JSX in TypeScript if you prefer to use JSX syntax. You can skip this step if you don't use JSX.
+
+Configure the `compilerOptions` in TSConfig (usually `tsconfig.json`) with the following settings:
 
 ```json
 "jsx": "react-jsx",
@@ -98,7 +100,7 @@ To use Radipan with JSX in TypeScript, you need to configure the TSConfig `compi
 
 This requires the new JSX transform and the `jsxImportSource` option, which are available in TS 4.1 or later.
 
-If you are using a UI framework other than React, you also need to change the `jsxFramework` setting in your `radipan.config.ts` file to match your framework. For example, if you are using Solid, you should set `jsxFramework: 'solid'`. This ensures that your JSX code is transpiled correctly for your framework.
+If you are using a UI framework other than React, you also need to change the `jsxFramework` setting in your `radipan.config.ts` file to match your framework. For example, if you are using Solid.js, you should set `jsxFramework: 'solid'`. This ensures that your JSX code is transpiled correctly for your framework.
 
 With this configuration, you can now use the object syntax to define styles and pass them to your components using the `css` prop!
 
