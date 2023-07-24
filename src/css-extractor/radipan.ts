@@ -1,7 +1,7 @@
 import { ComponentType, FunctionComponent, ReactNode } from 'react';
 import { css, cva, cx } from 'radipan/design-system';
 import { outdir } from 'radipan/radipan.config.json';
-import { h as _h } from '../get-hyperscript';
+import { h as _h } from 'radipan/framework';
 import {
   RecipeDefinition,
   RecipeVariantRecord,

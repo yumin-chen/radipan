@@ -10,7 +10,7 @@ const esbuildOptions = {
   exclude: /(node_modules|dist)/, // default
   sourceMap: true, // default
   minify: true,
-  target: 'es2020', // default, or 'es20XX', 'esnext'
+  target: 'es2022', // default, or 'es20XX', 'esnext'
   jsx: 'transform', // default, or 'preserve'
   jsxFactory: 'React.createElement',
   jsxFragment: 'React.Fragment',
@@ -68,7 +68,15 @@ export default [
   },
   {
     input: 'src/radipan.ts',
-    external: ['react', 'radipan/design-system', 'radipan/radipan.config.json'],
+    external: [
+      'react',
+      'preact',
+      'solid-js/h',
+      'svelte-hyperscript',
+      'radipan/design-system',
+      'radipan/framework',
+      'radipan/radipan.config.json',
+    ],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
       {
@@ -81,7 +89,6 @@ export default [
   },
   {
     input: 'src/radipan.ts',
-    external: ['react'],
     plugins: [dts()],
     output: {
       file: 'dist/radipan.d.ts',
@@ -103,7 +110,6 @@ export default [
   },
   {
     input: 'src/html-tags.d.ts',
-    external: ['radipan'],
     plugins: [dts()],
     output: {
       file: 'dist/html-tags.d.ts',
@@ -112,7 +118,15 @@ export default [
   },
   {
     input: 'src/jsx-runtime.ts',
-    external: ['react', 'radipan/design-system', 'radipan/radipan.config.json'],
+    external: [
+      'react',
+      'preact',
+      'solid-js/h',
+      'svelte-hyperscript',
+      'radipan/design-system',
+      'radipan/framework',
+      'radipan/radipan.config.json',
+    ],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
       {
@@ -125,7 +139,6 @@ export default [
   },
   {
     input: 'src/jsx-runtime.ts',
-    external: ['react', 'radipan/design-system', 'radipan/radipan.config.json'],
     plugins: [dts()],
     output: {
       file: 'dist/jsx-runtime.d.ts',
@@ -135,10 +148,14 @@ export default [
   {
     input: 'src/css-extractor/html-tags.ts',
     external: [
-      'react',
       'fs',
+      'react',
+      'preact',
+      'solid-js/h',
+      'svelte-hyperscript',
       'radipan/radipan.config.json',
       'radipan/design-system',
+      'radipan/framework',
     ],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
@@ -153,10 +170,14 @@ export default [
   {
     input: 'src/css-extractor/radipan.ts',
     external: [
-      'react',
       'fs',
+      'react',
+      'preact',
+      'solid-js/h',
+      'svelte-hyperscript',
       'radipan/radipan.config.json',
       'radipan/design-system',
+      'radipan/framework',
     ],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [

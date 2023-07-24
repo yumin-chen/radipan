@@ -1,13 +1,12 @@
 import { ComponentType, ReactNode } from 'react';
 import { css, cva, cx } from 'radipan/design-system';
 import { RecipeProps, CssProps, Creatable } from './radipan.d';
-import { h as _h } from './get-hyperscript';
+import { h as _h } from 'radipan/framework';
 import {
   RecipeDefinition,
   RecipeVariantRecord,
 } from '@radipan-design-system/types/recipe';
 import { SystemStyleObject } from '@radipan-design-system/types';
-
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;

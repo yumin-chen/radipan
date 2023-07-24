@@ -17,9 +17,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "radipan": ["../../node_modules/radipan/dist/css-extractor/radipan"],
-      "radipan/tags": ["../../node_modules/radipan/dist/css-extractor/html-tags"],
-      "react": ["../../node_modules/radipan/dist/react-mock"],
+      "radipan": ["./dist/css-extractor/radipan"],
+      "radipan/tags": ["./dist/css-extractor/html-tags"],
+      "react": ["./dist/react-mock"],
       "@/*": ["../../src/*"]
     }
   },

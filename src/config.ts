@@ -17,6 +17,39 @@ export const defineConfig = (config: any = {}) => {
       JSON.stringify({ appEntry, framework, outdir })
     );
 
+    if (!!framework) {
+      switch (framework) {
+        case 'react': {
+          fs.writeFileSync(
+            'node_modules/radipan/framework.js',
+            'export { createElement as h } from "react";'
+          );
+          break;
+        }
+        case 'preact': {
+          fs.writeFileSync(
+            'node_modules/radipan/framework.js',
+            'export { h } from "preact";'
+          );
+          break;
+        }
+        case 'solid': {
+          fs.writeFileSync(
+            'node_modules/radipan/framework.js',
+            'export * from "solid-js/h";'
+          );
+          break;
+        }
+        case 'svelte': {
+          fs.writeFileSync(
+            'node_modules/radipan/framework.js',
+            'export * from "svelte-hyperscript";'
+          );
+          break;
+        }
+      }
+    }
+
     if (!!outdir) {
       fs.writeFileSync(
         'node_modules/radipan/design-system.js',
