@@ -17,7 +17,7 @@ Radipan supports the widely adopted inline `css` prop syntax that made popular b
 - [HyperScript](https://github.com/hyperhype/hyperscript)-compatible API
   - `h(tag, attrs, [text?, Elements?,...])`
 - JSX-compatible API
-- Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates `.lite.ts` files  (coming soon...)
+- Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates `.lite.ts` files (coming soon...)
 - Recipe Shaking Optimization (coming soon...)
 
 ## Setup
@@ -41,7 +41,7 @@ import { defineConfig } from 'radipan/config';
 
 export default defineConfig({
   appEntry: 'src/App.ts', // Path to app entry point
-  jsxFramework: 'react', // 'react' | 'solid' | 'preact' | 'vue' | 'qwik' 
+  jsxFramework: 'react', // 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
   preflight: true, // Whether to use css reset
   recipeShaking: true, // Whether to trim unused recipe variants
   theme: {
@@ -91,8 +91,8 @@ When you run `npx radipan cssgen`, it scans all `css` props in your app and stat
 
 To use Radipan with JSX in TypeScript, you need to configure the TSConfig `compilerOptions` with the following settings:
 
-```
-"jsx": "preserve",
+```json
+"jsx": "react-jsx",
 "jsxImportSource": "radipan"
 ```
 
