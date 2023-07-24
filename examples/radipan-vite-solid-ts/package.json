@@ -1,0 +1,25 @@
+{
+  "name": "radipan-vite-solid-ts",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "cssgen": "npx radipan cssgen",
+    "prepare": "npx radipan prepare",
+    "start": "npx radipan prepare --watch & vite",
+    "dev": "npx radipan prepare --watch & vite",
+    "build": "npx radipan cssgen && vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "solid-js": "latest"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "latest",
+    "radipan": "latest",
+    "solid-devtools": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vite-plugin-solid": "latest"
+  }
+}
