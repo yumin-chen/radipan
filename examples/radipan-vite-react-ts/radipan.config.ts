@@ -1,17 +1,13 @@
 import { defineConfig } from 'radipan/config';
 
 export default defineConfig({
-  // Path to app entry point
-  appEntry: 'src/App.ts',
-
-  // Whether to use css reset
-  preflight: true,
-
-  // Useful for theme customization
+  appEntry: 'src/App.ts', // Path to app entry point
+  jsxFramework: 'react', // 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
+  outdir: '@design-system', // The output directory in /node_modules
+  preflight: true, // Whether to use css reset
+  recipeShaking: true, // Whether to trim unused recipe variants
   theme: {
+    // Useful for theme customization
     extend: {},
   },
-
-  // The output directory for your css system in /node_modules
-  outdir: '@design-system',
 });
