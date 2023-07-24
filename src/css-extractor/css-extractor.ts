@@ -12,6 +12,7 @@ import(`../../../../${appEntry}`)
     if (typeof exported !== 'function') {
       throw 'Only function components are supported.';
     }
+    process.env.DEBUG && console.debug(exported.toString());
     exported();
     console.log('Successfully extracted:', appEntry);
   })
