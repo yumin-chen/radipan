@@ -36,14 +36,14 @@ export const defineConfig = (config: any = {}) => {
         case 'solid': {
           fs.writeFileSync(
             'node_modules/radipan/framework.js',
-            'export * from "solid-js/h";'
+            'import h from "solid-js/h";\nexport { h };'
           );
           break;
         }
         case 'svelte': {
           fs.writeFileSync(
             'node_modules/radipan/framework.js',
-            'export * from "svelte-hyperscript";'
+            'import h from "svelte-hyperscript";\nexport { h };'
           );
           break;
         }
