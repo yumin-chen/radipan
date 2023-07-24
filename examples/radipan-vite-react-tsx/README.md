@@ -21,7 +21,6 @@ function App() {
     </main>
   );
 }
-
 ```
 
 When you run `npx radipan cssgen`, it will parse all `css` props and generate the CSS code statically during build time.

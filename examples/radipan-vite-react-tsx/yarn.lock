@@ -4355,9 +4355,9 @@ queue-microtask@^1.2.2:
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
 radipan@latest:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/radipan/-/radipan-0.0.13.tgz#384801a36761d7fc71ee7b35cd354b597346c562"
-  integrity sha512-4IwSggU3MGVEhX5Ae0vQAYd7hrExMdV9LgSw5r9WWOmmasdKOculBDBdqIW1x46myJnUn74dqUnqmDAGh+vaCQ==
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/radipan/-/radipan-0.0.14.tgz#587633bb66fbe1991f37ae5ce04866e6a431100e"
+  integrity sha512-YqXiNxgrX3SsQeYocUgSCpEUN97o3Fimbbo58mBEoJeRkoVXNqNE0sakDnJyFBHLO59MxyRvWzAG2qjb9nTK4Q==
   dependencies:
     typescript latest
 
