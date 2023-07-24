@@ -5,12 +5,11 @@ import commonjs from '@rollup/plugin-commonjs';
 
 const esbuildOptions = {
   // All options are optional
-  // include: /\.[jt]sx?$/, // default, inferred from `loaders` option
-  // include: /src\/*\.[jt]sx?$/,
+  include: /\.[jt]sx?$/, // default, inferred from `loaders` option
   exclude: /(node_modules|dist)/, // default
   sourceMap: true, // default
   minify: true,
-  target: 'es2022', // default, or 'es20XX', 'esnext'
+  target: 'es2020',
   jsx: 'transform', // default, or 'preserve'
   jsxFactory: 'React.createElement',
   jsxFragment: 'React.Fragment',

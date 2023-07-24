@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -10,7 +11,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "react-jsxdev",
     "jsxImportSource": "radipan",
     "strict": true,
     "noUnusedLocals": true,
@@ -19,6 +20,7 @@
     "paths": {
       "radipan": ["./dist/css-extractor/radipan"],
       "radipan/tags": ["./dist/css-extractor/html-tags"],
+      "radipan/*": ["./*"],
       "react": ["./dist/react-mock"],
       "@/*": ["../../src/*"]
     }
