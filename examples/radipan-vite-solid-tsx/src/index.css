@@ -1,0 +1,4 @@
+@layer reset, base, tokens, recipes, utilities;
+
+/* Import generated Radipan static CSS */
+@import 'radipan/styles.css';
