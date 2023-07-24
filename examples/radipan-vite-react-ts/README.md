@@ -102,7 +102,9 @@ export default withCreate(Badge);
 
 Radipan works with various frameworks and tools, such as React, Preact, Vite, Next.js, etc.
 
-- [Radipan + Vite + React + TypeScript Starter (radipan-vite-react-ts)](https://github.com/yumin-chen/radipan-vite-react-ts)
-- [Radipan + Vite + Solid + TypeScript Starter (radipan-vite-solid-ts)](https://github.com/yumin-chen/radipan-vite-solid-ts)
+- [Radipan + Vite + React + TypeScript Starter (radipan-vite-react-ts)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-react-ts)
+- [Radipan + Vite + React + TypeScript + JSX Starter (radipan-vite-react-tsx)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-react-tsx)
+- [Radipan + Vite + Solid + TypeScript Starter (radipan-vite-solid-ts)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-solid-ts)
+- [Radipan + Vite + Solid + TypeScript + JSX Starter (radipan-vite-solid-ts)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-solid-tsx)
 
 (More coming soon...)
