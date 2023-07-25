@@ -46,21 +46,17 @@
     "styles.css"
   ],
   "dependencies": {
+    "@pandacss/dev": "latest",
     "typescript": "latest"
   },
   "devDependencies": {
-    "@pandacss/dev": "latest",
     "@rollup/plugin-commonjs": "latest",
     "@rollup/plugin-node-resolve": "latest",
     "@types/react": "latest",
     "esbuild": "latest",
-    "preact": "latest",
     "prettier": "latest",
     "rollup": "^3.26.2",
     "rollup-plugin-dts": "latest",
     "rollup-plugin-esbuild": "latest"
-  },
-  "peerDependencies": {
-    "react": "latest"
   }
 }
