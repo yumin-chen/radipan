@@ -7,7 +7,14 @@ import {
   RecipeVariantRecord,
 } from '@radipan-design-system/types/recipe';
 import { SystemStyleObject } from '@radipan-design-system/types';
-import { appendFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
+import { format, resolveConfig, resolveConfigFile } from 'prettier';
+import {
+  appendFileSync,
+  existsSync,
+  mkdirSync,
+  writeFileSync,
+  readFileSync,
+} from 'fs';
 import { RecipeProps, CssProps, Creatable } from '../radipan.d';
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
@@ -64,6 +71,56 @@ export const parseCssProp = (props: CssProps) => {
   }
 };
 
+const COMPILED_FILES = new Map();
+let compileQueuePromise = null;
+
+const prettierConfig = await resolveConfigFile();
+prettierConfig && (await resolveConfig(prettierConfig));
+
+const compile = async (_source, cssProp, className, cssClasses) => {
+  !!compileQueuePromise && (await compileQueuePromise);
+  const compileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.ts`;
+  const allFileContents =
+    (COMPILED_FILES.has(compileFileName) &&
+      COMPILED_FILES.get(compileFileName)) ||
+    readFileSync(compileFileName, 'utf-8');
+  const lines = allFileContents.split(/\r?\n/);
+  const restOfFile =
+    lines[_source.lineNumber - 1].substring(_source.columnNumber - 1) +
+    '\n' +
+    lines
+      .slice(_source.lineNumber)
+      .join('\n')
+      .replaceAll(new RegExp(/\r?\n\s+/, 'g'), '\n  ')
+      .replaceAll(new RegExp(/\r?\n\s+}/, 'g'), '\n}');
+
+  const cssString = (
+    await format(JSON.stringify(cssProp), { parser: 'json5' })
+  ).replace(/\r?\n+$/, '');
+  const numCssLines = cssString.split(/\r?\n/).length;
+
+  if (restOfFile.indexOf(`css={${cssString}}`) === -1) {
+    console.error(
+      'Failed to compile ',
+      compileFileName,
+      restOfFile.indexOf(cssString),
+      `css={${cssString}}`
+    );
+  }
+  const replacement = `/* Radipan Transpiled */ ${'\n'.repeat(
+    numCssLines - 1
+  )} className="${!className ? cssClasses : cx(cssClasses, className)}"`;
+  const replaced = restOfFile.replace(`css={${cssString}}`, replacement);
+  const compiledContents =
+    lines.slice(0, _source.lineNumber - 1).join('\n') +
+    '\n' +
+    lines[_source.lineNumber - 1].substring(0, _source.columnNumber - 1) +
+    replaced;
+  COMPILED_FILES.set(compileFileName, compiledContents);
+  writeFileSync(compileFileName, compiledContents);
+  DEBUG && console.debug('Compiled for component css: ', cssString, replaced);
+};
+
 export function createElement(
   component: string | ComponentType,
   props: Readonly<Record<string, any>> | undefined,
@@ -72,20 +129,25 @@ export function createElement(
   // @ts-ignore
   const kids = children.every(item => !item) ? undefined : children;
   if (typeof props?.css === 'object') {
-    const { css: cssProp, className, ...restProps } = props;
+    const { css: cssProp, className, _source, ...restProps } = props;
     const otherProps = { ...restProps };
 
     DEBUG &&
       console.debug(
-        'Found css prop used with comopnent: ',
+        'Found css prop used within comopnent: ',
         component,
-        props.css
+        props.css,
+        _source
       );
 
     const cssClasses = parseCssProp(props);
     Object.keys(cssProp?.variants || []).forEach(
       variantName => delete otherProps[variantName]
     );
+
+    if (process.env?.CSSGEN === 'pregen' && !!process.env?.CSSGEN_FILE) {
+      compileQueuePromise = compile(_source, props.css, className, cssClasses);
+    }
 
     return _h(
       component,

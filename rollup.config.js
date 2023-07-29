@@ -9,7 +9,7 @@ const esbuildOptions = {
   exclude: /(node_modules|dist)/, // default
   sourceMap: true, // default
   minify: true,
-  target: 'es2020',
+  target: 'es2022',
   jsx: 'transform', // default, or 'preserve'
   jsxFactory: 'React.createElement',
   jsxFragment: 'React.Fragment',
@@ -133,6 +133,7 @@ export default [
         format: 'esm',
         sourcemap: false,
         exports: 'named',
+        inlineDynamicImports: true,
       },
     ],
   },
@@ -163,6 +164,7 @@ export default [
         format: 'esm',
         sourcemap: false,
         exports: 'named',
+        inlineDynamicImports: true,
       },
     ],
   },
@@ -185,6 +187,7 @@ export default [
         format: 'esm',
         sourcemap: false,
         exports: 'named',
+        inlineDynamicImports: true,
       },
     ],
   },

@@ -27,7 +27,7 @@ export function jsxDEV(
     env: {},
   };
   if (process.env?.CSSGEN === 'pregen') {
-    return extractorCreateElement(type, { ...props, key }, children);
+    return extractorCreateElement(type, { ...props, key, _source }, children);
   }
   return createElement(type, { ...props, key }, children);
 }
