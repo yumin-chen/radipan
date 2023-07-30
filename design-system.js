@@ -1,1 +1,1 @@
-export * from '../@radipan-design-system/css/index.mjs';
+export * from "../@radipan-design-system/css/index.mjs";

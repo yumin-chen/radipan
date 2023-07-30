@@ -1,6 +1,6 @@
-import { ComponentType, Fragment, ReactElement } from 'react';
-import { createElement } from './radipan';
-import { createElement as extractorCreateElement } from './css-extractor/radipan';
+import { ComponentType, Fragment, ReactElement } from "react";
+import { createElement } from "./radipan";
+import { createElement as extractorCreateElement } from "./css-extractor/radipan";
 
 export function jsx(
   type: string | ComponentType,
@@ -23,10 +23,10 @@ export function jsxDEV(
   _self: unknown
 ): ReactElement {
   const { children } = props;
-  const process = (typeof global !== 'undefined' && global?.process) || {
+  const process = (typeof global !== "undefined" && global?.process) || {
     env: {},
   };
-  if (process.env?.CSSGEN === 'pregen') {
+  if (process.env?.CSSGEN === "pregen") {
     return extractorCreateElement(type, { ...props, key, _source }, children);
   }
   return createElement(type, { ...props, key }, children);

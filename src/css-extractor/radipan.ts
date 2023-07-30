@@ -1,24 +1,24 @@
-import { ComponentType, FunctionComponent, ReactNode } from 'react';
-import { css, cva, cx } from 'radipan/design-system';
-import { outdir } from 'radipan/radipan.config.json';
-import { h as _h } from 'radipan/framework';
+import { ComponentType, FunctionComponent, ReactNode } from "react";
+import { css, cva, cx } from "radipan/design-system";
+import { outdir } from "radipan/radipan.config.json";
+import { h as _h } from "radipan/framework";
 import {
   RecipeDefinition,
   RecipeVariantRecord,
-} from '@radipan-design-system/types/recipe';
-import { SystemStyleObject } from '@radipan-design-system/types';
-import { format, resolveConfig, resolveConfigFile } from 'prettier';
+} from "@radipan-design-system/types/recipe";
+import { SystemStyleObject } from "@radipan-design-system/types";
+import { format, resolveConfig, resolveConfigFile } from "prettier";
 import {
   appendFileSync,
   existsSync,
   mkdirSync,
   writeFileSync,
   readFileSync,
-} from 'fs';
-import { RecipeProps, CssProps, Creatable } from '../radipan.d';
+} from "fs";
+import { RecipeProps, CssProps, Creatable } from "../radipan.d";
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
-const process = (typeof global !== 'undefined' && global?.process) || {
+const process = (typeof global !== "undefined" && global?.process) || {
   env: {},
 };
 const DEBUG = process?.env?.DEBUG;
@@ -37,36 +37,36 @@ const getVariantProps = (props: RecipeProps) => {
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
-  DEBUG && console.debug('Writing to file:', exportFile);
-  if (process.env.CSSGEN === 'pregen' && !!process.env.CSSGEN_FILE) {
-    const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf('/');
+  DEBUG && console.debug("Writing to file:", exportFile);
+  if (process.env.CSSGEN === "pregen" && !!process.env.CSSGEN_FILE) {
+    const fileDirIndex = process.env.CSSGEN_FILE.lastIndexOf("/");
     const fileDir = process.env.CSSGEN_FILE.substring(0, fileDirIndex);
     const exportFileDir = `${EXPORT_FOLDER}/${fileDir}`;
     if (!existsSync(exportFileDir)) {
       mkdirSync(exportFileDir, { recursive: true });
-      DEBUG && console.debug('Created folder:', exportFileDir);
+      DEBUG && console.debug("Created folder:", exportFileDir);
     }
     if (!existsSync(exportFile)) {
       writeFileSync(
         exportFile,
         '"use strict";\nimport {css, cva, cx} from "../css"\n\n'
       );
-      DEBUG && console.debug('Created file:', exportFile);
+      DEBUG && console.debug("Created file:", exportFile);
     }
   }
   // Recipes
-  const isRecipe = Object.hasOwn(cssProp || {}, 'variants');
+  const isRecipe = Object.hasOwn(cssProp || {}, "variants");
   if (isRecipe) {
     const variantProps = getVariantProps(props);
     appendFileSync(
       exportFile,
       `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
     );
-    DEBUG && console.debug('Generated a `cva` function in ', exportFile);
+    DEBUG && console.debug("Generated a `cva` function in ", exportFile);
     return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
     appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
-    DEBUG && console.debug('Generated a `css` function in ', exportFile);
+    DEBUG && console.debug("Generated a `css` function in ", exportFile);
     return css(cssProp as SystemStyleObject);
   }
 };
@@ -83,42 +83,42 @@ const compile = async (_source, cssProp, className, cssClasses) => {
   const allFileContents =
     (COMPILED_FILES.has(compileFileName) &&
       COMPILED_FILES.get(compileFileName)) ||
-    readFileSync(compileFileName, 'utf-8');
+    readFileSync(compileFileName, "utf-8");
   const lines = allFileContents.split(/\r?\n/);
   const restOfFile =
     lines[_source.lineNumber - 1].substring(_source.columnNumber - 1) +
-    '\n' +
+    "\n" +
     lines
       .slice(_source.lineNumber)
-      .join('\n')
-      .replaceAll(new RegExp(/\r?\n\s+/, 'g'), '\n  ')
-      .replaceAll(new RegExp(/\r?\n\s+}/, 'g'), '\n}');
+      .join("\n")
+      .replaceAll(new RegExp(/\r?\n\s+/, "g"), "\n  ")
+      .replaceAll(new RegExp(/\r?\n\s+}/, "g"), "\n}");
 
   const cssString = (
-    await format(JSON.stringify(cssProp), { parser: 'json5' })
-  ).replace(/\r?\n+$/, '');
+    await format(JSON.stringify(cssProp), { parser: "json5" })
+  ).replace(/\r?\n+$/, "");
   const numCssLines = cssString.split(/\r?\n/).length;
 
   if (restOfFile.indexOf(`css={${cssString}}`) === -1) {
     console.error(
-      'Failed to compile ',
+      "Failed to compile ",
       compileFileName,
       restOfFile.indexOf(cssString),
       `css={${cssString}}`
     );
   }
-  const replacement = `/* Radipan Transpiled */ ${'\n'.repeat(
+  const replacement = `/* Radipan Transpiled */ ${"\n".repeat(
     numCssLines - 1
   )} className="${!className ? cssClasses : cx(cssClasses, className)}"`;
   const replaced = restOfFile.replace(`css={${cssString}}`, replacement);
   const compiledContents =
-    lines.slice(0, _source.lineNumber - 1).join('\n') +
-    '\n' +
+    lines.slice(0, _source.lineNumber - 1).join("\n") +
+    "\n" +
     lines[_source.lineNumber - 1].substring(0, _source.columnNumber - 1) +
     replaced;
   COMPILED_FILES.set(compileFileName, compiledContents);
   writeFileSync(compileFileName, compiledContents);
-  DEBUG && console.debug('Compiled for component css: ', cssString, replaced);
+  DEBUG && console.debug("Compiled for component css: ", cssString, replaced);
 };
 
 export function createElement(
@@ -128,13 +128,13 @@ export function createElement(
 ) {
   // @ts-ignore
   const kids = children.every(item => !item) ? undefined : children;
-  if (typeof props?.css === 'object') {
+  if (typeof props?.css === "object") {
     const { css: cssProp, className, _source, ...restProps } = props;
     const otherProps = { ...restProps };
 
     DEBUG &&
       console.debug(
-        'Found css prop used within comopnent: ',
+        "Found css prop used within comopnent: ",
         component,
         props.css,
         _source
@@ -145,7 +145,7 @@ export function createElement(
       variantName => delete otherProps[variantName]
     );
 
-    if (process.env?.CSSGEN === 'pregen' && !!process.env?.CSSGEN_FILE) {
+    if (process.env?.CSSGEN === "pregen" && !!process.env?.CSSGEN_FILE) {
       compileQueuePromise = compile(_source, props.css, className, cssClasses);
     }
 
@@ -161,18 +161,18 @@ export function createElement(
   } else {
     DEBUG &&
       console.debug(
-        'No css prop found used with comopnent: ',
+        "No css prop found used with comopnent: ",
         component?.name || component?.displayName || component,
         props
       );
   }
 
   // Exhaustively instantiate components for CSS extraction
-  if (typeof component === 'function') {
+  if (typeof component === "function") {
     // @ts-ignore
     component({ ...props, children: kids });
   } else {
-    DEBUG && console.debug('Non-function component, skipping: ', component);
+    DEBUG && console.debug("Non-function component, skipping: ", component);
   }
 
   return _h(component, props, kids);
@@ -181,7 +181,7 @@ export function createElement(
 function createComponent(component: any) {
   DEBUG &&
     console.debug(
-      'Analysing component: ',
+      "Analysing component: ",
       component?.name || component?.displayName || component
     );
 
@@ -190,7 +190,7 @@ function createComponent(component: any) {
 }
 
 export const withCreate = (component: string | ComponentType): Creatable => {
-  if (typeof component === 'string') {
+  if (typeof component === "string") {
     return { create: createComponent(component) } as unknown as Creatable;
   }
   (component as Creatable).create = createComponent(component);

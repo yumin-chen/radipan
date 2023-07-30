@@ -1,48 +1,48 @@
-import { defineConfig as definePandaConfig } from '@pandacss/dev';
+import { defineConfig as definePandaConfig } from "@pandacss/dev";
 
 export const defineConfig = (config: any = {}) => {
   const {
     appEntry,
     include: includePath,
     exclude,
-    outdir = '@design-system',
-    jsxFramework: framework = 'react',
+    outdir = "@design-system",
+    jsxFramework: framework = "react",
     ...options
   } = config;
 
   if (!!appEntry) {
-    const fs = require('fs');
+    const fs = require("fs");
     fs.writeFileSync(
-      'node_modules/radipan/radipan.config.json',
+      "node_modules/radipan/radipan.config.json",
       JSON.stringify({ appEntry, framework, outdir })
     );
 
     if (!!framework) {
       switch (framework) {
-        case 'react': {
+        case "react": {
           fs.writeFileSync(
-            'node_modules/radipan/framework.js',
+            "node_modules/radipan/framework.js",
             'export { createElement as h } from "react";'
           );
           break;
         }
-        case 'preact': {
+        case "preact": {
           fs.writeFileSync(
-            'node_modules/radipan/framework.js',
+            "node_modules/radipan/framework.js",
             'export { h } from "preact";'
           );
           break;
         }
-        case 'solid': {
+        case "solid": {
           fs.writeFileSync(
-            'node_modules/radipan/framework.js',
+            "node_modules/radipan/framework.js",
             'import h from "solid-js/h";\nexport { h };'
           );
           break;
         }
-        case 'svelte': {
+        case "svelte": {
           fs.writeFileSync(
-            'node_modules/radipan/framework.js',
+            "node_modules/radipan/framework.js",
             'import h from "svelte-hyperscript";\nexport { h };'
           );
           break;
@@ -52,15 +52,15 @@ export const defineConfig = (config: any = {}) => {
 
     if (!!outdir) {
       fs.writeFileSync(
-        'node_modules/radipan/design-system.js',
+        "node_modules/radipan/design-system.js",
         `export * from '../${outdir}/css/index.mjs';\n`
       );
       fs.writeFileSync(
-        'node_modules/radipan/design-system.ts',
+        "node_modules/radipan/design-system.ts",
         `export * from '../${outdir}/css/index';\n`
       );
       fs.writeFileSync(
-        'node_modules/radipan/styles.css',
+        "node_modules/radipan/styles.css",
         `@import '../${outdir}/styles.css';\n`
       );
     }

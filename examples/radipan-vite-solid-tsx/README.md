@@ -11,13 +11,13 @@ function App() {
   return (
     <main
       css={{
-        width: '100%',
-        height: '100vh',
-        color: { base: 'black', _osDark: 'white' },
-        background: { base: 'white', _osDark: 'black' },
+        width: "100%",
+        height: "100vh",
+        color: { base: "black", _osDark: "white" },
+        background: { base: "white", _osDark: "black" },
       }}
     >
-      <div css={{ fontSize: '2xl', fontWeight: 'bold' }}>Hello Radip🐼n!</div>
+      <div css={{ fontSize: "2xl", fontWeight: "bold" }}>Hello Radip🐼n!</div>
     </main>
   );
 }
@@ -39,12 +39,12 @@ You can use recipes directly within the `css` prop. A recipe consists of four pr
 A recipe must have at least `variants` to be recognized as a recipe. Use a nested object to specify the variant name and the corresponding style in variants. For example:
 
 ```javascript
-import { withCreate } from 'radipan';
+import { withCreate } from "radipan";
 
 const Badge = ({
-  as = 'span',
-  size = 'md', // 'size' is a recipe variant
-  variant = 'solid', // 'variant' is also a recipe variant
+  as = "span",
+  size = "md", // 'size' is a recipe variant
+  variant = "solid", // 'variant' is also a recipe variant
   children = undefined,
   ...props
 } = {}) => {
@@ -56,14 +56,14 @@ const Badge = ({
 
 const badgeRecipe = {
   base: {
-    borderRadius: 'xs',
-    textTransform: 'uppercase',
+    borderRadius: "xs",
+    textTransform: "uppercase",
   },
   variants: {
     size: {
-      sm: { fontSize: 'xs', padding: '0 2px' },
-      md: { fontSize: 'sm', padding: '0 var(--spacing-1x)' },
-      lg: { fontSize: 'md', padding: '1px var(--spacing-1x)' },
+      sm: { fontSize: "xs", padding: "0 2px" },
+      md: { fontSize: "sm", padding: "0 var(--spacing-1x)" },
+      lg: { fontSize: "md", padding: "1px var(--spacing-1x)" },
     },
     variant: {
       solid: {

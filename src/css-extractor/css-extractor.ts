@@ -1,5 +1,5 @@
-import fs from 'fs';
-import { appEntry, outdir } from 'radipan/radipan.config.json';
+import fs from "fs";
+import { appEntry, outdir } from "radipan/radipan.config.json";
 
 fs.existsSync(`node_modules/${outdir}/exported`) &&
   fs.rmSync(`node_modules/${outdir}/exported`, { recursive: true });
@@ -13,8 +13,8 @@ console.log(`Processing app: ${appEntry}`);
 import(`../../../../${appEntry}`)
   .then(module => {
     const exported = module.default;
-    if (typeof exported !== 'function') {
-      throw 'Only function components are supported.';
+    if (typeof exported !== "function") {
+      throw "Only function components are supported.";
     }
     fs.copyFileSync(
       fs.realpathSync(`./${appEntry}`),
@@ -22,8 +22,8 @@ import(`../../../../${appEntry}`)
     );
     process.env.DEBUG && console.debug(exported.toString());
     exported();
-    console.log('Successfully extracted:', appEntry);
+    console.log("Successfully extracted:", appEntry);
   })
   .catch(err => {
-    console.log('Failed to process:', appEntry, err);
+    console.log("Failed to process:", appEntry, err);
   });

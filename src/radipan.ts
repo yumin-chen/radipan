@@ -1,12 +1,12 @@
-import { ComponentType, ReactNode } from 'react';
-import { css, cva, cx } from 'radipan/design-system';
-import { RecipeProps, CssProps, Creatable } from './radipan.d';
-import { h as _h } from 'radipan/framework';
+import { ComponentType, ReactNode } from "react";
+import { css, cva, cx } from "radipan/design-system";
+import { RecipeProps, CssProps, Creatable } from "./radipan.d";
+import { h as _h } from "radipan/framework";
 import {
   RecipeDefinition,
   RecipeVariantRecord,
-} from '@radipan-design-system/types/recipe';
-import { SystemStyleObject } from '@radipan-design-system/types';
+} from "@radipan-design-system/types/recipe";
+import { SystemStyleObject } from "@radipan-design-system/types";
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
@@ -22,7 +22,7 @@ const getVariantProps = (props: RecipeProps) => {
 export const parseCssProp = (props: CssProps) => {
   const { css: cssProp } = props;
   // Recipes
-  const isRecipe = Object.hasOwn(cssProp || {}, 'variants');
+  const isRecipe = Object.hasOwn(cssProp || {}, "variants");
   if (isRecipe) {
     const variantProps = getVariantProps(props);
     return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
@@ -38,7 +38,7 @@ export function createElement(
 ) {
   // @ts-ignore
   const kids = children.every(item => !item) ? undefined : children;
-  if (typeof props?.css === 'object') {
+  if (typeof props?.css === "object") {
     const { css: cssProp, className, ...restProps } = props;
     const otherProps = { ...restProps };
     const cssClasses = parseCssProp(props);
@@ -67,7 +67,7 @@ function createComponent(component: string | ComponentType) {
 }
 
 export const withCreate = (component: string | ComponentType): Creatable => {
-  if (typeof component === 'string') {
+  if (typeof component === "string") {
     return { create: createComponent(component) } as unknown as Creatable;
   }
   (component as Creatable).create = createComponent(component);

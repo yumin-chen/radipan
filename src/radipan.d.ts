@@ -3,12 +3,12 @@ import {
   FunctionComponent,
   ReactElement,
   ReactNode,
-} from 'react';
+} from "react";
 import {
   RecipeDefinition,
   RecipeVariantRecord,
-} from '@radipan-design-system/types/recipe';
-import { SystemStyleObject } from '@radipan-design-system/types';
+} from "@radipan-design-system/types/recipe";
+import { SystemStyleObject } from "@radipan-design-system/types";
 
 export interface RecipeProps extends Readonly<Record<string, any>> {
   className?: string;

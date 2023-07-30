@@ -1,4 +1,4 @@
-import { Creatable } from './radipan.d';
+import { Creatable } from "./radipan.d";
 
 declare const anchor: Creatable;
 declare const body: Creatable;

@@ -1,5 +1,5 @@
-import { defineConfig } from './src/config';
+import { defineConfig } from "./src/config";
 
 export default defineConfig({
-  outdir: '@radipan-design-system',
+  outdir: "@radipan-design-system",
 });

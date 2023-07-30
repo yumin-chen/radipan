@@ -1,1 +1,1 @@
-export * from './dist/radipan';
+export * from "./dist/radipan";

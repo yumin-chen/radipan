@@ -1,1 +1,1 @@
-export * from './dist/html-tags';
+export * from "./dist/html-tags";

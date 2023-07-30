@@ -37,18 +37,18 @@ npm install --save-dev radipan@latest
 Create a file named `radipan.config.ts` (or `.js`) file in the root of your project and add these configuration options for Radipan:
 
 ```javascript
-import { defineConfig } from 'radipan/config';
+import { defineConfig } from "radipan/config";
 
 export default defineConfig({
-  appEntry: 'src/App.ts', // Path to app entry point
-  jsxFramework: 'react', // 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
+  appEntry: "src/App.ts", // Path to app entry point
+  jsxFramework: "react", // 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
   preflight: true, // Whether to use css reset
   recipeShaking: true, // Whether to trim unused recipe variants
   theme: {
     // Useful for theme customization
     extend: {},
   },
-  outdir: '@design-system', // The output directory in /node_modules
+  outdir: "@design-system", // The output directory in /node_modules
 });
 ```
 
@@ -82,7 +82,7 @@ Create an entry CSS file or replace the existing one named `index.css` (or `glob
 @layer reset, base, tokens, recipes, utilities;
 
 /* Import generated Radipan static CSS */
-@import 'radipan/styles.css';
+@import "radipan/styles.css";
 ```
 
 When you run `npx radipan cssgen`, it scans all `css` props in your app and statically generates the corresponding CSS code at build time.
@@ -109,13 +109,13 @@ function App() {
   return (
     <main
       css={{
-        width: '100%',
-        height: '100vh',
-        color: { base: 'black', _osDark: 'white' },
-        background: { base: 'white', _osDark: 'black' },
+        width: "100%",
+        height: "100vh",
+        color: { base: "black", _osDark: "white" },
+        background: { base: "white", _osDark: "black" },
       }}
     >
-      <div css={{ fontSize: '2xl', fontWeight: 'bold' }}>Hello Radip🐼n!</div>
+      <div css={{ fontSize: "2xl", fontWeight: "bold" }}>Hello Radip🐼n!</div>
     </main>
   );
 }
@@ -127,7 +127,7 @@ If you're on an older version of React / TypeScript and unable to use the newer 
 
 ```javascript
 /** @jsx h */
-import { h } from 'radipan';
+import { h } from "radipan";
 ```
 
 ## Usage
@@ -183,12 +183,12 @@ You can use recipes directly within the `css` prop. A recipe consists of four pr
 A recipe must have at least `variants` to be recognized as a recipe. Use a nested object to specify the variant name and the corresponding style in variants. For example:
 
 ```javascript
-import { withCreate } from 'radipan';
+import { withCreate } from "radipan";
 
 const Badge = ({
-  as = 'span',
-  size = 'md', // 'size' is a recipe variant
-  variant = 'solid', // 'variant' is also a recipe variant
+  as = "span",
+  size = "md", // 'size' is a recipe variant
+  variant = "solid", // 'variant' is also a recipe variant
   children = undefined,
   ...props
 } = {}) => {
@@ -200,14 +200,14 @@ const Badge = ({
 
 const badgeRecipe = {
   base: {
-    borderRadius: 'xs',
-    textTransform: 'uppercase',
+    borderRadius: "xs",
+    textTransform: "uppercase",
   },
   variants: {
     size: {
-      sm: { fontSize: 'xs', padding: '0 2px' },
-      md: { fontSize: 'sm', padding: '0 var(--spacing-1x)' },
-      lg: { fontSize: 'md', padding: '1px var(--spacing-1x)' },
+      sm: { fontSize: "xs", padding: "0 2px" },
+      md: { fontSize: "sm", padding: "0 var(--spacing-1x)" },
+      lg: { fontSize: "md", padding: "1px var(--spacing-1x)" },
     },
     variant: {
       solid: {

@@ -1,1 +1,1 @@
-export * from '../@radipan-design-system/css';
+export * from "../@radipan-design-system/css";
