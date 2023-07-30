@@ -22,8 +22,6 @@ Radipan supports the widely adopted inline `css` prop syntax that made popular b
 
 ## Setup
 
-To set up Radipan in your project, follow these steps:
-
 ### Installation
 
 Use your preferred package manager to install Radipan:
@@ -32,7 +30,7 @@ Use your preferred package manager to install Radipan:
 npm install --save-dev radipan@latest
 ```
 
-### Configure Radipan
+### Configuration
 
 Create a file named `radipan.config.ts` (or `.js`) file in the root of your project and add these configuration options for Radipan:
 
@@ -50,11 +48,11 @@ export default defineConfig({
     // File extension for the transpiled output files
     extension: ".lite.ts",
   },
+  outdir: "@design-system", // The output directory in /node_modules
   theme: {
     // Useful for theme customization
     extend: {},
   },
-  outdir: "@design-system", // The output directory in /node_modules
 });
 ```
 
@@ -63,6 +61,7 @@ The available Radipan options are as follows:
 - `appEntry`: Specify the path to the entry point component(s) of your application, considering the routing structure. For a single entry point, use a string value (e.g., `'src/App.ts'`). For multiple entry points, use an array (e.g., `['src/App.ts', 'src/page-1.ts', 'src/page-2.ts']`).
 - `jsxFramework`: Specify the UI framework being used in your project.
 - `recipeShaking`: Enable this option to automatically remove unused recipe variants during build time. Disable it if you need to dynamically change a recipe variant.
+- `sourceTranspile`: Enable this option to use Radipan's built-in source code transpiler that transforms your `css` prop into its resulting `className`, and generate the output files with the configured `extension`.
 - `outdir`: Specify the output directory within `/node_modules` where Radipan will generate its output. Default is `@design-system`.
 
 ### Update package.json scripts
