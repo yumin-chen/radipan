@@ -4042,10 +4042,11 @@ queue-microtask@^1.2.2:
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
 radipan@latest:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/radipan/-/radipan-0.0.14.tgz#587633bb66fbe1991f37ae5ce04866e6a431100e"
-  integrity sha512-YqXiNxgrX3SsQeYocUgSCpEUN97o3Fimbbo58mBEoJeRkoVXNqNE0sakDnJyFBHLO59MxyRvWzAG2qjb9nTK4Q==
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/radipan/-/radipan-0.0.16.tgz#576d65537e6efc1fcbe12f6a8b4ae01da3c6904c"
+  integrity sha512-WNugFjNOuol6GzYz0NY+on1iFEqm9p84llHufIPAC/JL9Mh8mduTIRx5yBdz2UnNwAdTKOk3/OqFX0PuFcdDzw==
   dependencies:
+    "@pandacss/dev" latest
     typescript latest
 
 react-dom@18.2.0:

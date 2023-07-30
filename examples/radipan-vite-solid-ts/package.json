@@ -16,9 +16,8 @@
     "solid-js": "latest"
   },
   "devDependencies": {
-    "@pandacss/dev": "latest",
-    "radipan": "latest",
     "prettier": "latest",
+    "radipan": "latest",
     "solid-devtools": "latest",
     "typescript": "latest",
     "vite": "latest",
