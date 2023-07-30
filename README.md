@@ -17,7 +17,7 @@ Radipan supports the widely adopted inline `css` prop syntax that made popular b
 - [HyperScript](https://github.com/hyperhype/hyperscript)-compatible API
   - `h(tag, attrs, [text?, Elements?,...])`
 - JSX-compatible API
-- Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates `.lite.ts` files (coming soon...)
+- Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates transpiled `.lite.ts` files
 - Recipe Shaking Optimization (coming soon...)
 
 ## Setup
@@ -44,6 +44,12 @@ export default defineConfig({
   jsxFramework: "react", // 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
   preflight: true, // Whether to use css reset
   recipeShaking: true, // Whether to trim unused recipe variants
+  sourceTranspile: {
+    // Whether to transform `css` prop to corresponding `className`
+    enabled: true,
+    // File extension for the transpiled output files
+    extension: ".lite.ts",
+  },
   theme: {
     // Useful for theme customization
     extend: {},

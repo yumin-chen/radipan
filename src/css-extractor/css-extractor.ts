@@ -1,5 +1,5 @@
 import fs from "fs";
-import { appEntry, outdir } from "radipan/radipan.config.json";
+import { appEntry, outdir, sourceTranspile } from "radipan/radipan.config.json";
 
 fs.existsSync(`node_modules/${outdir}/exported`) &&
   fs.rmSync(`node_modules/${outdir}/exported`, { recursive: true });

@@ -77,7 +77,7 @@ let compileQueuePromise: Promise<void> | null = null;
 const prettierConfigResolve = async () => {
   const prettierConfig = await resolveConfigFile();
   prettierConfig && (await resolveConfig(prettierConfig));
-}
+};
 
 const prettierConfigResolvePromise = prettierConfigResolve();
 

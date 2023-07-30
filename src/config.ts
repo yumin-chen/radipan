@@ -6,6 +6,7 @@ export const defineConfig = (config: any = {}) => {
     include: includePath,
     exclude,
     outdir = "@design-system",
+    sourceTranspile = { enabled: true, extension: ".lite.jsx" },
     jsxFramework: framework = "react",
     ...options
   } = config;
@@ -14,7 +15,7 @@ export const defineConfig = (config: any = {}) => {
     const fs = require("fs");
     fs.writeFileSync(
       "node_modules/radipan/radipan.config.json",
-      JSON.stringify({ appEntry, framework, outdir })
+      JSON.stringify({ appEntry, framework, outdir, sourceTranspile })
     );
 
     if (!!framework) {
