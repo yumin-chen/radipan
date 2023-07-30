@@ -1,7 +1,7 @@
 {
   "name": "radipan",
-  "version": "0.0.14",
-  "description": "React-compatible static CSS extraction based on `css` prop.",
+  "version": "0.0.15",
+  "description": "Zero-runtime static CSS extractor based on inline `css` prop.",
   "author": "Yumin Chen <yumin@chen.so>",
   "type": "module",
   "main": "index.js",
