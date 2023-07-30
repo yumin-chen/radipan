@@ -44,6 +44,20 @@ export default [
     ],
   },
   {
+    input: "src/copy-artifacts.ts",
+    external: ["child_process", "fs", "radipan/radipan.config.json"],
+    plugins: [esbuild(esbuildOptions), nodeResolve()],
+    output: [
+      {
+        file: "dist/copy-artifacts.js",
+        format: "esm",
+        sourcemap: false,
+        exports: "named",
+        inlineDynamicImports: true,
+      },
+    ],
+  },
+  {
     input: "src/config.ts",
     external: ["@pandacss/dev"],
     plugins: [esbuild(esbuildOptions)],
