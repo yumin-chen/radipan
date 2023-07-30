@@ -18,7 +18,7 @@ import(`../../../../${appEntry}`)
     }
     fs.copyFileSync(
       fs.realpathSync(`./${appEntry}`),
-      `node_modules/${outdir}/exported/${appEntry}.lite.ts`
+      `node_modules/${outdir}/exported/${appEntry}.lite.tsx`
     );
     process.env.DEBUG && console.debug(exported.toString());
     exported();

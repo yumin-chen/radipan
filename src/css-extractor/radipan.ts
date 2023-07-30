@@ -72,14 +72,19 @@ export const parseCssProp = (props: CssProps) => {
 };
 
 const COMPILED_FILES = new Map();
-let compileQueuePromise = null;
+let compileQueuePromise: Promise<void> | null = null;
 
-const prettierConfig = await resolveConfigFile();
-prettierConfig && (await resolveConfig(prettierConfig));
+const prettierConfigResolve = async () => {
+  const prettierConfig = await resolveConfigFile();
+  prettierConfig && (await resolveConfig(prettierConfig));
+}
+
+const prettierConfigResolvePromise = prettierConfigResolve();
 
 const compile = async (_source, cssProp, className, cssClasses) => {
   !!compileQueuePromise && (await compileQueuePromise);
-  const compileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.ts`;
+  !!prettierConfigResolvePromise && (await prettierConfigResolvePromise);
+  const compileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
   const allFileContents =
     (COMPILED_FILES.has(compileFileName) &&
       COMPILED_FILES.get(compileFileName)) ||
@@ -103,7 +108,7 @@ const compile = async (_source, cssProp, className, cssClasses) => {
     console.error(
       "Failed to compile ",
       compileFileName,
-      restOfFile.indexOf(cssString),
+      restOfFile,
       `css={${cssString}}`
     );
   }
