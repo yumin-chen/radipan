@@ -72,7 +72,7 @@ export const parseCssProp = (props: CssProps) => {
 };
 
 const COMPILED_FILES = new Map();
-let compileQueuePromise: Promise<void> | null = null;
+let transpileQueuePromise: Promise<void> | null = null;
 
 const prettierConfigResolve = async () => {
   const prettierConfig = await resolveConfigFile();
@@ -81,14 +81,14 @@ const prettierConfigResolve = async () => {
 
 const prettierConfigResolvePromise = prettierConfigResolve();
 
-const compile = async (_source, cssProp, className, cssClasses) => {
-  !!compileQueuePromise && (await compileQueuePromise);
+const transpileForJSX = async (_source, cssProp, className, cssClasses) => {
+  !!transpileQueuePromise && (await transpileQueuePromise);
   !!prettierConfigResolvePromise && (await prettierConfigResolvePromise);
-  const compileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
+  const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
   const allFileContents =
-    (COMPILED_FILES.has(compileFileName) &&
-      COMPILED_FILES.get(compileFileName)) ||
-    readFileSync(compileFileName, "utf-8");
+    (COMPILED_FILES.has(transpileFileName) &&
+      COMPILED_FILES.get(transpileFileName)) ||
+    readFileSync(transpileFileName, "utf-8");
   const lines = allFileContents.split(/\r?\n/);
   const restOfFile =
     lines[_source.lineNumber - 1].substring(_source.columnNumber - 1) +
@@ -106,8 +106,8 @@ const compile = async (_source, cssProp, className, cssClasses) => {
 
   if (restOfFile.indexOf(`css={${cssString}}`) === -1) {
     console.error(
-      "Failed to compile ",
-      compileFileName,
+      "Failed to transpile ",
+      transpileFileName,
       restOfFile,
       `css={${cssString}}`
     );
@@ -116,14 +116,15 @@ const compile = async (_source, cssProp, className, cssClasses) => {
     numCssLines - 1
   )} className="${!className ? cssClasses : cx(cssClasses, className)}"`;
   const replaced = restOfFile.replace(`css={${cssString}}`, replacement);
-  const compiledContents =
+  const transpiledContents =
     lines.slice(0, _source.lineNumber - 1).join("\n") +
     "\n" +
     lines[_source.lineNumber - 1].substring(0, _source.columnNumber - 1) +
     replaced;
-  COMPILED_FILES.set(compileFileName, compiledContents);
-  writeFileSync(compileFileName, compiledContents);
-  DEBUG && console.debug("Compiled for component css: ", cssString, replaced);
+  COMPILED_FILES.set(transpileFileName, transpiledContents);
+  writeFileSync(transpileFileName, transpiledContents);
+  DEBUG &&
+    console.debug("Transpiled component successfully: ", cssString, replaced);
 };
 
 export function createElement(
@@ -151,7 +152,11 @@ export function createElement(
     );
 
     if (process.env?.CSSGEN === "pregen" && !!process.env?.CSSGEN_FILE) {
-      compileQueuePromise = compile(_source, props.css, className, cssClasses);
+      transpileQueuePromise =
+        _source &&
+        _source.lineNumber &&
+        _source.columnNumber &&
+        transpileForJSX(_source, props.css, className, cssClasses);
     }
 
     return _h(
