@@ -22,7 +22,9 @@ const process = (typeof global !== "undefined" && global?.process) || {
 };
 const DEBUG = process?.env?.DEBUG;
 
-const _h = (component, props, children) => { return () => ({ component, props, children }) };
+const _h = (component, props, children) => {
+  return ({ component, props, children });
+};
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
