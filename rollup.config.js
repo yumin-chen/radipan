@@ -207,7 +207,7 @@ export default [
   },
   {
     input: "src/css-extractor/css-extractor.ts",
-    external: ["fs", "radipan/radipan.config.json"],
+    external: ["fs", "child_process", "radipan/radipan.config.json"],
     plugins: [esbuild(esbuildOptions)],
     output: [
       {

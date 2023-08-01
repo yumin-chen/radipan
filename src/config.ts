@@ -2,20 +2,29 @@ import { defineConfig as definePandaConfig } from "@pandacss/dev";
 
 export const defineConfig = (config: any = {}) => {
   const {
-    appEntry,
-    include: includePath,
-    exclude,
+    include = ["."],
+    exclude = ["*/node_modules/*"],
+    includeNames = ["*.js", "*.ts", "*.jsx", "*.tsx"],
+    excludeNames = ["*.lite.js", "*.lite.ts", "*.lite.jsx", "*.lite.tsx"],
     outdir = "@design-system",
     sourceTranspile = { enabled: true, extension: ".lite.jsx" },
     jsxFramework: framework = "react",
     ...options
   } = config;
 
-  if (!!appEntry) {
+  if (!!includeNames) {
     const fs = require("fs");
     fs.writeFileSync(
       "node_modules/radipan/radipan.config.json",
-      JSON.stringify({ appEntry, framework, outdir, sourceTranspile })
+      JSON.stringify({
+        include,
+        exclude,
+        includeNames,
+        excludeNames,
+        framework,
+        outdir,
+        sourceTranspile,
+      })
     );
 
     if (!!framework) {

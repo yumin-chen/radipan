@@ -38,15 +38,18 @@ Create a file named `radipan.config.ts` (or `.js`) file in the root of your proj
 import { defineConfig } from "radipan/config";
 
 export default defineConfig({
-  appEntry: "src/App.ts", // Path to app entry point
-  jsxFramework: "react", // 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
+  include: ["src"], // Source paths to include for CSS processing
+  exclude: [""], // Source paths to exclude from scanning
+  includeNames: ["*.tsx"], // Source files to include for CSS processing
+  excludeNames: ["*.lite.tsx", "main.tsx"], // Source files to exclude from scanning
+  jsxFramework: "react", // "react" | "solid" | "preact" | "vue" | "qwik"
   preflight: true, // Whether to use css reset
   recipeShaking: true, // Whether to trim unused recipe variants
   sourceTranspile: {
     // Whether to transform `css` prop to corresponding `className`
     enabled: true,
     // File extension for the transpiled output files
-    extension: ".lite.ts",
+    extension: ".lite.tsx",
   },
   outdir: "@design-system", // The output directory in /node_modules
   theme: {
@@ -55,14 +58,6 @@ export default defineConfig({
   },
 });
 ```
-
-The available Radipan options are as follows:
-
-- `appEntry`: Specify the path to the entry point component(s) of your application, considering the routing structure. For a single entry point, use a string value (e.g., `'src/App.ts'`). For multiple entry points, use an array (e.g., `['src/App.ts', 'src/page-1.ts', 'src/page-2.ts']`).
-- `jsxFramework`: Specify the UI framework being used in your project.
-- `recipeShaking`: Enable this option to automatically remove unused recipe variants during build time. Disable it if you need to dynamically change a recipe variant.
-- `sourceTranspile`: Enable this option to use Radipan's built-in source code transpiler that transforms your `css` prop into its resulting `className`, and generate the output files with the configured `extension`.
-- `outdir`: Specify the output directory within `/node_modules` where Radipan will generate its output. Default is `@design-system`.
 
 ### Update package.json scripts
 
