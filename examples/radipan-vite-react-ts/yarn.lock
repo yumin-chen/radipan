@@ -4337,9 +4337,9 @@ queue-microtask@^1.2.2:
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
 radipan@latest:
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/radipan/-/radipan-0.0.18.tgz#34d24804cbc70a965b509fa47f6c0b7da02cdd7c"
-  integrity sha512-F41xnxSyW+EGV40URJV2k1zRWvkchaSwYp7R4wOVEdUCRa94NrdhMK0QiSBMQGc4hC0dbo5xWQUwyjjD6NRZiQ==
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/radipan/-/radipan-0.0.19.tgz#d31a93cdf4a70404a0b157200b719ae61d768f61"
+  integrity sha512-am7fu7L/hBAenDZketbIWW+EG0GdEu5WiNS+NUzoRVYQ7AQeyjUM3sqnjajtWnDC3VCVJY+ttRZIOu230+M5Wg==
   dependencies:
     "@pandacss/dev" latest
     typescript latest

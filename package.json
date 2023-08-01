@@ -1,6 +1,6 @@
 {
   "name": "radipan",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Zero-runtime static CSS extractor based on inline `css` prop.",
   "author": "Yumin Chen <yumin@chen.so>",
   "type": "module",
