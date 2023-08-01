@@ -1,7 +1,6 @@
 import { ComponentType, FunctionComponent, ReactNode } from "react";
 import { css, cva, cx } from "radipan/design-system";
 import { outdir } from "radipan/radipan.config.json";
-import { h as _h } from "radipan/framework";
 import {
   RecipeDefinition,
   RecipeVariantRecord,
@@ -22,6 +21,8 @@ const process = (typeof global !== "undefined" && global?.process) || {
   env: {},
 };
 const DEBUG = process?.env?.DEBUG;
+
+const _h = (component, props, children) => { return () => ({ component, props, children }) };
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
