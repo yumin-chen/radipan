@@ -1,6 +1,5 @@
 import { ComponentType, Fragment, ReactElement } from "react";
-import { createElement } from "./radipan";
-import { createElement as extractorCreateElement } from "./css-extractor/radipan";
+import { createElement } from "radipan";
 
 export function jsx(
   type: string | ComponentType,
@@ -26,8 +25,16 @@ export function jsxDEV(
   const process = (typeof global !== "undefined" && global?.process) || {
     env: {},
   };
-  if (process.env?.CSSGEN === "pregen") {
-    return extractorCreateElement(type, { ...props, key, _source }, children);
+  if (process.env?.CSSGEN === "pregen" && !!process.env?.CSSGEN_FILE) {
+    import("radipan/css-extractor").then(
+      ({ createElement: extractorCreateElement }) => {
+        return extractorCreateElement(
+          type,
+          { ...props, key, _source },
+          children
+        );
+      }
+    );
   }
   return createElement(type, { ...props, key }, children);
 }

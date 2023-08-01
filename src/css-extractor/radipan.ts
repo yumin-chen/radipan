@@ -72,7 +72,6 @@ export const parseCssProp = (props: CssProps) => {
 };
 
 const COMPILED_FILES = new Map();
-let transpileQueuePromise: Promise<void> | null = null;
 
 const prettierConfigResolve = async () => {
   const prettierConfig = await resolveConfigFile();
@@ -82,7 +81,6 @@ const prettierConfigResolve = async () => {
 const prettierConfigResolvePromise = prettierConfigResolve();
 
 const transpileForJSX = async (_source, cssProp, className, cssClasses) => {
-  !!transpileQueuePromise && (await transpileQueuePromise);
   !!prettierConfigResolvePromise && (await prettierConfigResolvePromise);
   const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
   const allFileContents =
@@ -127,13 +125,22 @@ const transpileForJSX = async (_source, cssProp, className, cssClasses) => {
     console.debug("Transpiled component successfully: ", cssString, replaced);
 };
 
-export function createElement(
+export async function createElement(
   component: string | ComponentType,
   props: Readonly<Record<string, any>> | undefined,
   ...children: JSX.Element[] | ReactNode[]
 ) {
   // @ts-ignore
   const kids = children.every(item => !item) ? undefined : children;
+
+  // Exhaustively instantiate components for CSS extraction
+  if (typeof component === "function") {
+    // @ts-ignore
+    await component({ ...props, children: kids });
+  } else {
+    DEBUG && console.debug("Non-function component, skipping: ", component);
+  }
+
   if (typeof props?.css === "object") {
     const { css: cssProp, className, _source, ...restProps } = props;
     const otherProps = { ...restProps };
@@ -151,12 +158,11 @@ export function createElement(
       variantName => delete otherProps[variantName]
     );
 
-    if (process.env?.CSSGEN === "pregen" && !!process.env?.CSSGEN_FILE) {
-      transpileQueuePromise =
-        _source &&
+    if (process.env?.CSSGEN === "pregen") {
+      _source &&
         _source.lineNumber &&
         _source.columnNumber &&
-        transpileForJSX(_source, props.css, className, cssClasses);
+        (await transpileForJSX(_source, props.css, className, cssClasses));
     }
 
     return _h(
@@ -175,14 +181,6 @@ export function createElement(
         component?.name || component?.displayName || component,
         props
       );
-  }
-
-  // Exhaustively instantiate components for CSS extraction
-  if (typeof component === "function") {
-    // @ts-ignore
-    component({ ...props, children: kids });
-  } else {
-    DEBUG && console.debug("Non-function component, skipping: ", component);
   }
 
   return _h(component, props, kids);

@@ -23,7 +23,7 @@ switch (command) {
   case "css-extract": {
     if (options.includes("--watch")) {
       execSync(
-        'CSSGEN=pregen npx tsx --watch --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js"',
+        'npx tsx --watch --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js"',
         { stdio: "inherit" }
       );
       execSync('npx tsx "node_modules/radipan/dist/copy-artifacts.js"');
@@ -31,7 +31,7 @@ switch (command) {
     }
 
     execSync(
-      'CSSGEN=pregen npx tsx --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js"',
+      'npx tsx --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js"',
       { stdio: "inherit" }
     );
     execSync('npx tsx "node_modules/radipan/dist/copy-artifacts.js"');

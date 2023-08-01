@@ -1,6 +1,6 @@
 import { defineConfig } from "@pandacss/dev";
 
 export default defineConfig({
-  outdir: "@design-system",
+  outdir: "@radipan-design-system",
   emitPackage: true,
 });

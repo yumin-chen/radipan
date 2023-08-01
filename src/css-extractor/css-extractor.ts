@@ -33,27 +33,18 @@ const parseFilePathArr = (filePathArr: string[]) =>
 
 const includeFileList = parseFilePathArr(include);
 
-includeFileList.forEach(srcFile => {
+includeFileList.forEach(async srcFile => {
   fs.mkdirSync(`node_modules/${outdir}/exported/${srcFile}.out`, {
     recursive: true,
   });
-  process.env.CSSGEN_FILE = srcFile;
   console.log(`Processing app: ${srcFile}`);
-  import(`../../../../${srcFile}`)
-    .then(module => {
-      const exported = module.default;
-      if (typeof exported !== "function") {
-        throw "Only function components are supported.";
-      }
-      fs.copyFileSync(
-        fs.realpathSync(`./${srcFile}`),
-        `node_modules/${outdir}/exported/${srcFile}.lite.tsx`
-      );
-      process.env.DEBUG && console.debug(exported.toString());
-      exported();
-      console.log("Successfully extracted:", srcFile);
-    })
-    .catch(err => {
-      console.log("Failed to process:", srcFile, err);
-    });
+  process.env.CSSGEN = "pregen";
+  process.env.CSSGEN_FILE = srcFile;
+  execSync(
+    `tsx --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/extract.js" ${srcFile}`,
+    { stdio: "inherit" }
+  );
+  console.log("Successfully extracted:", srcFile);
+  process.env.CSSGEN = "done";
+  process.env.CSSGEN_FILE = "";
 });

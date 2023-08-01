@@ -136,11 +136,13 @@ export default [
       "preact",
       "solid-js/h",
       "svelte-hyperscript",
+      "radipan",
+      "radipan/css-extractor",
       "radipan/design-system",
       "radipan/framework",
       "radipan/radipan.config.json",
     ],
-    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
+    plugins: [esbuild(esbuildOptions)],
     output: [
       {
         file: "dist/jsx-runtime.js",
@@ -207,11 +209,34 @@ export default [
   },
   {
     input: "src/css-extractor/css-extractor.ts",
-    external: ["fs", "child_process", "radipan/radipan.config.json"],
+    external: [
+      "fs",
+      "child_process",
+      "radipan/css-extractor",
+      "radipan/radipan.config.json",
+    ],
     plugins: [esbuild(esbuildOptions)],
     output: [
       {
         file: "dist/css-extractor/css-extractor.js",
+        format: "esm",
+        sourcemap: false,
+        exports: "named",
+      },
+    ],
+  },
+  {
+    input: "src/css-extractor/extract.ts",
+    external: [
+      "fs",
+      "child_process",
+      "radipan/css-extractor",
+      "radipan/radipan.config.json",
+    ],
+    plugins: [esbuild(esbuildOptions)],
+    output: [
+      {
+        file: "dist/css-extractor/extract.js",
         format: "esm",
         sourcemap: false,
         exports: "named",
