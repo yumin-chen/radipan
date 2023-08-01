@@ -1,8 +1,11 @@
 import { defineConfig } from "radipan/config";
 
 export default defineConfig({
-  appEntry: "src/App.ts", // Path to app entry point
-  jsxFramework: "react", // 'react' | 'solid' | 'preact' | 'vue' | 'qwik'
+  include: ["src"], // Source paths to include for CSS processing
+  exclude: [""], // Source paths to exclude from scanning
+  includeNames: ["*.ts"], // Source files to include for CSS processing
+  excludeNames: ["main.ts", "*.lite.ts", "*.d.ts"], // Source files to exclude from scanning
+  jsxFramework: "react", // "react" | "solid" | "preact" | "vue" | "qwik"
   outdir: "@design-system", // The output directory in /node_modules
   preflight: true, // Whether to use css reset
   recipeShaking: true, // Whether to trim unused recipe variants
