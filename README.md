@@ -40,8 +40,8 @@ import { defineConfig } from "radipan/config";
 export default defineConfig({
   include: ["src"], // Source paths to include for CSS processing
   exclude: [""], // Source paths to exclude from scanning
-  includeNames: ["*.tsx"], // Source files to include for CSS processing
-  excludeNames: ["*.lite.tsx", "main.tsx"], // Source files to exclude from scanning
+  includeNames: ["*.ts", "*.tsx"], // Source files to include for CSS processing
+  excludeNames: ["main.tsx", "*.lite.ts", "*.lite.tsx"], // Source files to exclude from scanning
   jsxFramework: "react", // "react" | "solid" | "preact" | "vue" | "qwik"
   preflight: true, // Whether to use css reset
   recipeShaking: true, // Whether to trim unused recipe variants
