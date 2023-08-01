@@ -5,7 +5,7 @@ export const defineConfig = (config: any = {}) => {
     include = ["."],
     exclude = ["*/node_modules/*"],
     includeNames = ["*.js", "*.ts", "*.jsx", "*.tsx"],
-    excludeNames = ["*.lite.js", "*.lite.ts", "*.lite.jsx", "*.lite.tsx"],
+    excludeNames = ["*.lite.js", "*.lite.ts", "*.lite.jsx", "*.lite.tsx", "*.config.js", "*.config.ts", "*.d.js", "*.d.ts"],
     outdir = "@design-system",
     sourceTranspile = { enabled: true, extension: ".lite.jsx" },
     jsxFramework: framework = "react",
