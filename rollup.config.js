@@ -30,7 +30,7 @@ const esbuildOptions = {
 
 export default [
   {
-    input: "src/bin.ts",
+    input: "src/cli/bin.ts",
     external: ["child_process"],
     plugins: [esbuild(esbuildOptions)],
     output: [
@@ -44,7 +44,7 @@ export default [
     ],
   },
   {
-    input: "src/copy-artifacts.ts",
+    input: "src/cli/copy-artifacts.ts",
     external: ["child_process", "fs", "radipan/radipan.config.json"],
     plugins: [esbuild(esbuildOptions), nodeResolve()],
     output: [
@@ -58,7 +58,7 @@ export default [
     ],
   },
   {
-    input: "src/config.ts",
+    input: "src/cli/config.ts",
     external: ["@pandacss/dev"],
     plugins: [esbuild(esbuildOptions)],
     output: [
@@ -71,7 +71,7 @@ export default [
     ],
   },
   {
-    input: "src/config.ts",
+    input: "src/cli/config.ts",
     external: ["@pandacss/dev"],
     plugins: [dts()],
     output: {
