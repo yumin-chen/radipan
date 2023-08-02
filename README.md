@@ -206,34 +206,37 @@ const Badge = ({
   ...props
 } = {}) => {
   return withCreate(as).create(
-    { size, variant, ...props, css: badgeRecipe },
+    {
+      size,
+      variant,
+      ...props,
+      css: {
+        base: {
+          borderRadius: "xs",
+          textTransform: "uppercase",
+        },
+        variants: {
+          size: {
+            sm: { fontSize: "xs", padding: "0 2px" },
+            md: { fontSize: "sm", padding: "0 var(--spacing-1x)" },
+            lg: { fontSize: "md", padding: "1px var(--spacing-1x)" },
+          },
+          variant: {
+            solid: {
+              /* solid style CSS code */
+            },
+            subtle: {
+              /* subtle style CSS code */
+            },
+            outline: {
+              /* outline style CSS code */
+            },
+          },
+        },
+      },
+    },
     children
   );
-};
-
-const badgeRecipe = {
-  base: {
-    borderRadius: "xs",
-    textTransform: "uppercase",
-  },
-  variants: {
-    size: {
-      sm: { fontSize: "xs", padding: "0 2px" },
-      md: { fontSize: "sm", padding: "0 var(--spacing-1x)" },
-      lg: { fontSize: "md", padding: "1px var(--spacing-1x)" },
-    },
-    variant: {
-      solid: {
-        /* solid style CSS code */
-      },
-      subtle: {
-        /* subtle style CSS code */
-      },
-      outline: {
-        /* outline style CSS code */
-      },
-    },
-  },
 };
 
 export default withCreate(Badge);
