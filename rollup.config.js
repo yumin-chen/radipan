@@ -80,7 +80,7 @@ export default [
     },
   },
   {
-    input: "src/radipan.ts",
+    input: "src/core/radipan.ts",
     external: [
       "react",
       "preact",
@@ -101,7 +101,7 @@ export default [
     ],
   },
   {
-    input: "src/radipan.ts",
+    input: "src/core/radipan.ts",
     plugins: [dts()],
     output: {
       file: "dist/radipan.d.ts",
@@ -109,7 +109,7 @@ export default [
     },
   },
   {
-    input: "src/html-tags.ts",
+    input: "src/core/html-tags.ts",
     external: ["radipan"],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
@@ -122,7 +122,7 @@ export default [
     ],
   },
   {
-    input: "src/html-tags.d.ts",
+    input: "src/core/html-tags.d.ts",
     plugins: [dts()],
     output: {
       file: "dist/html-tags.d.ts",

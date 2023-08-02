@@ -14,7 +14,7 @@ import {
   writeFileSync,
   readFileSync,
 } from "fs";
-import { RecipeProps, CssProps, Creatable } from "../radipan.d";
+import { RecipeProps, CssProps, Creatable } from "../core/radipan";
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
 const process = (typeof global !== "undefined" && global?.process) || {
