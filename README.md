@@ -7,7 +7,7 @@ Radipan is an all-in-JS CSS-in-JS engine. With Radipan, you can write all your s
 ## Features
 
 - Real Zero-Runtime:
-  - Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates transpiled `.lite.ts` files 
+  - Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates transpiled `.lite.ts` files for you to import and use to completely rid of the dependence on Radipan (or PandaCSS)
 - Flexible API:
   - JSX-compatible API
   - [HyperScript](https://github.com/hyperhype/hyperscript)-compatible API
