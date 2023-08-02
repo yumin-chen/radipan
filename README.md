@@ -239,6 +239,48 @@ Radipan works with various frameworks and tools, such as React, Preact, Vite, Ne
 
 (More coming soon...)
 
+## Limitations
+
+- The transpiler uses simple string manipulation to handle the `css`-to-`className` transformation, and can only handle **inline** object syntax declared within the `css` prop. It cannot handle anything dynamic, and you cannot declare the object using a variable. For example:
+
+```javascript
+// Bad
+function App() {
+  return (
+    <main css={mainCss}>
+      <div css={divCss}>Hello Radip🐼n!</div>
+    </main>
+  );
+
+  const mainCss = {
+    width: "100%",
+    height: "100vh",
+    color: { base: "black", _osDark: "white" },
+    background: { base: "white", _osDark: "black" },
+  };
+
+  const divCss = { fontSize: "2xl", fontWeight: "bold" };
+}
+```
+
+```javascript
+// Good
+function App() {
+  return (
+    <main
+      css={{
+        width: "100%",
+        height: "100vh",
+        color: { base: "black", _osDark: "white" },
+        background: { base: "white", _osDark: "black" },
+      }}
+    >
+      <div css={{ fontSize: "2xl", fontWeight: "bold" }}>Hello Radip🐼n!</div>
+    </main>
+  );
+}
+```
+
 ## Troubleshooting
 
 To enable debug logging, run the Radipan CLI with `DEBUG=true`.
