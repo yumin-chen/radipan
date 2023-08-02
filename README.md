@@ -22,6 +22,17 @@ Radipan runs your code during build time and scan the entry component and its ch
 
 Radipan supports the widely adopted inline `css` prop syntax that made popular by libraries like [Emotion.js](https://emotion.sh/docs/css-prop), [Stitches.js](https://stitches.dev/docs/overriding-styles#the-css-prop) and [Mitosis](https://mitosis.builder.io/), etc...
 
+## Examples
+
+Radipan works with various frameworks and tools, such as React, Preact, Vite, Next.js, etc.
+
+- [Radipan + Vite + React + TypeScript Starter (radipan-vite-react-ts)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-react-ts)
+- [Radipan + Vite + React + TypeScript + JSX Starter (radipan-vite-react-tsx)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-react-tsx)
+- [Radipan + Vite + Solid + TypeScript Starter (radipan-vite-solid-ts)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-solid-ts)
+- [Radipan + Vite + Solid + TypeScript + JSX Starter (radipan-vite-solid-tsx)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-solid-tsx)
+
+(More coming soon...)
+
 ## Setup
 
 ### Installation
@@ -227,17 +238,6 @@ const badgeRecipe = {
 
 export default withCreate(Badge);
 ```
-
-## Examples
-
-Radipan works with various frameworks and tools, such as React, Preact, Vite, Next.js, etc.
-
-- [Radipan + Vite + React + TypeScript Starter (radipan-vite-react-ts)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-react-ts)
-- [Radipan + Vite + React + TypeScript + JSX Starter (radipan-vite-react-tsx)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-react-tsx)
-- [Radipan + Vite + Solid + TypeScript Starter (radipan-vite-solid-ts)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-solid-ts)
-- [Radipan + Vite + Solid + TypeScript + JSX Starter (radipan-vite-solid-tsx)](https://github.com/yumin-chen/radipan/tree/main/examples/radipan-vite-solid-tsx)
-
-(More coming soon...)
 
 ## Limitations
 
