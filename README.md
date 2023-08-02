@@ -4,6 +4,16 @@ _The missing `css` prop API for [🐼 PandaCSS](https://panda-css.com)._
 
 Radipan is an all-in-JS CSS-in-JS engine. With Radipan, you can write all your styles in JavaScript without the need for HTML or CSS.
 
+## Features
+
+- Real Zero-Runtime:
+  - Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates transpiled `.lite.ts` files 
+- Flexible API:
+  - JSX-compatible API
+  - [HyperScript](https://github.com/hyperhype/hyperscript)-compatible API
+    - `h(tag, attrs, [text?, Elements?,...])`
+- Recipe Shaking Optimization (coming soon...)
+
 ## How it works
 
 Radipan runs your code during build time and scan the entry component and its child nodes for inline `css` props and transforms these props into intermediate PandaCSS code (`css`, `cva`, etc.), which generates static CSS code.
@@ -11,14 +21,6 @@ Radipan runs your code during build time and scan the entry component and its ch
 ### • Why?
 
 Radipan supports the widely adopted inline `css` prop syntax that made popular by libraries like [Emotion.js](https://emotion.sh/docs/css-prop), [Stitches.js](https://stitches.dev/docs/overriding-styles#the-css-prop) and [Mitosis](https://mitosis.builder.io/), etc...
-
-## Features
-
-- [HyperScript](https://github.com/hyperhype/hyperscript)-compatible API
-  - `h(tag, attrs, [text?, Elements?,...])`
-- JSX-compatible API
-- Built-in transpiler that transforms `css` prop into its resulting `className` prop at build time, and generates transpiled `.lite.ts` files
-- Recipe Shaking Optimization (coming soon...)
 
 ## Setup
 
