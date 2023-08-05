@@ -8,7 +8,9 @@ const process = (typeof global !== "undefined" && global?.process) || {
   env: {},
 };
 const DEBUG = process?.env?.DEBUG;
-const COMPILED_FILES = new Map();
+const TRANSPILED_FILES = new Map();
+
+global.fileLock = "";
 
 const prettierConfigResolve = async () => {
   const prettierConfig = await resolveConfigFile();
@@ -23,11 +25,12 @@ export const transpileForJsx = async (
   className,
   cssClasses
 ) => {
-  !!prettierConfigResolvePromise && (await prettierConfigResolvePromise);
   const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
+  while (global.fileLock === transpileFileName) { await prettierConfigResolvePromise }
+  global.fileLock = transpileFileName;
   const allFileContents =
-    (COMPILED_FILES.has(transpileFileName) &&
-      COMPILED_FILES.get(transpileFileName)) ||
+    (TRANSPILED_FILES.has(transpileFileName) &&
+      TRANSPILED_FILES.get(transpileFileName)) ||
     readFileSync(transpileFileName, "utf-8");
   const lines = allFileContents.split(/\r?\n/);
   const restOfFile =
@@ -61,8 +64,61 @@ export const transpileForJsx = async (
     "\n" +
     lines[_source.lineNumber - 1].substring(0, _source.columnNumber - 1) +
     replaced;
-  COMPILED_FILES.set(transpileFileName, transpiledContents);
+  TRANSPILED_FILES.set(transpileFileName, transpiledContents);
   writeFileSync(transpileFileName, transpiledContents);
+  global.fileLock = "";
   DEBUG &&
-    console.debug("Transpiled component successfully: ", cssString, replaced);
+    console.debug(
+      "Transpiled component successfully: ",
+      transpileFileName,
+      cssString,
+      replaced
+    );
+};
+
+export const transpileForHyperscript = async (
+  cssProp,
+  className,
+  cssClasses
+) => {
+  const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
+  while (global.fileLock === transpileFileName) { await prettierConfigResolvePromise }
+  global.fileLock = transpileFileName;
+  const allFileContents =
+    (TRANSPILED_FILES.has(transpileFileName) &&
+      TRANSPILED_FILES.get(transpileFileName)) ||
+    readFileSync(transpileFileName, "utf-8");
+  const formatted = allFileContents
+    .split(/\r?\n/)
+    .join("\n")
+    .replaceAll(new RegExp(/\r?\n\s+/, "g"), "\n  ")
+    .replaceAll(new RegExp(/\r?\n\s+}/, "g"), "\n}");
+
+  const cssString = (
+    await format(JSON.stringify(cssProp), { parser: "json5" })
+  ).replace(/\r?\n+$/, "");
+  const numCssLines = cssString.split(/\r?\n/).length;
+
+  if (formatted.indexOf(`css: ${cssString}`) === -1) {
+    console.error(
+      "Failed to transpile ",
+      transpileFileName,
+      formatted,
+      `css: ${cssString}`
+    );
+  }
+  const replacement = `/* Radipan Transpiled */ ${"\n".repeat(
+    numCssLines - 1
+  )} className: "${!className ? cssClasses : cx(cssClasses, className)}"`;
+  const replaced = formatted.replace(`css: ${cssString}`, replacement);
+  TRANSPILED_FILES.set(transpileFileName, replaced);
+  writeFileSync(transpileFileName, replaced);
+  global.fileLock = "";
+  DEBUG &&
+    console.debug(
+      "Transpiled component successfully: ",
+      transpileFileName,
+      cssString,
+      replaced,
+    );
 };
