@@ -105,12 +105,21 @@ export const transpileForHyperscript = async (
       `radipanId: "${radipanId}", css: `
     );
   }
-  const replacement = `/* Radipan Transpiled */ className: "${
-    !className ? cssClasses : cx(cssClasses, className)
-  }"`;
-  const end = findBalancedClosingBracket(src, keyPos + 24, "{", "}");
+  const classesStr = !className ? cssClasses : cx(cssClasses, className);
+  const escapedClassStr = classesStr.replace(/"/g, '\\"');
+  const replacement = `/* Radipan Transpiled */ className: "${escapedClassStr}"`;
+  const end = findBalancedClosingBracketOrEol(src, keyPos + 24, "{", "}");
+  if (end === -1) {
+    console.error(
+      "Cannot find closing tag ",
+      transpileFileName,
+      src,
+      keyPos + 24,
+      replacement
+    );
+  }
   const replaced =
-    src.substring(0, keyPos) + replacement + src.substring(end + 2);
+    src.substring(0, keyPos) + replacement + src.substring(end + 1);
   TRANSPILED_FILES.set(transpileFileName, replaced);
   writeFileSync(transpileFileName, replaced);
   global.fileLock = "";
@@ -123,7 +132,9 @@ export const transpileForHyperscript = async (
     );
 };
 
-const findBalancedClosingBracket = (
+// Get index of balanced closing bracket, or get the index of end of line if
+//  there's no bracket (variable assignment for example)
+const findBalancedClosingBracketOrEol = (
   str: string,
   start: number,
   startBracket: string,
@@ -136,8 +147,13 @@ const findBalancedClosingBracket = (
       balance++;
       balanceChanged = true;
     } else if (str[i] === endBracket) {
+      if (!balanceChanged) {
+        return i - 1;
+      }
       balance--;
       balanceChanged = true;
+    } else if ((str[i] === "," || str[i] === "\n") && !balanceChanged) {
+      return i;
     }
     if (balance === 0 && balanceChanged) {
       return i;
