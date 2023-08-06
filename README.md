@@ -54,7 +54,13 @@ export default defineConfig({
   include: ["src"], // Source paths to include for CSS processing
   exclude: [""], // Source paths to exclude from scanning
   includeNames: ["*.ts", "*.tsx"], // Source files to include for CSS processing
-  excludeNames: ["main.tsx", "*.init.ts", "*.init.tsx", "*.lite.ts", "*.lite.tsx"], // Source files to exclude from scanning
+  excludeNames: [
+    "main.tsx",
+    "*.init.ts",
+    "*.init.tsx",
+    "*.lite.ts",
+    "*.lite.tsx",
+  ], // Source files to exclude from scanning
   jsxFramework: "react", // "react" | "solid" | "preact" | "vue" | "qwik"
   preflight: true, // Whether to use css reset
   recipeShaking: true, // Whether to trim unused recipe variants
@@ -210,7 +216,12 @@ const Badge = ({
       size,
       variant,
       ...props,
-      css: {
+      css: badgeRecipe,
+    children
+  );
+};
+
+const badgeRecipe = {
         base: {
           borderRadius: "xs",
           textTransform: "uppercase",
@@ -234,53 +245,38 @@ const Badge = ({
           },
         },
       },
-    },
-    children
-  );
-};
+    };
 
 export default withCreate(Badge);
 ```
 
 ## Limitations
 
-- The transpiler uses simple string manipulation to handle the `css`-to-`className` transformation, and can only handle **inline** object syntax declared within the `css` prop. It cannot handle anything dynamic, and you cannot declare the object using a variable. For example:
+- The transpiler uses string manipulation to handle the `css`-to-`className` transformation. It runs your code at build time, and turns any dynamic references into static values. If you need real dynamic styles, you might need to move any runtime references (e.g., reference of values from hooks) into `styles` prop.
 
 ```javascript
-// Bad
-function App() {
+const Widget = ({ width: number }) => {
   return (
-    <main css={mainCss}>
-      <div css={divCss}>Hello Radip🐼n!</div>
-    </main>
+    <div
+      // ❌ Static: The value of width is turned into static at build-time as per usage
+      css={{ width, color: red }}
+    >
+      Hello Radip🐼n!
+    </div>
   );
-
-  const mainCss = {
-    width: "100%",
-    height: "100vh",
-    color: { base: "black", _osDark: "white" },
-    background: { base: "white", _osDark: "black" },
-  };
-
-  const divCss = { fontSize: "2xl", fontWeight: "bold" };
-}
+};
 ```
 
 ```javascript
 // Good
-function App() {
+function Widget() {
+  const [color, setColor] = useState("red.300");
   return (
-    <main
-      css={{
-        width: "100%",
-        height: "100vh",
-        color: { base: "black", _osDark: "white" },
-        background: { base: "white", _osDark: "black" },
-      }}
-    >
-      <div css={{ fontSize: "2xl", fontWeight: "bold" }}>Hello Radip🐼n!</div>
-    </main>
+    // ✅ Good: This will work because `red.300` can be staticaly analyzed at build time
+    <div css={{ ...divCss, color }}>Hello Radip🐼n!</div>
   );
+
+  const divCss = { fontSize: "2xl", fontWeight: "bold" };
 }
 ```
 
