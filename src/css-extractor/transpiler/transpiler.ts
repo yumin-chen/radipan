@@ -83,50 +83,34 @@ export const transpileForJsx = async (
 };
 
 export const transpileForHyperscript = async (
-  radipanId,
-  cssProp,
-  className,
-  cssClasses
+  radipanId: string,
+  className: string,
+  cssClasses: string
 ) => {
   const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
   while (global.fileLock === transpileFileName) {
     await prettierConfigResolvePromise;
   }
   global.fileLock = transpileFileName;
-  const allFileContents =
+  const src =
     (TRANSPILED_FILES.has(transpileFileName) &&
       TRANSPILED_FILES.get(transpileFileName)) ||
     readFileSync(transpileFileName, "utf-8");
-  const formatted = allFileContents
-    .split(/\r?\n/)
-    .join("\n")
-    .replaceAll(new RegExp(/\r?\n\s+/, "g"), "\n  ")
-    .replaceAll(new RegExp(/\r?\n\s+}/, "g"), "\n}");
-
-  const cssString = (
-    await format(JSON.stringify(cssProp), { parser: "json5" })
-  ).replace(/\r?\n+$/, "");
-  const numCssLines = cssString.split(/\r?\n/).length;
-
-  if (formatted.indexOf(`css: ${cssString}`) === -1) {
+  const keyPos = src.indexOf(`radipanId: "${radipanId}", css: `);
+  if (keyPos === -1) {
     console.error(
       "Failed to transpile ",
       transpileFileName,
-      formatted,
-      `css: ${cssString}`
+      src,
+      `radipanId: "${radipanId}", css: `
     );
   }
-  const replaceRegex = `radipanId: "${radipanId}", css: {${".*\\r?\\n".repeat(
-    numCssLines - 1
-  )}.*},?`;
-  const replacement = `/* Radipan Transpiled */ ${"\n".repeat(
-    numCssLines - 1
-  )} className: "${!className ? cssClasses : cx(cssClasses, className)}"${
-    numCssLines === 1 ? " }," : ""
-  }`;
-
-  // console.log(numCssLines, numCssLines === 1, replaceRegex, "|", replacement);
-  const replaced = formatted.replace(new RegExp(replaceRegex), replacement);
+  const replacement = `/* Radipan Transpiled */ className: "${
+    !className ? cssClasses : cx(cssClasses, className)
+  }"`;
+  const end = findBalancedClosingBracket(src, keyPos + 24, "{", "}");
+  const replaced =
+    src.substring(0, keyPos) + replacement + src.substring(end + 2);
   TRANSPILED_FILES.set(transpileFileName, replaced);
   writeFileSync(transpileFileName, replaced);
   global.fileLock = "";
@@ -134,7 +118,30 @@ export const transpileForHyperscript = async (
     console.debug(
       "Transpiled component successfully: ",
       transpileFileName,
-      cssString,
+      // cssString,
       replaced
     );
+};
+
+const findBalancedClosingBracket = (
+  str: string,
+  start: number,
+  startBracket: string,
+  endBracket: string
+): number => {
+  let balance = 0;
+  let balanceChanged = false;
+  for (let i = start; i < str.length; i++) {
+    if (str[i] === startBracket) {
+      balance++;
+      balanceChanged = true;
+    } else if (str[i] === endBracket) {
+      balance--;
+      balanceChanged = true;
+    }
+    if (balance === 0 && balanceChanged) {
+      return i;
+    }
+  }
+  return -1;
 };

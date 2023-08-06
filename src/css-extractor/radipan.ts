@@ -105,12 +105,7 @@ export async function createElement(
     );
 
     if (process.env?.CSSGEN === "pregen") {
-      await transpileForHyperscript(
-        props.radipanId,
-        props.css,
-        className,
-        cssClasses
-      );
+      await transpileForHyperscript(props.radipanId, className, cssClasses);
 
       _source &&
         _source.lineNumber &&
