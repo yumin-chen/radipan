@@ -1,4 +1,10 @@
-import { realpathSync, readFileSync, writeFileSync, rmSync } from "fs";
+import {
+  existsSync,
+  realpathSync,
+  readFileSync,
+  writeFileSync,
+  rmSync,
+} from "fs";
 import { outdir } from "radipan/radipan.config.json";
 import { preformat } from "./transpiler/preformatter";
 
@@ -27,4 +33,6 @@ try {
   console.log("Successfully extracted:", srcFile);
 } catch (error) {
   console.log("Failed to process:", srcFile, error);
+} finally {
+  existsSync(`./${srcFile}.init.tsx`) && rmSync(`./${srcFile}.init.tsx`);
 }
