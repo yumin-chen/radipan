@@ -15,6 +15,7 @@ try {
   );
   process.env.DEBUG && console.debug(exported.toString());
   exported();
+  console.log("Successfully extracted:", srcFile);
 } catch (error) {
   console.log("Failed to process:", srcFile, error);
 }

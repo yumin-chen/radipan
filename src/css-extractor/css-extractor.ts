@@ -44,7 +44,6 @@ includeFileList.forEach(async srcFile => {
     `tsx --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/extract.js" ${srcFile}`,
     { stdio: "inherit" }
   );
-  console.log("Successfully extracted:", srcFile);
   process.env.CSSGEN = "done";
   process.env.CSSGEN_FILE = "";
 });
