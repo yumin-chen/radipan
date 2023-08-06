@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 # Generated Radipan files
+*.init.tsx
 *.lite.tsx

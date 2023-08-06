@@ -4,7 +4,7 @@ export default defineConfig({
   include: ["src"], // Source paths to include for CSS processing
   exclude: [""], // Source paths to exclude from scanning
   includeNames: ["*.ts"], // Source files to include for CSS processing
-  excludeNames: ["index.ts", "*.lite.ts", "*.d.ts"], // Source files to exclude from scanning
+  excludeNames: ["index.ts", "*.init.ts", "*.lite.ts", "*.d.ts"], // Source files to exclude from scanning
   jsxFramework: "solid", // "react" | "solid" | "preact" | "vue" | "qwik"
   outdir: "@design-system", // The output directory in /node_modules
   preflight: true, // Whether to use css reset

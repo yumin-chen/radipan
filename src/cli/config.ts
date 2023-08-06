@@ -6,6 +6,10 @@ export const defineConfig = (config: any = {}) => {
     exclude = ["*/node_modules/*"],
     includeNames = ["*.js", "*.ts", "*.jsx", "*.tsx"],
     excludeNames = [
+      "*.init.js",
+      "*.init.ts",
+      "*.init.jsx",
+      "*.init.tsx",
       "*.lite.js",
       "*.lite.ts",
       "*.lite.jsx",
