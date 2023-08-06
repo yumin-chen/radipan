@@ -258,8 +258,9 @@ export default withCreate(Badge);
 const Widget = ({ width: number }) => {
   return (
     <div
-      // ❌ Static: The value of width is turned into static at build-time as per usage
-      css={{ width, color: red }}
+      // ⚠️ Static: The value of `width`` is turned into static at build-time as per usage
+      // Any change to `width` will not update the width during runtime
+      css={{ width, color: "red" }}
     >
       Hello Radip🐼n!
     </div>
@@ -268,12 +269,33 @@ const Widget = ({ width: number }) => {
 ```
 
 ```javascript
-// Good
 function Widget() {
   const [color, setColor] = useState("red.300");
   return (
-    // ✅ Good: This will work because `red.300` can be staticaly analyzed at build time
+    // ⚠️ Static: This will work statically because `red.300` is the value at build time
+    // Any change to `color` will not update the color during runtime
     <div css={{ ...divCss, color }}>Hello Radip🐼n!</div>
+  );
+
+  const divCss = { fontSize: "2xl", fontWeight: "bold" };
+}
+```
+
+```javascript
+function Widget() {
+  const [color, setColor] = useState("red.300");
+  return (
+    <>
+      {
+        // ✅ Good: `color` is dynamically updated after user interactions using the `styles` prop
+      }
+      <div css={divCss} styles={{ color }}>
+        Hello Radip🐼n!
+      </div>
+      <button type="button" onClick={() => setColor("green.600")}>
+        Change Color
+      </button>
+    </>
   );
 
   const divCss = { fontSize: "2xl", fontWeight: "bold" };
