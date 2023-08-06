@@ -57,7 +57,7 @@
     "@types/react": "latest",
     "esbuild": "latest",
     "prettier": "latest",
-    "rollup": "^3.26.2",
+    "rollup": "^3.27.2",
     "rollup-plugin-dts": "latest",
     "rollup-plugin-esbuild": "latest"
   }
