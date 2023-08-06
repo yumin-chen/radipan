@@ -20,13 +20,16 @@ const prettierConfigResolve = async () => {
 const prettierConfigResolvePromise = prettierConfigResolve();
 
 export const transpileForJsx = async (
+  radipanId,
   _source,
   cssProp,
   className,
   cssClasses
 ) => {
   const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
-  while (global.fileLock === transpileFileName) { await prettierConfigResolvePromise }
+  while (global.fileLock === transpileFileName) {
+    await prettierConfigResolvePromise;
+  }
   global.fileLock = transpileFileName;
   const allFileContents =
     (TRANSPILED_FILES.has(transpileFileName) &&
@@ -58,7 +61,10 @@ export const transpileForJsx = async (
   const replacement = `/* Radipan Transpiled */ ${"\n".repeat(
     numCssLines - 1
   )} className="${!className ? cssClasses : cx(cssClasses, className)}"`;
-  const replaced = restOfFile.replace(`css={${cssString}}`, replacement);
+  const replaced = restOfFile.replace(
+    `radipanId={"${radipanId}"} css={${cssString}}`,
+    replacement
+  );
   const transpiledContents =
     lines.slice(0, _source.lineNumber - 1).join("\n") +
     "\n" +
@@ -77,12 +83,15 @@ export const transpileForJsx = async (
 };
 
 export const transpileForHyperscript = async (
+  radipanId,
   cssProp,
   className,
   cssClasses
 ) => {
   const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
-  while (global.fileLock === transpileFileName) { await prettierConfigResolvePromise }
+  while (global.fileLock === transpileFileName) {
+    await prettierConfigResolvePromise;
+  }
   global.fileLock = transpileFileName;
   const allFileContents =
     (TRANSPILED_FILES.has(transpileFileName) &&
@@ -107,10 +116,17 @@ export const transpileForHyperscript = async (
       `css: ${cssString}`
     );
   }
+  const replaceRegex = `radipanId: "${radipanId}", css: {${".*\\r?\\n".repeat(
+    numCssLines - 1
+  )}.*},?`;
   const replacement = `/* Radipan Transpiled */ ${"\n".repeat(
     numCssLines - 1
-  )} className: "${!className ? cssClasses : cx(cssClasses, className)}"`;
-  const replaced = formatted.replace(`css: ${cssString}`, replacement);
+  )} className: "${!className ? cssClasses : cx(cssClasses, className)}"${
+    numCssLines === 1 ? " }," : ""
+  }`;
+
+  // console.log(numCssLines, numCssLines === 1, replaceRegex, "|", replacement);
+  const replaced = formatted.replace(new RegExp(replaceRegex), replacement);
   TRANSPILED_FILES.set(transpileFileName, replaced);
   writeFileSync(transpileFileName, replaced);
   global.fileLock = "";
@@ -119,6 +135,6 @@ export const transpileForHyperscript = async (
       "Transpiled component successfully: ",
       transpileFileName,
       cssString,
-      replaced,
+      replaced
     );
 };
