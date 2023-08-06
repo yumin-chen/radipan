@@ -285,10 +285,8 @@ function Widget() {
 function Widget() {
   const [color, setColor] = useState("red.300");
   return (
+    // ✅ Good: `color` is in `styles` because it's dynamically updated after user interactions
     <>
-      {
-        // ✅ Good: `color` is dynamically updated after user interactions using the `styles` prop
-      }
       <div css={divCss} styles={{ color }}>
         Hello Radip🐼n!
       </div>
