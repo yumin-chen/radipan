@@ -19,57 +19,10 @@ const prettierConfigResolve = async () => {
 
 const prettierConfigResolvePromise = prettierConfigResolve();
 
-export const transpileForJsx = async (radipanId, className, cssClasses) => {
-  const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
-  while (global.fileLock !== "") {
-    await prettierConfigResolvePromise;
-  }
-  global.fileLock = transpileFileName;
-  const src =
-    (TRANSPILED_FILES.has(transpileFileName) &&
-      TRANSPILED_FILES.get(transpileFileName)) ||
-    readFileSync(transpileFileName, "utf-8");
-  const keyPos = src.indexOf(`radipanId={"${radipanId}"} css={`);
-  if (keyPos === -1) {
-    DEBUG &&
-      console.error(
-        "Failed to transpile ",
-        transpileFileName,
-        src,
-        `radipanId={"${radipanId}"} css={`
-      );
-    return false;
-  }
-  const classesStr = !className ? cssClasses : cx(cssClasses, className);
-  const escapedClassStr = classesStr.replace(/"/g, '\\"');
-  const replacement = `/* Radipan Transpiled */ className={"${escapedClassStr}"}`;
-  const end = findBalancedClosingBracketOrEol(src, keyPos + 24, "{", "}");
-  if (end === -1) {
-    DEBUG &&
-      console.error(
-        "Cannot find closing tag ",
-        transpileFileName,
-        src,
-        keyPos + 24,
-        replacement
-      );
-    return false;
-  }
-  const replaced =
-    src.substring(0, keyPos) + replacement + src.substring(end + 1);
-  TRANSPILED_FILES.set(transpileFileName, replaced);
-  writeFileSync(transpileFileName, replaced);
-  global.fileLock = "";
-  DEBUG &&
-    console.debug(
-      "Transpiled component successfully: ",
-      transpileFileName,
-      replaced
-    );
-  return true;
-};
+type Syntax = "JSX" | "HyperScript";
 
-export const transpileForHyperscript = async (
+// Define the transpile function that does not take a syntax parameter
+export const transpile = async (
   radipanId: string,
   className: string,
   cssClasses: string
@@ -83,28 +36,51 @@ export const transpileForHyperscript = async (
     (TRANSPILED_FILES.has(transpileFileName) &&
       TRANSPILED_FILES.get(transpileFileName)) ||
     readFileSync(transpileFileName, "utf-8");
-  const keyPos = src.indexOf(`radipanId: "${radipanId}", css: `);
+
+  const jsxKeyString = `radipanId={"${radipanId}"} css={`;
+  const hyperscriptKeyString = `radipanId: "${radipanId}", css: `;
+  let keyPos = src.indexOf(jsxKeyString);
+  let syntax: Syntax;
   if (keyPos === -1) {
-    DEBUG &&
-      console.error(
-        "Failed to transpile ",
-        transpileFileName,
-        src,
-        `radipanId: "${radipanId}", css: `
-      );
-    return false;
+    keyPos = src.indexOf(hyperscriptKeyString);
+    if (keyPos === -1) {
+      DEBUG &&
+        console.error(
+          "Failed to transpile ",
+          transpileFileName,
+          src,
+          radipanId
+        );
+      return false;
+    } else {
+      syntax = "HyperScript";
+    }
+  } else {
+    syntax = "JSX";
   }
+  // Get the key string based on the syntax
+  const keyString = syntax === "JSX" ? jsxKeyString : hyperscriptKeyString;
   const classesStr = !className ? cssClasses : cx(cssClasses, className);
   const escapedClassStr = classesStr.replace(/"/g, '\\"');
-  const replacement = `/* Radipan Transpiled */ className: "${escapedClassStr}"`;
-  const end = findBalancedClosingBracketOrEol(src, keyPos + 24, "{", "}");
+  // Use a ternary operator to get the replacement string based on the syntax
+  const replacement = `/* Radipan Transpiled */ ${
+    syntax === "JSX"
+      ? `className={"${escapedClassStr}"}`
+      : `className: "${escapedClassStr}",`
+  }`;
+  const end = findBalancedClosingBracketOrEol(
+    src,
+    keyPos + keyString.length,
+    "{",
+    "}"
+  );
   if (end === -1) {
     DEBUG &&
       console.error(
         "Cannot find closing tag ",
         transpileFileName,
         src,
-        keyPos + 24,
+        keyPos + keyString.length,
         replacement
       );
     return false;
@@ -118,7 +94,6 @@ export const transpileForHyperscript = async (
     console.debug(
       "Transpiled component successfully: ",
       transpileFileName,
-      // cssString,
       replaced
     );
   return true;
@@ -144,7 +119,9 @@ const findBalancedClosingBracketOrEol = (
       }
       balance--;
       balanceChanged = true;
-    } else if ((str[i] === "," || str[i] === "\n") && !balanceChanged) {
+    } else if (str[i] === "," && !balanceChanged) {
+      return i + 1;
+    } else if (str[i] === "\n" && !balanceChanged) {
       return i;
     }
     if (balance === 0 && balanceChanged) {

@@ -8,10 +8,7 @@ import {
 import { SystemStyleObject } from "@radipan-design-system/types";
 import { appendFileSync, existsSync, mkdirSync, writeFileSync } from "fs";
 import { RecipeProps, CssProps, Creatable } from "../core/radipan";
-import {
-  transpileForHyperscript,
-  transpileForJsx,
-} from "./transpiler/transpiler";
+import { transpile } from "./transpiler/transpiler";
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
 const process = (typeof global !== "undefined" && global?.process) || {
@@ -105,8 +102,7 @@ export async function createElement(
     );
 
     if (process.env?.CSSGEN === "pregen") {
-      (await transpileForHyperscript(props.radipanId, className, cssClasses)) ||
-        (await transpileForJsx(props.radipanId, className, cssClasses));
+      await transpile(props.radipanId, className, cssClasses);
     }
 
     return _h(
