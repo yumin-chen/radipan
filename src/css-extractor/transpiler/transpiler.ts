@@ -125,7 +125,7 @@ const findBalancedClosingBracketOrEol = (
       return i;
     }
     if (balance === 0 && balanceChanged) {
-      return i;
+      return i + 1;
     }
   }
   return -1;
