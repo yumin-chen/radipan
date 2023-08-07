@@ -1,7 +1,6 @@
 const hsSyntax = " css:";
-const jsxSyntax = " css=";
+const jsxSyntax = " css={";
 const idLength = 7;
-const taggedPadding = ` radipanId={""}`.length + idLength + 18;
 let seqId = 10;
 
 const genRandomId = (seqNum: number) =>
@@ -14,22 +13,23 @@ const genRandomId = (seqNum: number) =>
     .slice(-idLength)
     .toUpperCase();
 
-export const preformat = (code: string, start: number = 0) => {
+const addRadipanId = (code: string) => {
   seqId++;
-  if (!code) if (start >= code.length) return code;
-  // Tag with Radipan ID
-  const foundHs = code.indexOf(hsSyntax, start);
-  const foundJsx = code.indexOf(jsxSyntax, start);
-  const found = foundHs || foundJsx;
-  if (found <= 0) return code;
-  const useJsx =
-    (foundHs <= 0 && foundJsx > 0) ||
-    (foundJsx > 0 && foundHs > 0 && foundJsx < foundHs);
-  const radipanId = `${seqId}-${genRandomId(seqId)}`;
-  const tagged =
-    code.substring(0, found) +
-    (useJsx ? ` radipanId={"${radipanId}"}` : ` radipanId: "${radipanId}",`) +
-    code.substring(found);
+  const regex = /( css={| css:)/g; // Match for JSX and HS syntax
+  const replacer = (match: string) => {
+    const radipanId = `${seqId}-${genRandomId(seqId)}`;
+    switch (match) {
+      case jsxSyntax:
+        return ` radipanId={"${radipanId}"}${match}`;
+      case hsSyntax:
+        return ` radipanId: "${radipanId}",${match}`;
+      default:
+        throw Error(`Invalid match: ${match}`);
+    }
+  };
+  return code.replace(regex, replacer);
+};
 
-  return preformat(tagged, found + taggedPadding);
+export const preformat = (code: string) => {
+  return addRadipanId(code);
 };
