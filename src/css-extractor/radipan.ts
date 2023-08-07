@@ -1,24 +1,22 @@
-import { ComponentType, FunctionComponent, ReactNode } from "react";
-import { css, cva, cx } from "radipan/design-system";
-import { outdir } from "radipan/radipan.config.json";
+import { ComponentType, ReactNode } from "react";
+import { css, cva, cx } from "../cli/get-design-system";
+import { outdir } from "../cli/get-config";
 import {
   RecipeDefinition,
   RecipeVariantRecord,
 } from "@radipan-design-system/types/recipe";
 import { SystemStyleObject } from "@radipan-design-system/types";
 import { appendFileSync, existsSync, mkdirSync, writeFileSync } from "fs";
-import { RecipeProps, CssProps, Creatable } from "../core/radipan";
+import { RecipeProps, CssProps, Creatable } from "../core/radipan.d";
 import { transpile } from "./transpiler/transpiler";
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
 const process = (typeof global !== "undefined" && global?.process) || {
-  env: {},
+  env: { DEBUG: false, CSSGEN: "", CSSGEN_FILE: "" },
 };
 const DEBUG = process?.env?.DEBUG;
 
-const _h = (component, props, children) => {
-  return { component, props, children };
-};
+const _h = (component, props, children) => ({ component, props, children });
 
 const getVariantProps = (props: RecipeProps) => {
   const { css: cssProp, ...restProps } = props;
@@ -102,7 +100,11 @@ export async function createElement(
     );
 
     if (process.env?.CSSGEN === "pregen") {
-      await transpile(props.radipanId, className, cssClasses);
+      if (props.radipanId) {
+        await transpile(props.radipanId, className, cssClasses);
+      } else {
+        DEBUG && console.error("radipanId is missing: ", component, props.css);
+      }
     }
 
     return _h(

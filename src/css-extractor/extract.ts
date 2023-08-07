@@ -5,7 +5,7 @@ import {
   writeFileSync,
   rmSync,
 } from "fs";
-import { outdir } from "radipan/radipan.config.json";
+import { outdir } from "../cli/get-config";
 import { preformat } from "./transpiler/preformatter";
 
 const [, , srcFile, ...options] = process.argv;

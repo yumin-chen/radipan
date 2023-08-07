@@ -1,10 +1,6 @@
 import { execSync } from "child_process";
 
-const [, , command, ...options] = process.argv;
-
-console.log("Radipan:", command, ...options);
-
-const readOptionContent = (
+export const readOptionContent = (
   options: string[],
   longCmd: string,
   shortCmd: string
@@ -16,53 +12,67 @@ const readOptionContent = (
     (index >= 0 && options.length > index + 1 && options[index + 1]) || null
   );
 };
-const configPath =
-  readOptionContent(options, "--config", "-c") || "radipan.config.ts";
 
-switch (command) {
-  case "css-extract": {
-    if (options.includes("--watch")) {
-      execSync(
-        'npx tsx --watch --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js"',
-        { stdio: "inherit" }
-      );
-      execSync('npx tsx "node_modules/radipan/dist/copy-artifacts.js"');
-      break;
+export const extractCSS =
+  'npx tsx --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js"';
+
+export const main = (execCommandSync: Function) => {
+  const [, , command, ...options] = process.argv;
+
+  console.log("Radipan:", command, ...options);
+
+  const configPath =
+    readOptionContent(options, "--config", "-c") || "radipan.config.ts";
+
+  const execCommand = (cmd: string) => {
+    try {
+      execCommandSync(cmd, { stdio: "inherit" });
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
     }
+  };
 
-    execSync(
-      'npx tsx --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js"',
-      { stdio: "inherit" }
-    );
-    execSync('npx tsx "node_modules/radipan/dist/copy-artifacts.js"');
-    break;
-  }
-  case "cssgen": {
-    if (options.includes("--watch")) {
-      execSync(
-        `npx radipan css-extract --watch & npx panda cssgen --config ${configPath} --watch`,
-        { stdio: "inherit" }
-      );
-      break;
-    }
-
-    execSync(
-      `npx radipan css-extract && npx panda cssgen --config ${configPath}`,
-      { stdio: "inherit" }
-    );
-    break;
-  }
-  case "design": {
-    execSync(`npx panda studio --config ${configPath}`, { stdio: "inherit" });
-    break;
-  }
-  case "prepare": {
-    execSync(
-      `npx panda codegen --config ${configPath} && npx radipan cssgen --config ${configPath}`,
-      {
-        stdio: "inherit",
+  switch (command) {
+    case "css-extract": {
+      if (options.includes("--watch")) {
+        execCommand(`${extractCSS} --watch`);
+        execCommand('npx tsx "node_modules/radipan/dist/copy-artifacts.js"');
+        break;
       }
-    );
-    break;
+
+      execCommand(extractCSS);
+      execCommand('npx tsx "node_modules/radipan/dist/copy-artifacts.js"');
+      break;
+    }
+    case "cssgen": {
+      if (options.includes("--watch")) {
+        execCommand(
+          `${extractCSS} --watch & npx panda cssgen --config ${configPath} --watch`
+        );
+        break;
+      }
+
+      execCommand(`${extractCSS} && npx panda cssgen --config ${configPath}`);
+      break;
+    }
+    case "design": {
+      execCommand(`npx panda studio --config ${configPath}`);
+      break;
+    }
+    case "prepare": {
+      execCommand(
+        `npx panda codegen --config ${configPath} && npx radipan cssgen --config ${configPath}`
+      );
+      break;
+    }
+    default: {
+      console.error("Invalid command:", command);
+      process.exit(1);
+    }
   }
-}
+};
+
+process.env.NODE_ENV !== "test" && main(execSync);
+
+export default main;

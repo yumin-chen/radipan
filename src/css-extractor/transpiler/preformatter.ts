@@ -22,9 +22,8 @@ const addRadipanId = (code: string) => {
       case jsxSyntax:
         return ` radipanId={"${radipanId}"}${match}`;
       case hsSyntax:
-        return ` radipanId: "${radipanId}",${match}`;
       default:
-        throw Error(`Invalid match: ${match}`);
+        return ` radipanId: "${radipanId}",${match}`;
     }
   };
   return code.replace(regex, replacer);

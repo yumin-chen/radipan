@@ -1,23 +1,15 @@
-import { resolveConfig, resolveConfigFile } from "prettier";
-import { outdir } from "radipan/radipan.config.json";
-import { cx } from "radipan/design-system";
+import { outdir } from "../../cli/get-config";
+import { cx } from "../../cli/get-design-system";
 import { writeFileSync, readFileSync } from "fs";
 
 const EXPORT_FOLDER = `node_modules/${outdir}/exported`;
 const process = (typeof global !== "undefined" && global?.process) || {
-  env: {},
+  env: { DEBUG: false, fileLock: "", CSSGEN_FILE: "" },
 };
 const DEBUG = process?.env?.DEBUG;
 const TRANSPILED_FILES = new Map();
 
-global.fileLock = "";
-
-const prettierConfigResolve = async () => {
-  const prettierConfig = await resolveConfigFile();
-  prettierConfig && (await resolveConfig(prettierConfig));
-};
-
-const prettierConfigResolvePromise = prettierConfigResolve();
+process.env.fileLock = "";
 
 type Syntax = "JSX" | "HyperScript";
 
@@ -27,10 +19,10 @@ export const transpile = async (
   cssClasses: string
 ) => {
   const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
-  while (global.fileLock !== "") {
-    await prettierConfigResolvePromise;
+  while (process.env.fileLock !== "") {
+    await new Promise(() => {});
   }
-  global.fileLock = transpileFileName;
+  process.env.fileLock = transpileFileName;
   const src =
     (TRANSPILED_FILES.has(transpileFileName) &&
       TRANSPILED_FILES.get(transpileFileName)) ||
@@ -50,6 +42,7 @@ export const transpile = async (
           src,
           radipanId
         );
+      process.env.fileLock = "";
       return false;
     } else {
       syntax = "HyperScript";
@@ -80,19 +73,20 @@ export const transpile = async (
         keyPos + keyString.length,
         replacement
       );
+    process.env.fileLock = "";
     return false;
   }
   const replaced =
     src.substring(0, keyPos) + replacement + src.substring(end + 1);
   TRANSPILED_FILES.set(transpileFileName, replaced);
   writeFileSync(transpileFileName, replaced);
-  global.fileLock = "";
   DEBUG &&
     console.debug(
       "Transpiled component successfully: ",
       transpileFileName,
       replaced
     );
+  process.env.fileLock = "";
   return true;
 };
 
