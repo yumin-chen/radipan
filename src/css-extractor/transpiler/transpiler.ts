@@ -57,11 +57,9 @@ export const transpile = async (
   } else {
     syntax = "JSX";
   }
-  // Get the key string based on the syntax
   const keyString = syntax === "JSX" ? jsxKeyString : hyperscriptKeyString;
   const classesStr = !className ? cssClasses : cx(cssClasses, className);
   const escapedClassStr = classesStr.replace(/"/g, '\\"');
-  // Use a ternary operator to get the replacement string based on the syntax
   const replacement = `/* Radipan Transpiled */ ${
     syntax === "JSX"
       ? `className={"${escapedClassStr}"}`
