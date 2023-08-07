@@ -1,4 +1,4 @@
-import { format, resolveConfig, resolveConfigFile } from "prettier";
+import { resolveConfig, resolveConfigFile } from "prettier";
 import { outdir } from "radipan/radipan.config.json";
 import { cx } from "radipan/design-system";
 import { writeFileSync, readFileSync } from "fs";
@@ -21,7 +21,6 @@ const prettierConfigResolvePromise = prettierConfigResolve();
 
 type Syntax = "JSX" | "HyperScript";
 
-// Define the transpile function that does not take a syntax parameter
 export const transpile = async (
   radipanId: string,
   className: string,
