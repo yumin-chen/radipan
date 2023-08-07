@@ -19,67 +19,54 @@ const prettierConfigResolve = async () => {
 
 const prettierConfigResolvePromise = prettierConfigResolve();
 
-export const transpileForJsx = async (
-  radipanId,
-  _source,
-  cssProp,
-  className,
-  cssClasses
-) => {
+export const transpileForJsx = async (radipanId, className, cssClasses) => {
   const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
-  while (global.fileLock === transpileFileName) {
+  while (global.fileLock !== "") {
     await prettierConfigResolvePromise;
   }
   global.fileLock = transpileFileName;
-  const allFileContents =
+  const src =
     (TRANSPILED_FILES.has(transpileFileName) &&
       TRANSPILED_FILES.get(transpileFileName)) ||
     readFileSync(transpileFileName, "utf-8");
-  const lines = allFileContents.split(/\r?\n/);
-  const restOfFile =
-    lines[_source.lineNumber - 1].substring(_source.columnNumber - 1) +
-    "\n" +
-    lines
-      .slice(_source.lineNumber)
-      .join("\n")
-      .replaceAll(new RegExp(/\r?\n\s+/, "g"), "\n  ")
-      .replaceAll(new RegExp(/\r?\n\s+}/, "g"), "\n}");
-
-  const cssString = (
-    await format(JSON.stringify(cssProp), { parser: "json5" })
-  ).replace(/\r?\n+$/, "");
-  const numCssLines = cssString.split(/\r?\n/).length;
-
-  if (restOfFile.indexOf(`css={${cssString}}`) === -1) {
-    console.error(
-      "Failed to transpile ",
-      transpileFileName,
-      restOfFile,
-      `css={${cssString}}`
-    );
+  const keyPos = src.indexOf(`radipanId={"${radipanId}"} css={`);
+  if (keyPos === -1) {
+    DEBUG &&
+      console.error(
+        "Failed to transpile ",
+        transpileFileName,
+        src,
+        `radipanId={"${radipanId}"} css={`
+      );
+    return false;
   }
-  const replacement = `/* Radipan Transpiled */ ${"\n".repeat(
-    numCssLines - 1
-  )} className="${!className ? cssClasses : cx(cssClasses, className)}"`;
-  const replaced = restOfFile.replace(
-    `radipanId={"${radipanId}"} css={${cssString}}`,
-    replacement
-  );
-  const transpiledContents =
-    lines.slice(0, _source.lineNumber - 1).join("\n") +
-    "\n" +
-    lines[_source.lineNumber - 1].substring(0, _source.columnNumber - 1) +
-    replaced;
-  TRANSPILED_FILES.set(transpileFileName, transpiledContents);
-  writeFileSync(transpileFileName, transpiledContents);
+  const classesStr = !className ? cssClasses : cx(cssClasses, className);
+  const escapedClassStr = classesStr.replace(/"/g, '\\"');
+  const replacement = `/* Radipan Transpiled */ className={"${escapedClassStr}"}`;
+  const end = findBalancedClosingBracketOrEol(src, keyPos + 24, "{", "}");
+  if (end === -1) {
+    DEBUG &&
+      console.error(
+        "Cannot find closing tag ",
+        transpileFileName,
+        src,
+        keyPos + 24,
+        replacement
+      );
+    return false;
+  }
+  const replaced =
+    src.substring(0, keyPos) + replacement + src.substring(end + 1);
+  TRANSPILED_FILES.set(transpileFileName, replaced);
+  writeFileSync(transpileFileName, replaced);
   global.fileLock = "";
   DEBUG &&
     console.debug(
       "Transpiled component successfully: ",
       transpileFileName,
-      cssString,
       replaced
     );
+  return true;
 };
 
 export const transpileForHyperscript = async (
@@ -88,7 +75,7 @@ export const transpileForHyperscript = async (
   cssClasses: string
 ) => {
   const transpileFileName = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.lite.tsx`;
-  while (global.fileLock === transpileFileName) {
+  while (global.fileLock !== "") {
     await prettierConfigResolvePromise;
   }
   global.fileLock = transpileFileName;
@@ -98,25 +85,29 @@ export const transpileForHyperscript = async (
     readFileSync(transpileFileName, "utf-8");
   const keyPos = src.indexOf(`radipanId: "${radipanId}", css: `);
   if (keyPos === -1) {
-    console.error(
-      "Failed to transpile ",
-      transpileFileName,
-      src,
-      `radipanId: "${radipanId}", css: `
-    );
+    DEBUG &&
+      console.error(
+        "Failed to transpile ",
+        transpileFileName,
+        src,
+        `radipanId: "${radipanId}", css: `
+      );
+    return false;
   }
   const classesStr = !className ? cssClasses : cx(cssClasses, className);
   const escapedClassStr = classesStr.replace(/"/g, '\\"');
   const replacement = `/* Radipan Transpiled */ className: "${escapedClassStr}"`;
   const end = findBalancedClosingBracketOrEol(src, keyPos + 24, "{", "}");
   if (end === -1) {
-    console.error(
-      "Cannot find closing tag ",
-      transpileFileName,
-      src,
-      keyPos + 24,
-      replacement
-    );
+    DEBUG &&
+      console.error(
+        "Cannot find closing tag ",
+        transpileFileName,
+        src,
+        keyPos + 24,
+        replacement
+      );
+    return false;
   }
   const replaced =
     src.substring(0, keyPos) + replacement + src.substring(end + 1);
@@ -130,6 +121,7 @@ export const transpileForHyperscript = async (
       // cssString,
       replaced
     );
+  return true;
 };
 
 // Get index of balanced closing bracket, or get the index of end of line if
