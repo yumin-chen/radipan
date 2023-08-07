@@ -1,16 +1,17 @@
 const hsSyntax = " css:";
 const jsxSyntax = " css=";
+const idLength = 7;
+const taggedPadding = ` radipanId={""}`.length + idLength + 18;
 let seqId = 10;
 
 const genRandomId = (seqNum: number) =>
   Number(
     Math.random() +
-      ((((((((((seqNum / 2) * 3) / 5) * 7) / 11) * 13) / 17) * 23) / 29) * 31) /
-        37 +
+      (((((((((seqNum / 2) * 3) / 5) * 7) / 11) * 13) / 17) * 23) / 29) * 31 +
       0.000000000101010101010101010101
   )
     .toString(35)
-    .slice(-7)
+    .slice(-idLength)
     .toUpperCase();
 
 export const preformat = (code: string, start: number = 0) => {
@@ -30,5 +31,5 @@ export const preformat = (code: string, start: number = 0) => {
     (useJsx ? ` radipanId={"${radipanId}"}` : ` radipanId: "${radipanId}",`) +
     code.substring(found);
 
-  return preformat(tagged, found + 40);
+  return preformat(tagged, found + taggedPadding);
 };
