@@ -24,12 +24,12 @@ export const main = (execCommandSync: Function) => {
   const configPath =
     readOptionContent(options, "--config", "-c") || "radipan.config.ts";
 
-  const execCommand = (cmd: string) => {
+  const execCommand = (cmd: string, continueOnError: boolean = false) => {
     try {
       execCommandSync(cmd, { stdio: "inherit" });
     } catch (err) {
       console.error(err);
-      process.exit(1);
+      !continueOnError && process.exit(1);
     }
   };
 
@@ -48,12 +48,14 @@ export const main = (execCommandSync: Function) => {
     case "cssgen": {
       if (options.includes("--watch")) {
         execCommand(
-          `${extractCSS} --watch & npx panda cssgen --config ${configPath} --watch`
+          `npx radipan css-extract --watch & npx panda cssgen --config ${configPath} --watch`
         );
         break;
       }
 
-      execCommand(`${extractCSS} && npx panda cssgen --config ${configPath}`);
+      execCommand(
+        `npx radipan css-extract && npx panda cssgen --config ${configPath}`
+      );
       break;
     }
     case "design": {

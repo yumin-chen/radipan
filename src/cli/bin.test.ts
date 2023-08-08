@@ -67,16 +67,16 @@ describe("cli/bin", () => {
         "without watch and default config": {
           argv: ["node", "main.ts", "cssgen"],
           cssgen:
-            'npx tsx --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js" && npx panda cssgen --config radipan.config.ts',
+            'npx radipan css-extract && npx panda cssgen --config radipan.config.ts',
         },
         "without watch and custom config": {
           argv: ["node", "main.ts", "cssgen", "--config", "custom.config.ts"],
           cssgen:
-            'npx tsx --tsconfig "node_modules/radipan/extractor.tsconfig.json" "node_modules/radipan/dist/css-extractor/css-extractor.js" && npx panda cssgen --config custom.config.ts',
+            'npx radipan css-extract && npx panda cssgen --config custom.config.ts',
         },
         "with watch and default config": {
           argv: ["node", "main.ts", "cssgen", "--watch"],
-          cssgen: `${extractCSS} --watch & npx panda cssgen --config radipan.config.ts --watch`,
+          cssgen: `npx radipan css-extract --watch & npx panda cssgen --config radipan.config.ts --watch`,
         },
         "with watch and custom config": {
           argv: [
@@ -87,7 +87,7 @@ describe("cli/bin", () => {
             "--config",
             "custom.config.ts",
           ],
-          cssgen: `${extractCSS} --watch & npx panda cssgen --config custom.config.ts --watch`,
+          cssgen: `npx radipan css-extract --watch & npx panda cssgen --config custom.config.ts --watch`,
         },
       };
       for (const name of Object.keys(cases) as (keyof typeof cases)[]) {
@@ -167,7 +167,7 @@ describe("cli/bin", () => {
       jest.spyOn(console, "error");
       console.error = jest.fn();
       jest.spyOn(process, "exit");
-      (process.exit as unknown as jest.Mock).mockImplementation(() => {});
+      (process.exit as unknown as jest.Mock).mockImplementation(() => { });
       main(mockExecSync);
       expect(console.error).toHaveBeenCalledWith("Invalid command:", "invalid");
       expect(process.exit).toHaveBeenCalledWith(1);

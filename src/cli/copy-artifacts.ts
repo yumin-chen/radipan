@@ -1,15 +1,7 @@
 import { execSync } from "child_process";
 import { readFileSync, writeFileSync } from "fs";
 import { format, resolveConfig, resolveConfigFile } from "prettier";
-import {
-  outdir,
-  sourceTranspile,
-} from "radipan/radipan.config.json" assert { type: "json" };
-
-// const process = (typeof global !== "undefined" && global?.process) || {
-//   env: {},
-// };
-// const DEBUG = process?.env?.DEBUG;
+import { outdir, sourceTranspile } from "./get-config";
 
 const prettierConfigResolve = async () => {
   const prettierConfig = await resolveConfigFile();
@@ -34,16 +26,6 @@ sourceTranspile?.enabled &&
           i + `node_modules/${outdir}/exported/`.length,
           file.length - ".lite.tsx".length - ext.length
         ) + sourceTranspile?.extension;
-      // DEBUG &&
-      //   console.debug(
-      //     "Copying",
-      //     file,
-      //     "to",
-      //     file.substring(
-      //       i + `node_modules/${outdir}/exported/`.length,
-      //       file.length - ".lite.tsx".length
-      //     ) + sourceTranspile?.extension,
-      //   );
       const fileContent = readFileSync(file, "utf-8");
       writeFileSync(
         outPath,

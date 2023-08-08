@@ -6,6 +6,10 @@ interface RadipanConfig {
   includeNames: string[];
   excludeNames: string[];
   outdir: string;
+  sourceTranspile: {
+    enabled: boolean;
+    extension: string;
+  };
 }
 
 const config: RadipanConfig = {
@@ -14,6 +18,7 @@ const config: RadipanConfig = {
   includeNames: radipanConfig.includeNames,
   excludeNames: radipanConfig.excludeNames,
   outdir: radipanConfig.outdir,
+  sourceTranspile: radipanConfig.sourceTranspile,
 };
 
 export const include: string[] = radipanConfig.include;
@@ -21,5 +26,6 @@ export const exclude: string[] = radipanConfig.exclude;
 export const includeNames: string[] = radipanConfig.includeNames;
 export const excludeNames: string[] = radipanConfig.excludeNames;
 export const outdir: string = radipanConfig.outdir;
+export const sourceTranspile = radipanConfig.sourceTranspile;
 
 export default config;
