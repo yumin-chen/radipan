@@ -15,7 +15,7 @@
   "bin": "dist/bin.js",
   "scripts": {
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepare": "panda codegen",
     "build": "npm run prepare && rollup -c"
   },
@@ -52,13 +52,19 @@
     "typescript": "latest"
   },
   "devDependencies": {
+    "@jest/globals": "latest",
     "@rollup/plugin-commonjs": "latest",
     "@rollup/plugin-node-resolve": "latest",
+    "@types/mock-fs": "latest",
     "@types/react": "latest",
     "esbuild": "latest",
+    "jest": "latest",
+    "mock-fs": "latest",
     "prettier": "latest",
     "rollup": "^3.27.2",
     "rollup-plugin-dts": "latest",
-    "rollup-plugin-esbuild": "latest"
+    "rollup-plugin-esbuild": "latest",
+    "ts-jest": "latest",
+    "ts-node": "latest"
   }
 }
