@@ -7,7 +7,33 @@ import { describe, expect, test } from "@jest/globals";
 
 describe("preformatter", () => {
   describe("preformat", () => {
-    test("should add radipanId to JSX syntax and HyperScript syntax", () => {
+    test("should add radipanId JSX syntax", () => {
+      const input = `
+function App() {
+  return (
+    <main
+      css={{
+        width: "100%",
+        height: "100vh",
+        color: { base: "black", _osDark: "white" },
+        background: { base: "white", _osDark: "black" },
+      }}
+    >
+      <div css={divCss}>Hello Radip🐼n!</div>
+    </main>
+  );
+}
+
+const divCss = { fontSize: "2xl", fontWeight: "bold" };
+
+export default App;
+`;
+      expect(
+        preformat(input).replace(/\d{2}-[A-Z0-9]{7}/g, "00-XXXXXXX")
+      ).toMatchSnapshot();
+    });
+
+    test("should add radipanId to a mixture of both JSX syntax and HyperScript syntax", () => {
       const input = `
 const { render } = require("react");
 
@@ -15,8 +41,12 @@ const App = () => {
   return h("div", [
     h("h1", { className: "App" }, "Hello, world!"),
     h("p", "This is a paragraph."),
-    h("button", { onClick: () => alert("Clicked!") }, "Click me"),
+    h(Button, { onClick: () => alert("Clicked!") }, "Click me"),
   ]);
+};
+
+const Button = ({children}) => {
+  return (<button role="button">children</button>);
 };
 
 render(<App />, document.body);
