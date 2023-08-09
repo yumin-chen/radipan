@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`preformatter preformat should add radipanId to JSX syntax and HyperScript syntax 1`] = `
+"const {
+  render
+} = require("react");
+const App = () => {
+  return h("div", {
+    radipanId: "10-XXXXXXX"
+  }, [h("h1", {
+    className: "App",
+    radipanId: "10-XXXXXXX"
+  }, "Hello, world!"), h("p", "This is a paragraph."), h("button", {
+    onClick: () => alert("Clicked!"),
+    radipanId: "10-XXXXXXX"
+  }, "Click me")]);
+};
+render(<App radipanId="10-XXXXXXX" />, document.body);"
+`;
