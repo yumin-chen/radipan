@@ -34,6 +34,7 @@ export const addRadipanIdToJsx = (source: string) => {
   traverse(ast, {
     // Visit every JSX element node
     JSXElement(path) {
+      seqId++;
       // Get the opening element of the JSX element
       const openingElement = path.node.openingElement;
       // Check if the opening element already has a radipanId prop
@@ -69,6 +70,7 @@ export const addRadipanIdToHyperScript = (source: string) => {
   traverse(ast, {
     // Visit every call expression node
     CallExpression(path) {
+      seqId++;
       // Get the node from the path
       const node = path.node;
       // Check if the node is a Phy-compatible HyperScript syntax declared element

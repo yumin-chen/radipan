@@ -22,7 +22,7 @@ const App = () => {
 render(<App />, document.body);
 `;
       expect(
-        preformat(input).replace(/\d{2}-[A-Z0-9]{7}/g, "10-XXXXXXX")
+        preformat(input).replace(/\d{2}-[A-Z0-9]{7}/g, "00-XXXXXXX")
       ).toMatchSnapshot();
     });
   });
