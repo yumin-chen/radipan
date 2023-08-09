@@ -87,7 +87,7 @@ Update your `package.json` scripts to work with Radipan:
     "cssgen": "npx radipan cssgen",
     "prepare": "npx radipan prepare",
     "dev": "npx radipan prepare --watch & next dev",
-    "build": "npx radipan cssgen & tsc && next build",
+    "build": "npx radipan cssgen && tsc && next build",
   }
 ```
 

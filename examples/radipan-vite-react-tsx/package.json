@@ -9,7 +9,7 @@
     "design": "npx radipan design",
     "prepare": "npx radipan prepare",
     "dev": "npx radipan prepare --watch & vite",
-    "build": "npx radipan cssgen & tsc && vite build",
+    "build": "npx radipan cssgen && tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
