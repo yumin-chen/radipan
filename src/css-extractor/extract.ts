@@ -17,7 +17,7 @@ try {
   }
   const dest = `node_modules/${outdir}/exported/${srcFile}.lite.tsx`;
   const preformatted = preformat(srcContent);
-  if (!preformatted || preformatted.length < srcContent.length) {
+  if (!preformatted) {
     throw Error(`Failed to preformat file: ./${srcFile}`);
   }
   writeFileSync(dest, preformatted);
