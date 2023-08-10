@@ -207,9 +207,9 @@ Create an entry CSS file or replace the existing one named `index.css` (or `glob
 
 When you run `npx radipan cssgen`, it scans all `css` props in your app and statically generates the corresponding CSS code at build time.
 
-### JSX Configuration for TypeScript
+### JSX Configuration for TypeScript (Optional)
 
-Follow the below steps to use Radipan with JSX in TypeScript if you prefer to use JSX syntax. You can skip this step if you don't use JSX.
+Optionally, you can follow the below steps to use Radipan with JSX in TypeScript if you prefer to use JSX syntax. Feel free to skip this step if you don't use JSX.
 
 Configure the `compilerOptions` in TSConfig (usually `tsconfig.json`) with the following settings:
 
