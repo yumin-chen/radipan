@@ -1,4 +1,4 @@
-import radipanConfig from "radipan/radipan.config.json" assert { type: "json" };
+import radipanConfig from "radipan/radipan.config";
 
 interface RadipanConfig {
   include: string[];
