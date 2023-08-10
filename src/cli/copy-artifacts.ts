@@ -2,6 +2,7 @@ import { execSync } from "child_process";
 import { readFileSync, writeFileSync } from "fs";
 import { format, resolveConfig, resolveConfigFile } from "prettier";
 import { outdir, sourceTranspile } from "./get-config";
+import { postformat } from "../css-extractor/transpiler/postformatter";
 
 const prettierConfigResolve = async () => {
   const prettierConfig = await resolveConfigFile();
@@ -29,6 +30,6 @@ sourceTranspile?.enabled &&
       const fileContent = readFileSync(file, "utf-8");
       writeFileSync(
         outPath,
-        await format(fileContent, { parser: "typescript" })
+        postformat(await format(fileContent, { parser: "typescript" }))
       );
     });

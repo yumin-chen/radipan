@@ -47,7 +47,7 @@ export default [
   {
     input: "src/cli/copy-artifacts.ts",
     external: ["child_process", "fs", "radipan/radipan.config.json"],
-    plugins: [esbuild(esbuildOptions), nodeResolve()],
+    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs(), json()],
     output: [
       {
         file: "dist/copy-artifacts.js",
