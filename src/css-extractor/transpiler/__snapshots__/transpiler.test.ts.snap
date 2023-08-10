@@ -92,3 +92,14 @@ exports[`transpiler transformHyperScript should find the identified radipanId fr
   className: "another classes string"
 }, "Content")]);"
 `;
+
+exports[`transpiler transformRadipanSyntax should transform a Radipan Syntax element with props and children 1`] = `
+"import { div, main } from "radipan/tags";
+function App() {
+  return main.create({
+    className: "green-div"
+  }, div.create({
+    className: "fs_2xl font_bold"
+  }, "Hello Radip🐼n!"));
+}"
+`;

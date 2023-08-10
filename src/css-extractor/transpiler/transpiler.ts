@@ -212,7 +212,7 @@ export function transformHyperScript(
   }
 }
 
-// Transforms any Radipan Syntax declared element and converts it into a HyperScript element with a className prop
+// Transforms any Radipan Syntax declared element and modifies its props object
 export function transformRadipanSyntax(
   source: string,
   radipanId: string,
@@ -271,15 +271,9 @@ export function transformRadipanSyntax(
             radipanIdProp.key.name = "className";
             // @ts-ignore
             radipanIdProp.value.value = className;
-            // Remove any css prop in the props object
-            firstArg.properties = firstArg.properties.filter(
-              prop =>
-                !(
-                  t.isObjectProperty(prop) &&
-                  t.isIdentifier(prop.key) &&
-                  prop.key.name === "css"
-                )
-            );
+            // Remove any css prop in the props object and its nested objects
+            // @ts-ignore
+            firstArg.properties = removeCssProps(firstArg.properties);
             // Remove any prop that is in the keys of the variantProps parameter
             if (variantProps) {
               firstArg.properties = firstArg.properties.filter(
@@ -303,10 +297,9 @@ export function transformRadipanSyntax(
           // The props and children are both provided as object expressions
           // This is not a valid Radipan Syntax, so do nothing
         } else if (
-          // Check if there are two arguments and the first one is an object expression and the second one is an array expression or a string literal
+          // Check if there are two arguments and the first one is an object expression and the second one is anything else
           path.node.arguments.length === 2 &&
-          t.isObjectExpression(firstArg) &&
-          (t.isArrayExpression(secondArg) || t.isStringLiteral(secondArg))
+          t.isObjectExpression(firstArg)
         ) {
           // The props and children are both provided
           // Check if the props object has a radipanId property that matches the given radipanId parameter
@@ -327,15 +320,9 @@ export function transformRadipanSyntax(
             radipanIdProp.key.name = "className";
             // @ts-ignore
             radipanIdProp.value.value = className;
-            // Remove any css prop in the props object
-            firstArg.properties = firstArg.properties.filter(
-              prop =>
-                !(
-                  t.isObjectProperty(prop) &&
-                  t.isIdentifier(prop.key) &&
-                  prop.key.name === "css"
-                )
-            );
+            // Remove any css prop in the props object and its nested objects
+            // @ts-ignore
+            firstArg.properties = removeCssProps(firstArg.properties);
             // Remove any prop that is in the keys of the variantProps parameter
             if (variantProps) {
               firstArg.properties = firstArg.properties.filter(
@@ -377,6 +364,28 @@ export function transformRadipanSyntax(
     // Otherwise, return the source code directly
     return source;
   }
+}
+
+// A helper function that recursively removes any css prop in an object expression or its nested objects
+function removeCssProps(properties: Array<t.ObjectProperty | t.SpreadElement>) {
+  // Filter out any property that has a key of css
+  properties = properties.filter(
+    prop =>
+      !(
+        t.isObjectProperty(prop) &&
+        t.isIdentifier(prop.key) &&
+        prop.key.name === "css"
+      )
+  );
+  // For each remaining property, check if it is an object expression and recursively remove any css prop in its nested objects
+  properties.forEach(prop => {
+    if (t.isObjectProperty(prop) && t.isObjectExpression(prop.value)) {
+      // @ts-ignore
+      prop.value.properties = removeCssProps(prop.value.properties);
+    }
+  });
+  // Return the modified properties array
+  return properties;
 }
 
 export const transpile = async (

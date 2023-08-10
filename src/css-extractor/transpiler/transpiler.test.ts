@@ -154,6 +154,29 @@ describe("transpiler", () => {
   });
 
   describe("transformRadipanSyntax", () => {
+    it("should transform a Radipan Syntax element with props and children", () => {
+      const source = `
+      import { div, main } from "radipan/tags";
+      function App() {
+        return main.create({
+          css: {
+            width: "100%",
+            height: "100vh",
+            color: { base: "black" },
+            background: { base: "white" }
+          },
+          radipanId: "11-UF7JEX2"
+        }, div.create({
+          className: "fs_2xl font_bold"
+        }, "Hello Radip🐼n!"));
+      }`;
+      const radipanId = "11-UF7JEX2";
+      const className = "green-div";
+      expect(
+        transformRadipanSyntax(source, radipanId, className)
+      ).toMatchSnapshot();
+    });
+
     it("should add className prop to a Radipan Syntax element with props and children", () => {
       const source =
         'div.create({ css: { color: "green" }, radipanId: "00-XXXXXXX" }, ["Hello"])';
@@ -261,6 +284,36 @@ describe("transpiler", () => {
       expect(
         readFileSync(`${EXPORT_FOLDER}/${srcFilename}.lite.tsx`, "utf-8")
       ).toEqual(hyperscriptOutput);
+    });
+
+    it("should transpile Radipan syntax", async () => {
+      const radipanSrc = `import { div, main } from "radipan/tags";
+      function App() {
+        return main.create({
+          css: {
+            width: "100%",
+            height: "100vh",
+            color: {base: "black",_osDark: "white"},
+            background: {base: "white",_osDark: "black"}
+          },
+          radipanId: "11-UF7JEX2"
+        }, div.create({className: "fs_2xl font_bold"}, "Hello Radip🐼n!"));
+      }`;
+
+      srcFilename = filenames.hsFile;
+      srcContent = radipanSrc;
+      process.env.CSSGEN_FILE = srcFilename;
+      mock({
+        [`${EXPORT_FOLDER}/${srcFilename}.lite.tsx`]: srcContent,
+      });
+      // Call the transpile function with some arguments
+      const result = await transpile("11-UF7JEX2", "compiled classes");
+      // Expect the result to be true
+      expect(result).toBe(true);
+      // Expect the output file to match the expected output
+      expect(
+        readFileSync(`${EXPORT_FOLDER}/${srcFilename}.lite.tsx`, "utf-8")
+      ).toMatchSnapshot();
     });
 
     it("should return false if radipanId is not found", async () => {
