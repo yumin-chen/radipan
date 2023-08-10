@@ -46,7 +46,7 @@ export default [
   },
   {
     input: "src/cli/copy-artifacts.ts",
-    external: ["child_process", "fs", "radipan/radipan.config.json"],
+    external: ["child_process", "fs", "radipan/radipan.config"],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs(), json()],
     output: [
       {
@@ -89,7 +89,7 @@ export default [
       "svelte-hyperscript",
       "radipan/design-system",
       "radipan/framework",
-      "radipan/radipan.config.json",
+      "radipan/radipan.config",
     ],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
     output: [
@@ -111,8 +111,8 @@ export default [
   },
   {
     input: "src/core/html-tags.ts",
-    external: ["radipan"],
-    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
+    external: ["radipan", "radipan/radipan.config"],
+    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs(), json()],
     output: [
       {
         file: "dist/html-tags.js",
@@ -141,7 +141,7 @@ export default [
       "radipan/css-extractor",
       "radipan/design-system",
       "radipan/framework",
-      "radipan/radipan.config.json",
+      "radipan/radipan.config",
     ],
     plugins: [esbuild(esbuildOptions)],
     output: [
@@ -170,11 +170,11 @@ export default [
       "preact",
       "solid-js/h",
       "svelte-hyperscript",
-      "radipan/radipan.config.json",
+      "radipan/radipan.config",
       "radipan/design-system",
       "radipan/framework",
     ],
-    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
+    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs(), json()],
     output: [
       {
         file: "dist/css-extractor/html-tags.js",
@@ -193,11 +193,11 @@ export default [
       "preact",
       "solid-js/h",
       "svelte-hyperscript",
-      "radipan/radipan.config.json",
+      "radipan/radipan.config",
       "radipan/design-system",
       "radipan/framework",
     ],
-    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs()],
+    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs(), json()],
     output: [
       {
         file: "dist/css-extractor/radipan.js",
@@ -214,7 +214,7 @@ export default [
       "fs",
       "child_process",
       "radipan/css-extractor",
-      "radipan/radipan.config.json",
+      "radipan/radipan.config",
     ],
     plugins: [esbuild(esbuildOptions)],
     output: [
@@ -232,7 +232,7 @@ export default [
       "fs",
       "child_process",
       "radipan/css-extractor",
-      "radipan/radipan.config.json",
+      "radipan/radipan.config",
     ],
     plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs(), json()],
     output: [
