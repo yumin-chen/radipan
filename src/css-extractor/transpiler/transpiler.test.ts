@@ -300,7 +300,7 @@ describe("transpiler", () => {
         }, div.create({className: "fs_2xl font_bold"}, "Hello Radip🐼n!"));
       }`;
 
-      srcFilename = filenames.hsFile;
+      srcFilename = "another_file.ts";
       srcContent = radipanSrc;
       process.env.CSSGEN_FILE = srcFilename;
       mock({

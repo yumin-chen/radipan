@@ -103,3 +103,14 @@ function App() {
   }, "Hello Radip🐼n!"));
 }"
 `;
+
+exports[`transpiler transpile should transpile Radipan syntax 1`] = `
+"import { div, main } from "radipan/tags";
+function App() {
+  return main.create({
+    className: "compiled classes"
+  }, div.create({
+    className: "fs_2xl font_bold"
+  }, "Hello Radip🐼n!"));
+}"
+`;
