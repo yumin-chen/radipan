@@ -2,6 +2,7 @@ import dts from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 
 const esbuildOptions = {
   // All options are optional
@@ -233,7 +234,7 @@ export default [
       "radipan/css-extractor",
       "radipan/radipan.config.json",
     ],
-    plugins: [esbuild(esbuildOptions)],
+    plugins: [esbuild(esbuildOptions), nodeResolve(), commonjs(), json()],
     output: [
       {
         file: "dist/css-extractor/extract.js",

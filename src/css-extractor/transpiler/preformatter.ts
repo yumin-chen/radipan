@@ -16,13 +16,6 @@ const genRandomId = (seqNum: number) =>
     .slice(-idLength)
     .toUpperCase();
 
-// Define a type guard function that checks if the attribute is a JSX attribute with a name property
-function isJSXAttributeWithName(
-  attr: t.Node
-): attr is t.JSXAttribute & { name: t.JSXIdentifier } {
-  return t.isJSXAttribute(attr) && attr.name && t.isJSXIdentifier(attr.name);
-}
-
 export const addRadipanIdToJsx = (source: string) => {
   // Parse the source code into an AST
   const ast = parse(source, {
@@ -39,7 +32,8 @@ export const addRadipanIdToJsx = (source: string) => {
       const openingElement = path.node.openingElement;
       // Check if the opening element already has a radipanId prop
       const hasRadipanId = openingElement.attributes.some(
-        attr => isJSXAttributeWithName(attr) && attr.name.name === "radipanId"
+        // @ts-ignore
+        attr => attr.name && attr.name.name === "radipanId"
       );
       // If not, add a new JSX attribute with a random radipanId value
       if (!hasRadipanId) {

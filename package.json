@@ -55,6 +55,7 @@
   "devDependencies": {
     "@jest/globals": "latest",
     "@rollup/plugin-commonjs": "latest",
+    "@rollup/plugin-json": "latest",
     "@rollup/plugin-node-resolve": "latest",
     "@types/mock-fs": "latest",
     "@types/react": "latest",
