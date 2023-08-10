@@ -1,5 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`preformatter addRadipanIdToHyperScript should add radipanId to nested HyperScript elements 1`] = `
+"const {
+  render
+} = require("react");
+const App = () => {
+  return h("div", {
+    radipanId: "00-XXXXXXX"
+  }, [h("h1", {
+    className: "App",
+    radipanId: "00-XXXXXXX"
+  }, "Hello, world!"), h("p", {
+    radipanId: "00-XXXXXXX"
+  }, "This is a paragraph."), h("button", {
+    onClick: () => alert("Clicked!"),
+    radipanId: "00-XXXXXXX"
+  }, "Click me")]);
+};
+render(h(App, {
+  radipanId: "00-XXXXXXX"
+}), document.body);"
+`;
+
+exports[`preformatter addRadipanIdToRadipanSyntax should add radipanId to a nested Radipan Syntax element 1`] = `
+"form.create({
+  css: {
+    display: "flex"
+  },
+  radipanId: "00-XXXXXXX"
+}, [div.create({
+  css: {
+    color: "green"
+  },
+  radipanId: "00-XXXXXXX"
+}, "green div"), span.create({
+  css: {
+    color: "red"
+  },
+  radipanId: "00-XXXXXXX"
+}, "red span"), input.create({
+  css: {
+    color: "blue"
+  },
+  placeholder: "blue input",
+  radipanId: "00-XXXXXXX"
+})]);"
+`;
+
+exports[`preformatter addRadipanIdToRadipanSyntax should add radipanId to a simple Radipan Syntax element 1`] = `
+"div.create({
+  css: {
+    color: "red"
+  },
+  radipanId: "00-XXXXXXX"
+}, "whee!");"
+`;
+
 exports[`preformatter preformat should add radipanId JSX syntax 1`] = `
 "function App() {
   return <main css={{
@@ -34,7 +90,9 @@ const App = () => {
   }, [h("h1", {
     className: "App",
     radipanId: "00-XXXXXXX"
-  }, "Hello, world!"), h("p", "This is a paragraph."), h(Button, {
+  }, "Hello, world!"), h("p", {
+    radipanId: "00-XXXXXXX"
+  }, "This is a paragraph."), h(Button, {
     onClick: () => alert("Clicked!"),
     radipanId: "00-XXXXXXX"
   }, "Click me")]);
