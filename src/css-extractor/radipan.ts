@@ -30,7 +30,7 @@ const getVariantProps = (props: RecipeProps) => {
 };
 
 export const parseCssProp = (props: CssProps) => {
-  const { css: cssProp } = props;
+  const { radipanId, css: cssProp } = props;
   const exportFile = `${EXPORT_FOLDER}/${process.env.CSSGEN_FILE}.css.js`;
   DEBUG && console.debug("Writing to file:", exportFile);
   if (process.env.CSSGEN === "pregen" && !!process.env.CSSGEN_FILE) {
@@ -55,12 +55,17 @@ export const parseCssProp = (props: CssProps) => {
     const variantProps = getVariantProps(props);
     appendFileSync(
       exportFile,
-      `cva(${JSON.stringify(cssProp)})(${JSON.stringify(variantProps)});\n`
+      `cva(${JSON.stringify(cssProp)})(${JSON.stringify(
+        variantProps
+      )});///* ${radipanId} */\n`
     );
     DEBUG && console.debug("Generated a `cva` function in ", exportFile);
     return cva(cssProp as RecipeDefinition<RecipeVariantRecord>)(variantProps);
   } else {
-    appendFileSync(exportFile, `css(${JSON.stringify(cssProp)});\n`);
+    appendFileSync(
+      exportFile,
+      `css(${JSON.stringify(cssProp)});///* ${radipanId} */\n`
+    );
     DEBUG && console.debug("Generated a `css` function in ", exportFile);
     return css(cssProp as SystemStyleObject);
   }
