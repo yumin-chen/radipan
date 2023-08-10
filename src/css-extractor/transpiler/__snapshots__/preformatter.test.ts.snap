@@ -22,6 +22,28 @@ render(h(App, {
 }), document.body);"
 `;
 
+exports[`preformatter addRadipanIdToRadipanSyntax should add radipanId to a Radipan Syntax file 1`] = `
+"import { withCreate } from "radipan";
+const Badge = ({
+  as = "span",
+  colorScheme = "blue",
+  size = "md",
+  variant = "solid",
+  children = undefined,
+  ...props
+} = {}) => {
+  return withCreate(as).create({
+    colorScheme,
+    size,
+    variant,
+    ...props,
+    css: badgeRecipe,
+    radipanId: "00-XXXXXXX"
+  }, children);
+};
+const badgeRecipe = {};"
+`;
+
 exports[`preformatter addRadipanIdToRadipanSyntax should add radipanId to a nested Radipan Syntax element 1`] = `
 "form.create({
   css: {

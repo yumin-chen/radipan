@@ -117,6 +117,30 @@ render(<App />, document.body);`;
   });
 
   describe("addRadipanIdToRadipanSyntax", () => {
+    it("should add radipanId to a Radipan Syntax file", () => {
+      const input = `import { withCreate } from "radipan";
+
+      const Badge = ({
+        as = "span",
+        colorScheme = "blue",
+        size = "md",
+        variant = "solid",
+        children = undefined,
+        ...props
+      } = {}) => {
+        return withCreate(as).create(
+          { colorScheme, size, variant, ...props, css: badgeRecipe },
+          children
+        );
+      };
+      
+      const badgeRecipe = {};`;
+
+      const result = addRadipanIdToRadipanSyntax(input);
+
+      expect(constantizeRadipanId(result)).toMatchSnapshot();
+    });
+
     it("should add radipanId to a simple Radipan Syntax element", () => {
       const input = `div.create({ css: { color: "red" } }, "whee!")`;
 

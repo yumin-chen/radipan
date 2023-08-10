@@ -155,6 +155,39 @@ export const addRadipanIdToHyperScript = (source: string) => {
   const { code } = generate(ast);
   return code;
 };
+// Define a function that checks if a node is an object expression or an object pattern
+const isObjectNode = (node: t.Node) => {
+  return t.isObjectExpression(node) || t.isObjectPattern(node);
+};
+
+// Define a function that checks if a node has a radipanId property
+const hasRadipanId = (node: t.ObjectExpression | t.ObjectPattern) => {
+  return node.properties.some(
+    prop =>
+      t.isObjectProperty(prop) &&
+      t.isIdentifier(prop.key, { name: "radipanId" })
+  );
+};
+
+// Define a function that adds a radipanId property to a node
+const addRadipanId = (node: t.ObjectExpression | t.ObjectPattern) => {
+  // Generate a random radipanId
+  const radipanId = `${seqId}-${genRandomId(seqId)}`;
+
+  // Create an object property with the key "radipanId" and the value as a string literal
+  const radipanIdProp = t.objectProperty(
+    t.identifier("radipanId"),
+    t.stringLiteral(radipanId)
+  );
+  // If the node is an object pattern, convert it into an object expression
+  if (t.isObjectPattern(node)) {
+    // @ts-ignore
+    node = t.objectExpression(node.properties);
+  }
+  // Push the property to the end of the node's properties array
+  node.properties.push(radipanIdProp);
+  return node;
+};
 
 // Transforms any Radipan Syntax declared element and adds a radipanId prop if it doesn't already have it
 export const addRadipanIdToRadipanSyntax = (source: string) => {
@@ -168,98 +201,50 @@ export const addRadipanIdToRadipanSyntax = (source: string) => {
   traverse(ast, {
     // Visit every call expression node
     CallExpression(path) {
-      seqId++;
       // Get the node from the path
       const node = path.node;
       // Check if the node is a Radipan Syntax declared element
       if (
         t.isMemberExpression(node.callee) &&
-        t.isIdentifier(node.callee.object) &&
-        t.isIdentifier(node.callee.property) &&
-        node.callee.property.name === "create" &&
+        (t.isIdentifier(node.callee.object) ||
+          t.isCallExpression(node.callee.object)) &&
+        t.isIdentifier(node.callee.property, { name: "create" }) &&
         Array.isArray(node.arguments)
       ) {
+        // Get the first argument of the node, which is the props object or the children argument
+        const firstArg = node.arguments[0];
         // Check if there are no arguments
         if (node.arguments.length === 0) {
           // The props and children are omitted
           // Create a new object expression with a radipanId property
-          const radipanId = `${seqId}-${genRandomId(seqId)}`;
-          const objectProperty = t.objectProperty(
-            t.identifier("radipanId"),
-            t.stringLiteral(radipanId)
-          );
-          const objectExpression = t.objectExpression([objectProperty]);
+          const objectExpression = addRadipanId(t.objectExpression([]));
           // Insert the object expression as the first argument of the node
           node.arguments.push(objectExpression);
-        } else {
-          // Get the first argument of the node, which is the props object or the children argument
-          const firstArg = node.arguments[0];
-          // Get the second argument of the node, which is the children array
-          const secondArg = node.arguments[1];
-          // Check if there are only one argument and it is not an object expression
-          if (node.arguments.length === 1 && !t.isObjectExpression(firstArg)) {
-            // The props are omitted, and the first argument is the children argument
-            // Create a new object expression with a radipanId property
-            const radipanId = `${seqId}-${genRandomId(seqId)}`;
-            const objectProperty = t.objectProperty(
-              t.identifier("radipanId"),
-              t.stringLiteral(radipanId)
-            );
-            const objectExpression = t.objectExpression([objectProperty]);
-            // Insert the object expression as the first argument of the node and move the original first argument to the second position
-            node.arguments.unshift(objectExpression);
-          } else if (t.isObjectExpression(firstArg)) {
-            // The first argument is the props object
-            // Check if there are two arguments and the second argument is an array expression or a string literal
-            if (
-              node.arguments.length === 2 &&
-              (t.isArrayExpression(secondArg) || t.isStringLiteral(secondArg))
-            ) {
-              // The second argument is the children array or a single child element
-              // Check if the props object already has a radipanId property
-              const hasRadipanId = firstArg.properties.some(
-                prop =>
-                  t.isObjectProperty(prop) &&
-                  t.isIdentifier(prop.key) &&
-                  prop.key.name === "radipanId"
-              );
-              // If not, add a new object property with a random radipanId value
-              if (!hasRadipanId) {
-                const radipanId = `${seqId}-${genRandomId(seqId)}`;
-                const objectProperty = t.objectProperty(
-                  t.identifier("radipanId"),
-                  t.stringLiteral(radipanId)
-                );
-                firstArg.properties.push(objectProperty);
-              }
-            } else {
-              // The children are omitted, and only the props object is provided
-              // Check if the props object already has a radipanId property
-              const hasRadipanId = firstArg.properties.some(
-                prop =>
-                  t.isObjectProperty(prop) &&
-                  t.isIdentifier(prop.key) &&
-                  prop.key.name === "radipanId"
-              );
-              // If not, add a new object property with a random radipanId value
-              if (!hasRadipanId) {
-                const radipanId = `${seqId}-${genRandomId(seqId)}`;
-                const objectProperty = t.objectProperty(
-                  t.identifier("radipanId"),
-                  t.stringLiteral(radipanId)
-                );
-                firstArg.properties.push(objectProperty);
-              }
-            }
+        } else if (isObjectNode(firstArg)) {
+          // The props are provided, but not the children
+          // Check if the props object already has a radipanId property
+          // @ts-ignore
+          if (!hasRadipanId(firstArg)) {
+            // Add a radipanId property to the first argument only if it is an object expression or an object pattern
+            // @ts-ignore
+            node.arguments[0] = addRadipanId(firstArg);
           }
+        } else if (!isObjectNode(firstArg)) {
+          // The first argument is not an object expression or an object pattern, which means it is either the children or an empty object
+          // Create a new object expression with a radipanId property
+          const objectExpression = addRadipanId(t.objectExpression([]));
+          // Insert the object expression as the first argument of the node and move the original first argument to the second position
+          node.arguments.unshift(objectExpression);
         }
       }
     },
   });
 
-  // Generate the transformed code from the AST
-  const { code } = generate(ast);
-  return code;
+  // Generate the output code from the transformed AST
+  const output = generate(ast).code;
+
+  // Return the output code as a string
+  return output;
 };
 
 export const preformat = (code: string) => {
