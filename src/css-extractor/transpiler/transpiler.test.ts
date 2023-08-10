@@ -287,7 +287,8 @@ describe("transpiler", () => {
     });
 
     it("should transpile Radipan syntax", async () => {
-      const radipanSrc = `import { div, main } from "radipan/tags";
+      const radipanSrc = `import { withCreate } from "radipan";
+      import { div, main } from "radipan/tags";
       function App() {
         return main.create({
           css: {
@@ -297,7 +298,9 @@ describe("transpiler", () => {
             background: {base: "white",_osDark: "black"}
           },
           radipanId: "11-UF7JEX2"
-        }, div.create({className: "fs_2xl font_bold"}, "Hello Radip🐼n!"));
+        }, [
+          withCreate("div").create({className: "fs_2xl font_bold"}, "Hello Radip🐼n!")
+        ]);
       }`;
 
       srcFilename = "another_file.ts";

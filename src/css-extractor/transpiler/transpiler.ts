@@ -234,9 +234,9 @@ export function transformRadipanSyntax(
       // Check if the call expression is a Radipan Syntax call
       if (
         t.isMemberExpression(path.node.callee) &&
-        t.isIdentifier(path.node.callee.object) &&
-        t.isIdentifier(path.node.callee.property) &&
-        path.node.callee.property.name === "create" &&
+        (t.isIdentifier(path.node.callee.object) ||
+          t.isCallExpression(path.node.callee.object)) &&
+        t.isIdentifier(path.node.callee.property, { name: "create" }) &&
         Array.isArray(path.node.arguments)
       ) {
         // Get the first argument of the node, which is the props object or the children argument
