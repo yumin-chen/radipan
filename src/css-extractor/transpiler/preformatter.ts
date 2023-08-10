@@ -20,7 +20,7 @@ export const addRadipanIdToJsx = (source: string) => {
   // Parse the source code into an AST
   const ast = parse(source, {
     sourceType: "module",
-    plugins: ["jsx"],
+    plugins: ["typescript", "jsx"],
   });
 
   // Traverse the AST and transform it
@@ -57,7 +57,7 @@ export const addRadipanIdToHyperScript = (source: string) => {
   // Parse the source code into an AST
   const ast = parse(source, {
     sourceType: "module",
-    plugins: ["jsx"],
+    plugins: ["typescript", "jsx"],
   });
 
   // Traverse the AST and transform it
