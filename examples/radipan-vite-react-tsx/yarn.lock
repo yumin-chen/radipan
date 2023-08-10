@@ -4435,9 +4435,9 @@ queue-microtask@^1.2.2:
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
 radipan@latest:
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/radipan/-/radipan-0.0.22.tgz#76435b07f0404418aacfe6ad1e3c7f88c50d9ee2"
-  integrity sha512-3vVgqqWwhEzLqWg65VLkXyLx5MPYVaZYj77gykgX4LzghCQoHI5iAXMVQhb+u9BNARb06C5MjToCGlpdt+YKhQ==
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/radipan/-/radipan-0.0.23.tgz#0222497a6210b0622c0fc7f0ff5cd7fbd7a962ed"
+  integrity sha512-Y/kdaZWiXM2FLiSb++roJ/tH8n0nd91qbB+c8L2NgAG9PlmMvzE4APMvqSiIX/mReS5Svfu5P0qQ1svZ8QfSuA==
   dependencies:
     "@babel/core" latest
     "@pandacss/dev" latest
