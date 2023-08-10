@@ -107,6 +107,13 @@ export async function createElement(
     if (process.env?.CSSGEN === "pregen") {
       if (props.radipanId) {
         const classesStr = !className ? cssClasses : cx(cssClasses, className);
+        DEBUG &&
+          console.debug(
+            "Transpiling: ",
+            props.radipanId,
+            classesStr,
+            getVariantProps(props)
+          );
         await transpile(props.radipanId, classesStr, getVariantProps(props));
       } else {
         DEBUG && console.error("radipanId is missing: ", component, props.css);
