@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transpiler transform should return the transformed code mixed with all styles 1`] = `
+"import React from "react";
+import { p } from "radipan/tags";
+function App() {
+  return <div>
+          <h1 className="specific-class">Hello World</h1>
+          {paragraph}
+          {button}
+        </div>;
+}
+;
+const paragraph = p.create({
+  anotherProp: "heavy",
+  radipanId: "another-uniq-id"
+}, "This is a paragraph");
+const button = h("button", {
+  radipanId: "btn"
+});"
+`;
+
+exports[`transpiler transform should return the transformed code mixed with all styles 2`] = `
+"import React from "react";
+import { p } from "radipan/tags";
+function App() {
+  return <div>
+          <h1 className="specific-class">Hello World</h1>
+          {paragraph}
+          {button}
+        </div>;
+}
+;
+const paragraph = p.create({
+  anotherProp: "heavy",
+  className: "another-classes and-more"
+}, "This is a paragraph");
+const button = h("button", {
+  radipanId: "btn"
+});"
+`;
+
+exports[`transpiler transform should return the transformed code mixed with all styles 3`] = `
+"import React from "react";
+import { p } from "radipan/tags";
+function App() {
+  return <div>
+          <h1 className="specific-class">Hello World</h1>
+          {paragraph}
+          {button}
+        </div>;
+}
+;
+const paragraph = p.create({
+  anotherProp: "heavy",
+  className: "another-classes and-more"
+}, "This is a paragraph");
+const button = h("button", {
+  className: "more styling classes"
+});"
+`;
+
+exports[`transpiler transformHyperScript should find the identified radipanId from a nested HyperScript call and transform it 1`] = `
+"h("div", {
+  radipanId: "2-def"
+}, [h("h1", {
+  className: "qwerqwer"
+}, "Title"), h("p", {
+  radipanId: "4-jkl",
+  css: {
+    color: "red"
+  }
+}, "Content")]);"
+`;
+
+exports[`transpiler transformHyperScript should find the identified radipanId from a nested HyperScript call and transform it 2`] = `
+"h("div", {
+  radipanId: "2-def"
+}, [h("h1", {
+  className: "qwerqwer"
+}, "Title"), h("p", {
+  className: "another classes string"
+}, "Content")]);"
+`;
+
+exports[`transpiler transformHyperScript should find the identified radipanId from a nested HyperScript call and transform it 3`] = `
+"h("div", {
+  className: "poiupoiu"
+}, [h("h1", {
+  className: "qwerqwer"
+}, "Title"), h("p", {
+  className: "another classes string"
+}, "Content")]);"
+`;

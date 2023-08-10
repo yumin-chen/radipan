@@ -106,7 +106,8 @@ export async function createElement(
 
     if (process.env?.CSSGEN === "pregen") {
       if (props.radipanId) {
-        await transpile(props.radipanId, className, cssClasses);
+        const classesStr = !className ? cssClasses : cx(cssClasses, className);
+        await transpile(props.radipanId, classesStr);
       } else {
         DEBUG && console.error("radipanId is missing: ", component, props.css);
       }
