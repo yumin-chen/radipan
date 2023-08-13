@@ -131,6 +131,20 @@ export default [
     },
   },
   {
+    input: "src/react-mock.js",
+    external: ["react",],
+    plugins: [esbuild(esbuildOptions)],
+    output: [
+      {
+        file: "dist/react-mock.js",
+        format: "esm",
+        sourcemap: false,
+        exports: "named",
+        inlineDynamicImports: true,
+      },
+    ],
+  },
+  {
     input: "src/jsx-runtime.ts",
     external: [
       "react",
