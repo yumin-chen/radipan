@@ -44,6 +44,35 @@ const Badge = ({
 const badgeRecipe = {};"
 `;
 
+exports[`preformatter addRadipanIdToRadipanSyntax should add radipanId to a Radipan Syntax with complex structure 1`] = `
+"import { withCreate } from "radipan";
+const Heading = ({
+  as = "span",
+  colorScheme = "blue",
+  size = "md",
+  variant = "solid",
+  children = undefined,
+  ...props
+} = {}) => {
+  return HeadingBase.create({
+    id,
+    ...props,
+    radipanId: "00-XXXXXXX"
+  }, [children, !!id && [anchor.create({
+    title: 'Direct link to heading',
+    onClick: async () => {
+      !!copy && (await copy("Text"));
+    },
+    css: {
+      ...anchorStyles
+    },
+    radipanId: "00-XXXXXXX"
+  })]]);
+  ;
+};
+const anchorStyles = {};"
+`;
+
 exports[`preformatter addRadipanIdToRadipanSyntax should add radipanId to a nested Radipan Syntax element 1`] = `
 "form.create({
   css: {

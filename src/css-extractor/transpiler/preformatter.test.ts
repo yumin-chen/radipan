@@ -141,6 +141,38 @@ render(<App />, document.body);`;
       expect(constantizeRadipanId(result)).toMatchSnapshot();
     });
 
+    it("should add radipanId to a Radipan Syntax with complex structure", () => {
+      const input = `import { withCreate } from "radipan";
+      const Heading = ({
+        as = "span",
+        colorScheme = "blue",
+        size = "md",
+        variant = "solid",
+        children = undefined,
+        ...props
+      } = {}) => {
+        return HeadingBase.create({ id, ...props }, [
+          children,
+          !!id && [
+            anchor.create({
+
+              title: 'Direct link to heading',
+              onClick: async () => {
+                !!copy && (await copy("Text"));
+              },
+              css: { ...anchorStyles },
+            }),
+          ],
+        ]);;
+      };
+      
+      const anchorStyles = {};`;
+
+      const result = addRadipanIdToRadipanSyntax(input);
+
+      expect(constantizeRadipanId(result)).toMatchSnapshot();
+    });
+
     it("should add radipanId to a simple Radipan Syntax element", () => {
       const input = `div.create({ css: { color: "red" } }, "whee!")`;
 

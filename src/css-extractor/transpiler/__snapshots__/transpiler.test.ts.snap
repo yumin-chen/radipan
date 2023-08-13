@@ -104,6 +104,22 @@ function App() {
 }"
 `;
 
+exports[`transpiler transformRadipanSyntax should transform a comlex Radipan Syntax element with props and children 1`] = `
+"import { div, main } from "radipan/tags";
+function App() {
+  return HeadingBase.create({
+    id,
+    ...props
+  }, [children, !!id && [anchor.create({
+    title: 'Direct link to heading',
+    onClick: async () => {
+      !!copy && (await copy("Test"));
+    },
+    className: "result of compiled anchor styles"
+  })]]);
+}"
+`;
+
 exports[`transpiler transpile should transpile Radipan syntax 1`] = `
 "import { withCreate } from "radipan";
 import { div, main } from "radipan/tags";

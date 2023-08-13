@@ -177,6 +177,31 @@ describe("transpiler", () => {
       ).toMatchSnapshot();
     });
 
+    it("should transform a comlex Radipan Syntax element with props and children", () => {
+      const source = `
+      import { div, main } from "radipan/tags";
+      function App() {
+        return HeadingBase.create({ id, ...props }, [
+          children,
+          !!id && [
+            anchor.create({
+              title: 'Direct link to heading',
+              onClick: async () => {
+                !!copy && (await copy("Test"));
+              },
+              css: { ...anchorStyles },
+              radipanId: "12-UF7JEX3"
+            }),
+          ],
+        ]);
+      }`;
+      const radipanId = "12-UF7JEX3";
+      const className = "result of compiled anchor styles";
+      expect(
+        transformRadipanSyntax(source, radipanId, className)
+      ).toMatchSnapshot();
+    });
+
     it("should add className prop to a Radipan Syntax element with props and children", () => {
       const source =
         'div.create({ css: { color: "green" }, radipanId: "00-XXXXXXX" }, ["Hello"])';
